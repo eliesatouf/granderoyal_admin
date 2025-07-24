@@ -6,12 +6,27 @@ const config = {
 	// Consult https://svelte.dev/docs/kit/integrations
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
-	kit: { adapter: adapter(),
+	kit: { adapter: adapter({
+			fallback: 'index.html', // may differ from host to host
+			pages: 'build',
+			assets: 'build',
+			precompress: false,
+			strict: false,
+			
+		}),
+		paths: {
+	    base: '',
+	    //base: process.env.NODE_ENV === 'production' ? '/granderoyal' : '',
+	    
+	  },
+
 	  files: {
-      assets: '../granderoyal/static' // Points to shared static folder
-    } 
+      assets: 'static' // Points to shared static folder.  DEV
+      //assets: '../ui' // Points to shared static folder. PROD
+    },
   },
-  preprocess: vitePreprocess()
+  preprocess: vitePreprocess(),
+  appDir: 'internal',
 };
 
 export default config;

@@ -45,17 +45,24 @@
 
     {#each modalContents as item}
     <form  autocomplete="off">
-    <fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border p-4 ">
+    <fieldset class="fieldset bg-base-200 border-base-300 rounded-box min-w-100 border p-4 m-4 ">
         <label class="label text-md">
             <input type="checkbox" class="toggle toggle-primary"
                 bind:checked={item.active}  />Active
         </label>
-      <legend class="fieldset-legend">{modalHeader}</legend>
+      <input disabled type="text" class="input " placeholder="ID" 
+        bind:value="{item.id }"/>
+
+
 
       <label class="label">Email</label>
       <input type="email" class="input" placeholder="Email"
         bind:value="{item.email}" autocomplete="new-email" 
         />
+
+        <label class="label">Name</label> 
+      <input type="text" class="input " placeholder="Name" 
+        bind:value="{item.givenName }"/>
 
       {#if  modalOperation =='New User'}
       <label class="label">Password</label>
@@ -64,11 +71,12 @@
         />
       {/if}
 
+      {#if modalOperation==='Edit User'}
+      
       <label class="label">Name</label> 
       <input type="text" class="input " placeholder="Name" 
         bind:value="{item.givenName }"/>
 
-      {#if modalOperation==='Edit User'}
       <label class="label">Family Name</label>
       <input type="text" class="input " placeholder="Family Name" 
         bind:value="{item.familyName }"/>
@@ -145,7 +153,7 @@ import Modal from '$lib/components/Modal.svelte';
 import { toast } from '$lib/stores/toast';
 import Toast from '$lib/components/Toast.svelte';
 import Icon from '$lib/components/Icon.svelte'
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 let data = null;
 let error = null;
@@ -171,7 +179,7 @@ onMount(getUserList,
 
 async function getUserList(){
     try {
-        data = await useFetch('/api/users','GET');
+        data = await useFetch('/users','GET',null,true);
     } catch (err) {
         error = err.message;
     }
@@ -179,7 +187,7 @@ async function getUserList(){
 
 
 async function getUser(id){
-    const userData =  await useFetch("/api/users/"+id,'GET');
+    const userData =  await useFetch( '/users/'+id,'GET',null,true);
     modalContents=[userData]
     modalHeader = userData.email
     modalOperation="Edit User"
@@ -187,7 +195,7 @@ async function getUser(id){
 }
 
 async function deleteUser(id){
-    const response =  await useFetch("/api/users/"+id,'DELETE');
+    const response =  await useFetch('/users/'+id,'DELETE',null,true);
     if(response === null){
         toast.success("User deleted",5000)
         showModal = false
@@ -210,6 +218,7 @@ async function addUser(){
         "roles": [
             "ROLE_USER"
         ],
+        "active":false
         // "telephone": null,
         // "jobTitle": null,
         // "department": null
@@ -230,7 +239,7 @@ async function saveNewUser(){
     if(user.roles[1]) {user.roles[1] = "ROLE_ADMIN"}
     user.roles = user.roles.filter(Boolean);
     try {
-        const response = await useFetch('/api/register ','POST', user);
+        const response = await useFetch('/register','POST', user, true);
         if(response.id){
             toast.success("User created",5000);
             getUserList()
@@ -246,15 +255,16 @@ async function saveNewUser(){
 }
 
 async function saveUser(user){
+    console.log(API_URL)
     if(user.roles[0]) {user.roles[0] = "ROLE_USER"}
     if(user.roles[1]) {user.roles[1] = "ROLE_ADMIN"}
     user.roles = user.roles.filter(Boolean);
     const id = user.id
     delete user.id
     try{
-        response =  await useFetch("/api/users/"+id, 'PATCH',user);
+        response =  await useFetch("/users/"+id, 'PATCH',user, true);
         try{
-            refreshUser = await useFetch("/api/users/"+id, 'GET');
+            refreshUser = await useFetch("/users/"+id, 'GET',null, true);
             data = data.map(user => user.id === id ? { ...user, ...refreshUser } : user)
             showModal = false
             toast.success("Changes saved",5000);

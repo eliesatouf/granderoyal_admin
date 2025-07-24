@@ -1,28 +1,57 @@
-
-export default async function useFetch(endpoint,method,data = null) {
+const API_URL = import.meta.env.VITE_API_URL;
+//console.log(API_URL)
+export default async function useFetch(endpoint,method,data = null, useToken= false,form = false) {
     //console.log(JSON.stringify(data))
+    const api = API_URL + endpoint
     try {
 
         let contentType = 'application/json';
+        
 
         if(method.toUpperCase() == 'PATCH'){
             contentType ='application/merge-patch+json'
         }
+        const token = localStorage.getItem('token')
+        const headers = {};
+        
+        if(!form)
+        {
+            headers['Content-Type'] = contentType;
+        }
+
+
+
+        if (token && useToken )  headers['Authorization'] = `Bearer ${token}`;
 
         const options = {
             method,
-            headers: {
-                'Content-Type': contentType,
-                'Authorization': 'Bearer ' + localStorage.getItem('token')
-            }
-        };
-
-        if (data && ['POST', 'PUT', 'PATCH'].includes(method.toUpperCase())) {
-            options.body = JSON.stringify(data);
+            headers: headers
         }
 
-        const response = await fetch(endpoint, options);
+        // const options = {
+        //     method,
+        //     headers: {
+        //         'Content-Type': contentType,
+        //         'Authorization': 'Bearer ' + localStorage.getItem('token')
+        //     }
+        // };
 
+        // if (data && ['POST', 'PUT', 'PATCH'].includes(method.toUpperCase())) {
+        //     options.body = JSON.stringify(data);
+        // }
+        if (data && !form ) {
+            options.body = JSON.stringify(data);
+        }else if(data && form){
+            options.body = data;
+        }
+
+        //console.log(options)
+
+        const response = await fetch(api, options);
+        if(response){
+            return await response.json();
+        }
+        
 
         if (!response.ok) {
 
@@ -40,14 +69,14 @@ export default async function useFetch(endpoint,method,data = null) {
         }
 
         // Handle 204 No Content responses
-        if (response.status === 204) {
+        if (response.status && response.status === 204) {
             return null;
         }
         
         return await response.json();
     } catch (error) {
-        console.error('Fetch error:', error);
-        throw error;
+       // console.error('Fetch error:', error);
+        //throw error;
     }
 }
 

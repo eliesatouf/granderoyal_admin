@@ -12,7 +12,9 @@ import { beforeNavigate , afterNavigate} from '$app/navigation';
 	//import { SvelteToast, toast } from '@zerodevx/svelte-toast'
 import { onMount } from 'svelte';
 import { api } from '$lib/api/api.js';
+const API_URL = import.meta.env.VITE_API_URL;
 
+console.log(API_URL)
 let email = '';
 let password = '';
 let error = '';
@@ -21,14 +23,14 @@ let isLoading = false;
 const closeAlert= ()=>{
  	error = false
 }
-onMount(() => {
-	if(userState.user.isAuthenticated === true){
-		goto('/home',{ replaceState: true });
-	}else{
-		tokenLogin()
-	}
-	
-})
+  onMount(() => {
+  	if(userState.user.isAuthenticated === true){
+  		goto('/home',{ replaceState: true });
+  	}else{
+  		tokenLogin()
+  	}
+  	
+  })
 
 async function tokenLogin(){
 
@@ -40,7 +42,7 @@ async function tokenLogin(){
   	headers['Content-Type'] = 'application/json';
   	if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  	const response = await fetch('/', {
+  	const response = await fetch(`${API_URL}/`, {
       method: 'GET',
       headers: headers
       
@@ -66,13 +68,14 @@ async function handleLogin(event) {
   
 
   try {
-    const response = await fetch('/api/auth', {
+    const response = await fetch(`${API_URL}/auth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
     });
+    console.log(response)
 
 	  if (!response.ok) {
   	  const data = await response.json();
@@ -97,7 +100,7 @@ async function handleLogin(event) {
 
 
   export const load = async ({ fetch }) => {
-    const response = await fetch('/api/assets');
+    const response = await fetch(`${API_URL}/assets`);
     if (!response.ok) throw error(response.status, 'Failed to load');
     return { data: await response.json() }; // Auto-serialized to page
   };

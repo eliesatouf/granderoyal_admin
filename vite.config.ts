@@ -7,14 +7,14 @@ export default defineConfig({
     manifest: true, // For integration with Nginx
   },
 	plugins: [tailwindcss(), sveltekit()],
-	  server: {
-      force: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:9090/api',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
+	 // server: {
+     // force: true,
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:9090/api',
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, ''),
+    //   },
+    // },
+ // },
 });

@@ -49,7 +49,10 @@
 		"svelte"
 	],
 	"dependencies": {
+		"@sveu/actions": "^1.1.0",
+		"dayjs": "^1.11.13",
 		"jwt-decode": "^4.0.0",
-		"material-symbols": "^0.31.9"
+		"material-symbols": "^0.31.9",
+		"svelte-file-dropzone": "^2.0.9"
 	}
 }

@@ -25,6 +25,7 @@
           <summary>Page contents</summary>
           <ul class="p-2">
             <li><a href="/page_contents/landing_page" onclick="{()=>{document.activeElement.blur()}}">Landing Page</a></li>
+            <li><a href="/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offers</a></li>
             <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li>
           </ul>
         </details>
@@ -53,6 +54,7 @@
       <ul tabindex="0"
           class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
         <li><a href="/accounts" onclick="{()=>{document.activeElement.blur()}}">Users</a></li>
+        
       </ul>
     </div>
 
@@ -61,6 +63,7 @@
       <ul tabindex="0"
           class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
         <li><a href="/page_contents/landing_page" onclick="{()=>{document.activeElement.blur()}}">landing Page</a></li>
+        <li><a href="/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offers</a></li>
       </ul>
     </div>
 
