@@ -31,6 +31,18 @@
         </details>
         </li>
 
+        <li>
+         <details>
+          <summary>Menus</summary>
+          <ul class="p-2">
+            <li><a href="/menu/EC" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
+            <li><a href="/menu/DN" onclick="{()=>{document.activeElement.blur()}}">Dining Menu</a></li>
+            <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li>
+          </ul>
+        </details>
+        </li>
+
+
       </ul>
     </div>
 
@@ -64,6 +76,17 @@
           class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
         <li><a href="/page_contents/landing_page" onclick="{()=>{document.activeElement.blur()}}">landing Page</a></li>
         <li><a href="/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offers</a></li>
+        <li><a href="/page_contents/events" onclick="{()=>{document.activeElement.blur()}}">Events</a></li>
+      </ul>
+    </div>
+
+    <div class="dropdown">
+    <div tabindex="0" role="button" class="btn btn-ghost rounded-field">Menus</div>
+      <ul tabindex="0"
+          class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
+        <li><a href="/menu/EC" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
+        <li><a href="/menu/EC/dish" onclick="{()=>{document.activeElement.blur()}}">Catering Dishes</a></li>
+        <li><a href="/menu/DN" onclick="{()=>{document.activeElement.blur()}}">Dining Menu</a></li>
       </ul>
     </div>
 

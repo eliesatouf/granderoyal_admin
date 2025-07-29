@@ -6,7 +6,9 @@ const userState = $state({
 
       isAuthenticated:false,
       isClient:false,
-   }
+   },
+
+   selectedSubMenu:null
 });
 
 export default userState;

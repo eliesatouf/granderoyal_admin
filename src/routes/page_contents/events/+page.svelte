@@ -1,7 +1,7 @@
 <div  class="grid grid-col lg:flex lg:flex-wrap justify-center  w-full">
 	<div class="">
 		<button class="btn btn-primary btn-soft btn-sm"
-		      			onclick="{()=>{createOffer(), showModal=true}}">
+		      			onclick="{()=>{createEvents(), showModal=true}}">
 		      			<Icon name="add" />new</button>
 		<div class="overflow-x-auto lg:hidden">
 
@@ -17,7 +17,7 @@
 		      {#each offerItems as item, i}
 		      	<tr>
 		      		<td><button class="btn btn-primary btn-soft btn-sm"
-		      			onclick="{()=>{getOneOffer(item.id), showModal=true}}">edit	</button>
+		      			onclick="{()=>{getOneEvents(item.id), showModal=true}}">edit	</button>
 		      		</td>
 		      	<td>
 		      		{i+1}
@@ -39,18 +39,15 @@
 		      	<th>Action</th>
 		        <th>ID</th>
 		        <th>Name</th>
-		        <th>Description</th>
 		        <th>Image</th>
-		        <th>Price was</th>
-		        <th>Price Now</th>
-		        <th>Tag</th>
-		        <th>Start Date</th>
-		        <th>End Date</th>
-		        <th>Hour From</th>
-		        <th>Hour To</th>
-		        <th>Day From</th>
-		        <th>Day To</th>
-		        <th>Assigned</th>
+		        <th>imageX</th>
+		        <th>imageY/th>
+		        <th>imageRotate</th>
+		        <th>noteX</th>
+		        <th>noteY</th>
+		        <th>noteRotate</th>
+		        <th>noteTextColor</th>
+		        <th>noteBgColor</th>
 						<th>Active</th>
 		      </tr>
 		    </thead>
@@ -58,7 +55,7 @@
 		      {#each offerItems as item, i}
 		      	<tr>
 		      		<td><button class="btn btn-primary btn-soft btn-sm"
-		      			onclick="{()=>{getOneOffer(item.id,i), showModal=true}}">edit	</button>
+		      			onclick="{()=>{getOneEvents(item.id,i), showModal=true}}">edit	</button>
 		      		</td>
 		      	<td>
 		      		{i+1}
@@ -67,39 +64,33 @@
 		      		{item.name}
 		      	</td>
 		      	<td>
-		      		{item.description}
-		      	</td>
-		      	<td>
 		      		{item.imageSource}
 		      	</td>
 		      	<td>
-		      		{item.priceWas}
+		      		{item.imageX}
 		      	</td>
 		      	<td>
-		      		{item.priceNow}
+		      		{item.imageY}
 		      	</td>
 		      	<td>
-		      		{item.tag}
+		      		{item.imageRotate}
 		      	</td>
 		      	<td>
-		      		{item.startDate}
+		      		{item.noteX}
 		      	</td>
 		      	<td>
-		      		{item.endDate}
+		      		{item.noteY}
 		      	</td>
 		      	<td>
-		      		{item.hoursFrom}
+		      		{item.noteRotate}
 		      	</td>
 		      	<td>
-		      		{item.hoursTo}
+		      		{item.noteTextColor}
 		      	</td>
 		      	<td>
-		      		{item.dayFrom}
+		      		{item.noteBgColor}
 		      	</td><td>
 		      		{item.dayTo}
-		      	</td>
-		      	<td>
-		      		 <span class="{item.assignedToHomePage? 'status status-success':'status'}"></span>
 		      	</td>
 		      	<td>
 		      		 <span class="{item.active? 'status status-success':'status'}"></span>
@@ -124,16 +115,8 @@
       <legend class="fieldset-legend">{record.name}</legend>
 
       <label class="label">Name</label>
-      <input type="text" class="input" placeholder="name of record" 
+      <input type="text" class="input" placeholder="name of event" 
        bind:value="{record.name}"/>
-
-      <label class="label">Description</label>
-      <input type="text" class="input" placeholder="description of record" 
-       bind:value="{record.description}"/>
-
-      <label class="label">Tag</label>
-      <input type="text" class="input" placeholder="record tag" 
-       bind:value="{record.tag}"/>
        
       <label class="label">Image Source</label>
       <div class="join mt-0" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
@@ -141,103 +124,84 @@
           <div class="tooltip-content m-0 p-0">
             <img src="{record.imageSource}" class="h-[250px] w-[250px]">
           </div>
-          <input type="text " class="input" placeholder="heroImageFallback" 
+          <input type="text " class="input" placeholder="iamge source" 
             bind:value="{record.imageSource}"  />
           </div>
-        <Filemanager  selectedImage={handleSelectOffer} />
+        <Filemanager  selectedImage={handleSelectEvents} />
       </div>
 
       <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
-        <legend class="fieldset-legend">Price</legend>
+        <legend class="fieldset-legend">imageXY</legend>
         <div class="flex row gap-1">
           <label class="input ">
-            <span class="">Was</span>
-            <input type="number" class=" " placeholder="price was" 
-             bind:value="{record.priceWas}"/>
+            <span class="">X</span>
+            <input type="text" class=" " placeholder="" 
+             bind:value="{record.imageX}"/>
           </label>
           
           <label class="input">
-            <span class="">Now</span>
-            <input type="number" class="" placeholder="price now" 
-             bind:value="{record.priceNow}"/>
+            <span class="">Y</span>
+            <input type="text" class="" placeholder="" 
+             bind:value="{record.imageY}"/>
+          </label>
+
+          <label class="input">
+            <span class="">R</span>
+            <input type="text" class="" placeholder="" 
+             bind:value="{record.imageRotate}"/>
           </label>
         </div>
       </fieldset>
 
      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
-        <legend class="fieldset-legend">Date</legend>
+        <legend class="fieldset-legend">noteXY</legend>
         <div class="flex row gap-1">
           <label class="input ">
-
-            <input type="date" id="startDate" name="start_date" placeholder="Start Date" 
-            value={record.startDate ? dayjs(record.startDate).format('YYYY-MM-DD') : ''}
-            oninput={(e) => {
-                record.startDate = e.target.value ? new Date(e.target.value).toISOString() : null;
-            }}/>
+            <span class="">X</span>
+            <input type="text" class=" " placeholder="" 
+             bind:value="{record.noteX}"/>
           </label>
           
-          <label class="input" id="endDate">
+          <label class="input">
+            <span class="">Y</span>
+            <input type="text" class="" placeholder="" 
+             bind:value="{record.noteY}"/>
+          </label>
 
-            <input type="date" class="" placeholder="End Date" 
-             value={record.endDate ? dayjs(record.endDate).format('YYYY-MM-DD') : ''}
-            oninput={(e) => {
-                record.endDate = e.target.value ? new Date(e.target.value).toISOString() : null;
-            }}/>
+          <label class="input">
+            <span class="">R</span>
+            <input type="text" class="" placeholder="" 
+             bind:value="{record.noteRotate}"/>
           </label>
         </div>
       </fieldset>
 
       <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
-        <legend class="fieldset-legend">Hours</legend>
+        <legend class="fieldset-legend">noteColor</legend>
         <div class="flex row gap-1">
           <label class="input ">
-            <span class="">From</span>
-            <input type="text" class=" " placeholder="price was" 
-             bind:value="{record.hoursFrom}"/>
+            <span class="">Txt</span>
+            <input type="text" class=" " placeholder="" 
+             bind:value="{record.noteTextColor}"/>
           </label>
           
           <label class="input">
-            <span class="">To</span>
-            <input type="text" class="" placeholder="price now" 
-             bind:value="{record.hoursTo}"/>
+            <span class="">BG</span>
+            <input type="text" class="" placeholder="" 
+             bind:value="{record.noteBgColor}"/>
           </label>
         </div>
       </fieldset>
 
-        <div class="flex justify-content justify-between row gap-2">
-          <fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border px-7">
-            <legend class="fieldset-legend">Day From</legend>  
-            <select class="select" bind:value={record.dayFrom}>
-              {#each days as day}
-                <option value={day}>{day}</option>
-              {/each}
-            </select>
-          </fieldset>
-          
-          <fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border px-7">
-            <legend class="fieldset-legend">Day To</legend>  
-            <select class="select" bind:value={record.dayTo}>
-              {#each days as day}
-                <option value={day}>{day}</option>
-              {/each}
-            </select>
-          </fieldset>
-        </div>
-
-
-      <div class="row p-2">
-       <input type="checkbox" bind:checked="{record.assignedToHomePage}"
-        class="toggle toggle-primary  toggle-sm checked:bg-indigo-300" />
-       Assigned To Home Page
-     </div>
      <div class="row p-2">
        <input type="checkbox" bind:checked="{record.active}"
         class="toggle toggle-amber-500  toggle-sm checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800 " />
        Active
      </div>
-    </div>    
+    </div> 
+
   <div class="flex justify-between">
-   <button class="btn btn-soft btn-primary w-1/4" onclick={()=>(saveOneOfferItem())}>
+   <button class="btn btn-soft btn-primary w-1/4" onclick={()=>(saveOneEventsItem())}>
     Save
   </button>
 
@@ -247,7 +211,7 @@
     Close
   </button>
 
-  <button class="btn btn-soft btn-error w-1/4" onclick={()=>{deleteOfferItem(record.id), showModal = false}}>
+  <button class="btn btn-soft btn-error w-1/4" onclick={()=>{deleteEventsItem(record.id), showModal = false}}>
     Delete
   </button>
 
@@ -278,7 +242,7 @@ let offerItems =$state('')
 let modalOperation = $state('')
 let modalContents=$state([])
 let record=$state([])
-let newOffer=$state([])
+let newEvents=$state([])
 let modalHeader=$state('')
 
 const days=[
@@ -294,42 +258,42 @@ const days=[
 
 onMount(() => {
 
-  getOffers()
+  getEvents()
 
 })
 
-async function getOffers(){
-  const response = await useFetch('/offers', 'GET',null, true);
+async function getEvents(){
+  const response = await useFetch('/events', 'GET',null, true);
   offerItems = response
 }
 
 
-async function getOneOffer(id){
+async function getOneEvents(id){
 	modalOperation= 'Edit'
-    const offerData =  await useFetch( '/offers/'+id,'GET',null,true);
+    const offerData =  await useFetch( '/events/'+id,'GET',null,true);
     record=offerData
     modalHeader = record.name
     modalOperation="Edit offer"
 
 }
 
-async function handleSelectOffer(item){
+async function handleSelectEvents(item){
 	const index = offerItems.findIndex(item=>item.id == record.id)
   record.imageSource = item
 
 }
 
-async function saveOneOfferItem(index){
+async function saveOneEventsItem(index){
 	
 	let saveItem=''
-	if(modalOperation=='Create Offer'){
+	if(modalOperation=='Create Events'){
 		try{
-			saveItem =  await useFetch('/offers', 'POST',record, true);
+			saveItem =  await useFetch('/events', 'POST',record, true);
 			if(saveItem.status && saveItem.status != 200){
 				toast.error("Failed to create offer",2000);
 			}else{
 				toast.success("Saved successfully",2000);	
-	  		getOffers()
+	  		getEvents()
 	  		showModal= false
 			}
 	  	
@@ -340,9 +304,9 @@ async function saveOneOfferItem(index){
 	}
 	else{
 		try{
-  		let saveItem =  await useFetch('/offers/' + record.id, 'PATCH',record, true);
+  		let saveItem =  await useFetch('/events/' + record.id, 'PATCH',record, true);
 	  	toast.success("Saved successfully",2000);	
-	  	getOffers()
+	  	getEvents()
 	  	showModal= false
 	  }
 		catch(e) {
@@ -353,11 +317,11 @@ async function saveOneOfferItem(index){
   
 }
 
-async function deleteOfferItem(id){
+async function deleteEventsItem(id){
   try{
-  	let saveItem =  await useFetch('/offers/' + id, 'DELETE',null, true);
+  	let saveItem =  await useFetch('/events/' + id, 'DELETE',null, true);
   	toast.success("Deleted successfully",2000);	
-  	getOffers()
+  	getEvents()
   }
 	catch(e) {
   	toast.error("Failed to delete offer",2000);	
@@ -370,12 +334,12 @@ function defineSelectedImage(item){
   fileManagerState.store.tmpImagePath =item
 }
 
-async function createOffer(){
+async function createEvents(){
 	//record.name =''
-	modalOperation='Create Offer'
-	let allschema =  await useFetch('/docs.jsonld#/Offer', 'GET',null, false);
+	modalOperation='Create Events'
+	let allschema =  await useFetch('/docs.jsonld#/Events', 'GET',null, false);
 
-	const schema = allschema.supportedClass.find(schema=>schema.title==="Offer").supportedProperty
+	const schema = allschema.supportedClass.find(schema=>schema.title==="Event").supportedProperty
 
 	const properties = schema.map(item => [item.title,item.property.range.split(':')[1]]);
 

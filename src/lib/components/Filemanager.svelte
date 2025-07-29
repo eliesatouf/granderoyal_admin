@@ -79,7 +79,7 @@
     	</button>
     	<!-- First level DIR -->
 			{#each modalHeader as item}
-		 		<input class="folder btn btn-sm  "  bind:group={selectedFolder}  value={item} type="radio" name="optionsHeader" aria-label="{item}" 
+		 		<input class=" btn btn-sm  "  bind:group={selectedFolder}  value={item} type="radio" name="optionsHeader" aria-label="{item}" 
 		 		onclick={()=>{modalSubFolders=null,selectedSubFolder=null,getFileList(item,1)}} />
 			{/each}
 		</div>
@@ -96,7 +96,7 @@
 
     	<!-- Sub folders -->
 			{#each modalSubFolders as item}
-		 		<input class="folder btn btn-sm" type="radio" bind:group={selectedSubFolder}  value={item} name="optionsSubFolders" aria-label="{item}"
+		 		<input class=" btn btn-sm" type="radio" bind:group={selectedSubFolder}  value={item} name="optionsSubFolders" aria-label="{item}"
 		 		 onclick={()=>{selectedSubFolder = item, getFileList(item,2)}} />
 			{/each}
 		</div>

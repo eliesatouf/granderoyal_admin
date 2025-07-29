@@ -2,11 +2,13 @@
   let { showModalRecord = $bindable(),
         showModalConfirm = $bindable(),
         showModalUpload = $bindable(),
+        showModalPreview = $bindable(),
         header, children } = $props();
 
   let dialogRecord = $state(); // HTMLDialogElement
   let dialogConfirm = $state(); 
   let dialogUpload =$state();
+  let dialogPreview=$state();
 
   $effect(() => {
     if (showModalRecord) dialogRecord.showModal();
@@ -15,8 +17,11 @@
     if (showModalConfirm) dialogConfirm.showModal();
     if (!showModalConfirm) dialogConfirm.close();
 
-     if (showModalUpload) dialogUpload.showModal();
+    if (showModalUpload) dialogUpload.showModal();
     if (!showModalUpload) dialogUpload.close();
+
+    if (showModalPreview) dialogPreview.showModal();
+    if (!showModalPreview) dialogPreview.close();
   });
 </script>
 
@@ -63,5 +68,20 @@
 
     <!-- svelte-ignore a11y_autofocus -->
     <!-- <button class="btn btn-soft btn rounded btn-sm m-1" autofocus onclick={() => dialogUpload.close()}>close</button> -->
+  </div>
+</dialog>
+
+<dialog class="modal  mx-auto justify-center  backdrop-brightness-80 backdrop-blur-sm "
+  bind:this={dialogPreview}
+  onclose={() => (showModalPreview = false)}
+  onclick={(e) => { if (e.target === dialogPreview) dialogPreview.close(); }}
+>
+  <div class="flex justify-center flex row rounded md:rounded-lg bg-base-200">
+    {@render header?.()}
+
+      {@render children?.()}
+
+    <!-- svelte-ignore a11y_autofocus -->
+    <!-- <button class="btn btn-soft btn rounded btn-sm m-1" autofocus onclick={() => dialogPreview.close()}>close</button> -->
   </div>
 </dialog>
