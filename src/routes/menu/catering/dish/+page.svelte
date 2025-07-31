@@ -189,7 +189,7 @@
     Close
   </button>
 
-  <button disabled class="btn btn-soft btn-error w-1/4" onclick={()=>{deleteMainMenu(record.id), showModal = false}}>
+  <button  class="btn btn-soft btn-error w-1/4" onclick={()=>{deleteDish(record.id), showModal = false}}>
     Delete
   </button>
 
@@ -286,7 +286,7 @@ let status=[
 ]
 
 let tag = [
-	'popular','signature','new','spicy','plant based','gluten free','healthy'
+	null,'popular','signature','new','spicy','plant based','gluten free','healthy'
 
 ]
 
@@ -302,15 +302,13 @@ async function getDishMenulist(){
 }
 
 async function getDishList(){
-  const response = await useFetch('/dishes?type=catering', 'GET',null, true);
+  const response = await useFetch('/dishes?type=dining', 'GET',null, true);
   menu = response
-  console.log(data)
 }
 
 async function getDish(id){
 	modalOperation= 'Edit'
     const menuData =  await useFetch( '/dishes/'+id,'GET',null,true);
-    console.log(menuData)
     record={...menuData}
     modalHeader = record.name
     modalOperation="Edit Dish"
@@ -318,7 +316,6 @@ async function getDish(id){
 }
 
 async function saveDish(){
-	console.log(record)
 
 	let saveItem=''
 	if(modalOperation=='Create Dish'){
@@ -346,8 +343,6 @@ async function saveDish(){
 	}
 	else{
 		try{
-			console.log('edit')
-			console.log(record)
   		let saveItem =  await useFetch('/dishes/' + record.id, 'PATCH',record, true);
   		//console.log(saveItem)
 	  	toast.success("Saved successfully",2000);	
@@ -368,7 +363,7 @@ async function handleSelectMenu(item){
 
 }
 
-async function deleteMenu(id){
+async function deleteDish(id){
   try{
   	let saveItem =  await useFetch('/dishes/' + id, 'DELETE',null, true);
   	toast.success("Deleted successfully",2000);	
@@ -412,11 +407,10 @@ async function createMenu(){
         newObject[item[0]] = type ;
       });
     record = {...newObject}
-    console.log(record)
-    record.type="catering"
-    record.brightness="100"
-    record.opacity="100"
-    record.contrast="100"
+    record.type="dining"
+    record.brightness=100
+    record.opacity=100
+    record.contrast=100
 	
 }
 

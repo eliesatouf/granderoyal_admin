@@ -102,6 +102,7 @@
           bind:value="{item.imageSource}"  />
         </div>
           <Filemanager  selectedImage={handleSelectFeaturedItem} />
+          <button class="btn btn-soft" onclick={()=>{selectedItem= item, showModalPreview=true}}>preview</button>
         </div>
 
          <label class="label">Image Name</label>
@@ -273,6 +274,45 @@
 </div>
 
 <Toast />
+{selectedItem}
+<ModalPreview bind:showModalPreview
+  class="rounded backdrop-blur-sm backdrop-brightness-150 z-1500 grid grid-col justify-center items-center  overflow-auto">
+
+  {#if selectedItem}
+    <div class="card w-xs lg:w-md">
+      <div class="card-title"><span class="text-xs text-right">{selectedItem.name}</span></div>
+      <div class="card-body">
+        <img src="{selectedItem.imageSource}" 
+            style="filter: brightness({selectedItem.brightness}%) contrast({selectedItem.contrast}%); opacity:{selectedItem.opacity}%;"
+        />
+      </div>
+      <div class="card-actions">
+        <div class="flex flex-row w-full m-2">
+        <label class="label basis-1/4">Brightness</label>
+        <input type="range" min="30" max="200" step="10" bind:value="{selectedItem.brightness}" 
+          class="range basis-2/4 text-stone-300 [--range-bg:grey] [--range-thumb:darkgrey] [--range-fill:0]" />
+          <input class="input input-xs basis-1/6 ml-5" type="number" bind:value={selectedItem.brightness}/>
+        </div>
+        <div class="flex flex-row w-full m-2">
+        <label class="label label basis-1/4">Opacity </label>
+        <input type="range" min="20" max="100" step="5" bind:value="{selectedItem.opacity}" 
+          class="range label basis-2/4 text-stone-300 [--range-bg:grey] [--range-thumb:darkgrey] [--range-fill:0]" />
+          <input class="input input-xs basis-1/6 ml-5" type="number" bind:value={selectedItem.opacity}/>
+        </div>
+        <div class="flex flex-row w-full m-2">
+        <label class="label label basis-1/4">Contrast </label>
+        <input type="range" min="20" max="200" step="5" bind:value="{selectedItem.contrast}" 
+          class="range label basis-2/4 text-stone-300 [--range-bg:grey] [--range-thumb:darkgrey] [--range-fill:0]" />
+          <input class="input input-xs basis-1/6 ml-5" type="number" bind:value={selectedItem.contrast}/>
+        </div>
+      </div>
+    </div>
+{/if}
+
+
+</ModalPreview>
+
+
 
 
 <script>
@@ -285,6 +325,7 @@ import Modal from '$lib/components/Modal.svelte';
 import Icon from '$lib/components/Icon.svelte'
 import fileManagerState from '$lib/stores/fileManagerState.svelte.js'
 import dayjs from 'dayjs';
+import ModalPreview from '$lib/components/ModalEditRecord.svelte';
 
 console.log('filemanage', fileManagerState.store.tmpImagePath)
 const API_URL = import.meta.env.VITE_API_URL;
@@ -294,10 +335,12 @@ let assignImageTo = $state();
 let selectedImage1= $state();
 let selectedVideo= $state();
 
-let featuredItems =$state([])
+let featuredItems =$state()
 let activeTabFeautred =$state()
 let offerItems = $state()
 let activeTabOffer = $state()
+let showModalPreview = $state(false)
+let selectedItem = $state(false)
 
 let tmpImagePath = fileManagerState.store.tmpImagePath
 
@@ -389,6 +432,7 @@ async function getFeaturedItems(){
   const response = await useFetch('/featured_items', 'GET',null, true);
   featuredItems = response
   console.log(response)
+  
 }
 
 async function getOffers(){
@@ -430,6 +474,7 @@ async function saveFeaturedItems(){
       toast.error("Failed to save",2000);
     }
   })
+  selectedItem= false
 }
 
 async function saveOneFeaturedItem(item){

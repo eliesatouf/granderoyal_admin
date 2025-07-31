@@ -130,68 +130,53 @@
         <Filemanager  selectedImage={handleSelectEvents} />
       </div>
 
-      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
+
         <legend class="fieldset-legend">imageXY</legend>
-        <div class="flex row gap-1">
-          <label class="input ">
-            <span class="">X</span>
-            <input type="text" class=" " placeholder="" 
+
+          <label class="label ">
+            <span class="">image X</span></label>
+          <input type="text" class="input" placeholder="" 
              bind:value="{record.imageX}"/>
-          </label>
-          
-          <label class="input">
-            <span class="">Y</span>
-            <input type="text" class="" placeholder="" 
+
+             <label class="label ">
+            <span class="">image Y</span></label>
+          <input type="text" class="input" placeholder="" 
              bind:value="{record.imageY}"/>
-          </label>
 
-          <label class="input">
-            <span class="">R</span>
-            <input type="text" class="" placeholder="" 
+             <label class="label ">
+            <span class="">image Rotate</span></label>
+          <input type="text" class="input" placeholder="" 
              bind:value="{record.imageRotate}"/>
-          </label>
-        </div>
-      </fieldset>
-
-     <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
-        <legend class="fieldset-legend">noteXY</legend>
-        <div class="flex row gap-1">
-          <label class="input ">
-            <span class="">X</span>
-            <input type="text" class=" " placeholder="" 
+          
+          <div class="divider"></div>
+   			
+   				<label class="label ">
+            <span class="">note X</span></label>
+          <input type="text" class="input" placeholder="" 
              bind:value="{record.noteX}"/>
-          </label>
-          
-          <label class="input">
-            <span class="">Y</span>
-            <input type="text" class="" placeholder="" 
+
+             <label class="label ">
+            <span class="">note Y</span></label>
+          <input type="text" class="input" placeholder="" 
              bind:value="{record.noteY}"/>
-          </label>
 
-          <label class="input">
-            <span class="">R</span>
-            <input type="text" class="" placeholder="" 
+             <label class="label ">
+            <span class="">note rotate</span></label>
+          <input type="text" class="input" placeholder="" 
              bind:value="{record.noteRotate}"/>
-          </label>
-        </div>
-      </fieldset>
 
-      <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
-        <legend class="fieldset-legend">noteColor</legend>
-        <div class="flex row gap-1">
-          <label class="input ">
-            <span class="">Txt</span>
-            <input type="text" class=" " placeholder="" 
-             bind:value="{record.noteTextColor}"/>
-          </label>
-          
-          <label class="input">
-            <span class="">BG</span>
-            <input type="text" class="" placeholder="" 
-             bind:value="{record.noteBgColor}"/>
-          </label>
-        </div>
-      </fieldset>
+           <div class="divider"></div>
+
+          <label class="label ">
+            <span class="">Note Text Color</span></label>
+          <input type="text" class="input" placeholder="" 
+             bind:value="{record.noteTextColor}"/> 
+
+           <label class="label ">
+            <span class="">Note BG Color</span></label>
+          <textarea type="text" class="input text-wrap" placeholder="" 
+             bind:value="{record.noteBgColor}"/> 
+
 
      <div class="row p-2">
        <input type="checkbox" bind:checked="{record.active}"

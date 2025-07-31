@@ -2,7 +2,7 @@
 
 <div class="" in:fade out:fade>
 	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border p-3 m-2 ">
-	  <legend class="fieldset-legend">Catering Main Menu</legend>
+	  <legend class="fieldset-legend">Dining Main Menu</legend>
 	  <button class="btn btn-primary btn-soft btn-sm w-[100px]"	onclick="{()=>{createMenu(), showModal=true}}">	<Icon name="add" />new</button>
 		 <div class="overflow-x-auto lg:hidden">
 
@@ -286,7 +286,7 @@ async function handleSelectMenu(item){
 
 }
 
-async function deleteMenu(id){
+async function deleteMainMenu(id){
   try{
   	let saveItem =  await useFetch('/main_menu_ecs/' + id, 'DELETE',null, true);
   	toast.success("Deleted successfully",2000);	
