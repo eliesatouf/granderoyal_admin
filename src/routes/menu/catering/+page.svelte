@@ -2,7 +2,7 @@
 
 <div class="" in:fade out:fade>
 	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border p-3 m-2 ">
-	  <legend class="fieldset-legend">Dining Main Menu</legend>
+	  <legend class="fieldset-legend">Catering Main Menu</legend>
 	  <button class="btn btn-primary btn-soft btn-sm w-[100px]"	onclick="{()=>{createMenu(), showModal=true}}">	<Icon name="add" />new</button>
 		 <div class="overflow-x-auto lg:hidden">
 
@@ -228,14 +228,14 @@ onMount(() => {
 })
 
 async function getMainMenu(){
-  const response = await useFetch('/main_menu_ecs', 'GET',null, true);
+  const response = await useFetch('/main_menu_cts', 'GET',null, true);
   menu = response
   console.log(menu)
 }
 
 async function getOneMenu(id){
 	modalOperation= 'Edit'
-    const menuData =  await useFetch( '/main_menu_ecs/'+id,'GET',null,true);
+    const menuData =  await useFetch( '/main_menu_cts/'+id,'GET',null,true);
     console.log(menuData)
     record={...menuData}
     modalHeader = record.name
@@ -248,7 +248,7 @@ async function saveOneMainMenu(index){
 	let saveItem=''
 	if(modalOperation=='Create menu'){
 		try{
-			saveItem =  await useFetch('/main_menu_ecs', 'POST',record, true);
+			saveItem =  await useFetch('/main_menu_cts', 'POST',record, true);
 			if(saveItem.status && saveItem.status != 200){
 				toast.error("Failed to create menu",2000);
 			}else{
@@ -266,7 +266,7 @@ async function saveOneMainMenu(index){
 		try{
 			console.log('edit')
 			console.log(record)
-  		let saveItem =  await useFetch('/main_menu_ecs/' + record.id, 'PATCH',record, true);
+  		let saveItem =  await useFetch('/main_menu_cts/' + record.id, 'PATCH',record, true);
   		//console.log(saveItem)
 	  	toast.success("Saved successfully",2000);	
 	  	getMainMenu()
@@ -288,7 +288,7 @@ async function handleSelectMenu(item){
 
 async function deleteMainMenu(id){
   try{
-  	let saveItem =  await useFetch('/main_menu_ecs/' + id, 'DELETE',null, true);
+  	let saveItem =  await useFetch('/main_menu_cts/' + id, 'DELETE',null, true);
   	toast.success("Deleted successfully",2000);	
   	getMainMenu()
   }
@@ -306,7 +306,7 @@ function defineSelectedImage(item){
 async function createMenu(){
 	//record.name =''
 	modalOperation='Create menu'
-	let allschema =  await useFetch('/docs.jsonld#/main_menu_ecs', 'GET',null, false);
+	let allschema =  await useFetch('/docs.jsonld#/main_menu_cts', 'GET',null, false);
 
 	const schema = allschema.supportedClass.find(schema=>schema.title==="MainMenuEc").supportedProperty
 

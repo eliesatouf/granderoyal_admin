@@ -126,9 +126,9 @@
           {/each}
         </select>
 
-      <label class="label">Price</label>
+<!--       <label class="label">Price</label>
       <input type="number" class="input validator" required placeholder="price > 0 " min="1"
-       bind:value="{record.price}"/>
+       bind:value="{record.price}"/> -->
 
 
       <label class="label">Image Source</label>
@@ -282,7 +282,7 @@ let type=[
 ]
 
 let status=[
-	'available','coming soon', 'unavailable'
+	'available','coming soon', 'unavailable','catering only'
 ]
 
 let tag = [
@@ -297,12 +297,12 @@ onMount(() => {
 })
 
 async function getDishMenulist(){
-	const data = await getDishMenu('main_menu_ecs','main-course')
+	const data = await getDishMenu('main_menu_cts','main-course')
 	dishMenu= data
 }
 
 async function getDishList(){
-  const response = await useFetch('/dishes?type=dining', 'GET',null, true);
+  const response = await useFetch('/dishes?type=catering', 'GET',null, true);
   menu = response
 }
 
@@ -407,10 +407,11 @@ async function createMenu(){
         newObject[item[0]] = type ;
       });
     record = {...newObject}
-    record.type="dining"
+    record.type="catering"
     record.brightness=100
     record.opacity=100
     record.contrast=100
+    record.status = "catering only"
 	
 }
 

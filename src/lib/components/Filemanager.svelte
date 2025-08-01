@@ -271,7 +271,7 @@ const requestdata = {'targetFolder':targetBaseFolder};
 onMount(() => {
 
 
-console.log('on mount')
+//console.log('on mount')
 
 })
 
@@ -283,15 +283,15 @@ function openCurrentFile(){
 	if(!fileManagerState.store.tmpImagePath){
 			getFileList()
 	}else{
-		console.log('openCurrentFile', fileManagerState.store.tmpImagePath)
+	//	console.log('openCurrentFile', fileManagerState.store.tmpImagePath)
 		const arrPath = fileManagerState.store.tmpImagePath.split('/')
-		console.log(arrPath[arrPath.length-2], arrPath.length)
+		// console.log(arrPath[arrPath.length-2], arrPath.length)
 
 		targetPath = "/"+arrPath[1]+'/' + arrPath[2]+'/' + arrPath[3]
 		currentFolderLevel = arrPath.length-1
 		selectedFolder = arrPath[2]
 		//selectedSubFolder = arrPath[3]
-		console.log(arrPath[arrPath.length-2],arrPath.length-2)
+	//	console.log(arrPath[arrPath.length-2],arrPath.length-2)
 		getFileList(arrPath[arrPath.length-2],arrPath.length-3)
 	}
 	//console.log(arrPath.shift())
@@ -318,8 +318,8 @@ function formTargetPath(folderName,level){
 }
 
 async function getFileList(dir,level){
-	console.log('getFileList')
-	console.log('dir', dir ,' level', level, 'currentLevel', currentFolderLevel)
+	// console.log('getFileList')
+	// console.log('dir', dir ,' level', level, 'currentLevel', currentFolderLevel)
 	
 	await formTargetPath(dir,level)
 	
@@ -332,14 +332,10 @@ async function getFileList(dir,level){
 	if(dir === undefined){
 		//requestedDir = {'targetFolder':null};
 	}
-		console.log('requestedDir', requestedDir)
 		// const tmpSelectedFolder = ...selectedFolder
 		// const tmpSelectedSubfolder = ...selectedSubFolder
     try {
       const data  = await useFetch('/getFilelist','POST',requestedDir,true);
-      console.log(data.message)
-
-
       modalHeader = [...data.message.level1.folders] 
       if(!requestedDir ){
       	data.message.level1.files.forEach(prefix)

@@ -35,8 +35,11 @@
          <details>
           <summary>Menus</summary>
           <ul class="p-2">
-            <li><a href="/menu/dining" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
-            <li><a href="/menu/catering" onclick="{()=>{document.activeElement.blur()}}">Dining Menu</a></li>
+            <li><a href="/menu/dining" onclick="{()=>{document.activeElement.blur()}}">Dining Menu</a></li>
+            <li><a href="/menu/dining/dish" onclick="{()=>{document.activeElement.blur()}}">Dining Dishes</a></li>
+            <li><a href="/menu/catering" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
+            <div class="divider"></div>
+            <li><a href="/menu/catering/dish" onclick="{()=>{document.activeElement.blur()}}">Catering Dishes</a></li>
             <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li>
           </ul>
         </details>
@@ -86,7 +89,9 @@
           class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
         <li><a href="/menu/dining" onclick="{()=>{document.activeElement.blur()}}">Dining Menu</a></li>
         <li><a href="/menu/dining/dish" onclick="{()=>{document.activeElement.blur()}}">Dining Dishes</a></li>
+        <div class="divider p-0 m-0"></div>
         <li><a href="/menu/catering" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
+        <li><a href="/menu/catering/dish" onclick="{()=>{document.activeElement.blur()}}">Catering Dishes</a></li>
       </ul>
     </div>
 

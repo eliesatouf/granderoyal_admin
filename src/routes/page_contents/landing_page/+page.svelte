@@ -274,7 +274,7 @@
 </div>
 
 <Toast />
-{selectedItem}
+
 <ModalPreview bind:showModalPreview
   class="rounded backdrop-blur-sm backdrop-brightness-150 z-1500 grid grid-col justify-center items-center  overflow-auto">
 
