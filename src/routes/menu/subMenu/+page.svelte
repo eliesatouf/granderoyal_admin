@@ -102,14 +102,14 @@
 </div>
 
 <Modal bind:showModal>
-<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 ">
-  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
-    <legend class="fieldset-legend">{modalOperation}: {modalHeader}</legend>
-    <div class="grid m-2 p-2">
+<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 max-h-[500px] lg:max-h-[800px] overflow-auto ">
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-1 ">
+    <legend class="fieldset-legend ">{modalOperation}: {modalHeader}</legend>
+    <div class="grid m-2 p-2  ">
      
       <legend class="fieldset-legend">{record.name}</legend>
 
-       	<label type="label" class="label">Catering EC OR Dining DN </label>
+       	<label type="label" class="label">Catering OR Dining </label>
           <select class="select" bind:value={record.type}>
           {#each type as type}
               <option value={type}>{type}</option>
@@ -135,11 +135,11 @@
        bind:value="{record.category}"/>
 
       <label class="label">Image Source</label>
-      <div class="join mt-0" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
+      <div class="grid mt-0" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
       	{#if record.imageSource}
         <div class="tooltip">
           <div class="tooltip-content m-0 p-0">
-            <img src="{record.imageSource}" class="h-[250px] w-[250px]">
+            <img src="{record.imageSource}" class="h-[220px] w-[220px]">
           </div>
           <input type="text " class="" placeholder="menu image" 
             bind:value="{record.imageSource}"  />
@@ -167,9 +167,9 @@
       <input type="number" class="input" placeholder="tag" 
        bind:value="{record.contrast}"/>
 
-      <label class="input ">
+      <label class="input mt-2">
         <span class="">Price</span>
-        <input type="number" class=" " placeholder="0 PHP" 
+        <input type="number" class=" " placeholder="0" 
           bind:value="{record.price}"/>
       </label>
 
@@ -250,7 +250,7 @@
 	{/snippet}
 
 </ModalPreview>
-
+<Toast />
 
 
 <script>
@@ -292,17 +292,17 @@ onMount(() => {
 })
 
 async function getMainMenu(){
-	console.log(userState.selectedSubMenu)
+	//console.log(userState.selectedSubMenu)
 	requestedSubMenu=userState.selectedSubMenu
   const response = await useFetch('/sub_menus?parent=main-course', 'GET',null, true);
   menu = response
-  console.log(data)
+ //console.log(data)
 }
 
 async function getOneMenu(id){
 	modalOperation= 'Edit'
     const menuData =  await useFetch( '/sub_menus/'+id,'GET',null,true);
-    console.log(menuData)
+    //console.log(menuData)
     record={...menuData}
     modalHeader = record.name
     modalOperation="Edit Menu"
@@ -310,7 +310,7 @@ async function getOneMenu(id){
 }
 
 async function saveMenu(){
-	console.log(record)
+	//console.log(record)
 	let saveItem=''
 	if(modalOperation=='Create menu'){
 		try{
@@ -333,8 +333,8 @@ async function saveMenu(){
 	}
 	else{
 		try{
-			console.log('edit')
-			console.log(record)
+			//console.log('edit')
+			//console.log(record)
   		let saveItem =  await useFetch('/sub_menus/' + record.id, 'PATCH',record, true);
   		//console.log(saveItem)
 	  	toast.success("Saved successfully",2000);	
@@ -363,7 +363,7 @@ async function deleteMenu(id){
   }
 	catch(e) {
   	toast.error("Failed to delete menu",2000);	
-  	console.log(e);
+  	//console.log(e);
   }
 }
 
@@ -405,3 +405,22 @@ async function createMenu(){
 
 
 </script>
+
+<style>
+input{
+	max-width:220px;
+}
+
+label{
+	max-width:220px;
+}
+
+
+select{
+	max-width:220px;
+}
+
+legend{
+	max-width:220px;
+}
+</style>

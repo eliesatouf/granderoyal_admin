@@ -2,7 +2,7 @@
 	import {dropzone} from "@sveu/actions"
 	import { createEventDispatcher } from 'svelte'
 	//import fileManagerState from '$lib/stores/fileManagerState.svelte.js'
-
+	let isLoading= false
 	const dispatch = createEventDispatcher()
 
 	let over_dropzone = false
@@ -24,7 +24,7 @@
 				type: file.type,
 				last_modified: file.lastModified,
 			}))
-			console.log(files_data)
+
 			dispatch('filesChanged', rawFiles)
 		}
 	}
@@ -38,22 +38,27 @@
 	}
 
 	function onFileInputChange(e) {
-		console.log(e.target.files)
+
 		handleFiles(e.target.files)
 		e.target.value = null // Reset input to allow selecting same file again
 	}
 
-	async function uploadFiles(e){
-		console.log(e.target.files)
-		dispatch('upload', files_data)
+  async function uploadFiles(e){
+		isLoading = true
+
+		await dispatch('upload', files_data)
+		//files_data=[]
+		isLoading = false
+
 	}
 
 </script>
 
-<div class="flex">
+<div class="flex z-900">
 	<div class="h-full w-full lg:min-w-96" >
-
-
+		{#if isLoading}
+			<span class="absolute top-68 left-48 loading loading-spinner text-primary w-[50px]"></span>
+		{/if}
 
 		<!-- Hidden file input -->
 		<div 

@@ -1,6 +1,6 @@
-<div in:fade out:fade class="grid grid-col justify-center items-center">
+<div in:fade  class="grid grid-col justify-center items-center">
 
-<div class="" in:fade out:fade>
+<div class="" in:fade >
 	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border p-3 m-2 ">
 	  <button class="btn btn-primary btn-soft btn-sm w-[100px]"	onclick="{()=>{createMenu(), showModal=true}}">	<Icon name="add" />new</button>
 		 <div class="overflow-x-auto lg:hidden">
@@ -28,10 +28,10 @@
 		  </table>
 		</div>
 
-		<div class="overflow-x-auto hidden lg:block" in:fade out:fade>
-		  <table class="table table-xs" in:fade out:fade>
+		<div class="overflow-x-auto hidden lg:block" in:fade >
+		  <table class="table table-xs" in:fade >
 		    <thead >
-		      <tr in:scale out:fade>
+		      <tr in:scale >
 		      	<th>Action</th>
 		        <th>ID</th>
 		        <th>Type</th>
@@ -53,7 +53,7 @@
 		    <tbody>
 
 		      {#each menu as item, i}
-		      	<tr in:fade out:fade>
+		      	<tr in:fade >
 		      	<td><button class="btn btn-primary btn-soft btn-sm"	
 		      		onclick="{()=>{getDish(item.id,i), showModal=true}}">edit	</button>
 		      		</td>
@@ -78,7 +78,7 @@
 		  </table>  
 		</div>
 <!-- 
-		<div class="grid mt-10" in:fade out:fade>
+		<div class="grid mt-10" in:fade >
 			{#each menu as item}
 				{#if !item.hasChild}
 				<button class=" btn btn-primary btn-outline m-1 w-3xs">add dish in {item.name}</button>
@@ -94,8 +94,8 @@
 </div>
 
 <Modal bind:showModal>
-<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 ">
-  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
+<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 max-h-[500px] lg:max-h-[800px] overflow-auto">
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1  max-w-[250px]">
     <legend class="fieldset-legend">{modalOperation}: {modalHeader}</legend>
     <div class="grid m-2 p-2">
 
@@ -132,11 +132,11 @@
 
 
       <label class="label">Image Source</label>
-      <div class="join mt-0" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
+      <div class="grid mt-0" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
       	{#if record.imageSource}
         <div class="tooltip">
           <div class="tooltip-content m-0 p-0">
-            <img src="{record.imageSource}" class="h-[250px] w-[250px]">
+            <img src="{record.imageSource}" class="h-[220px] w-[220px]">
           </div>
           <input type="text " class="" placeholder="menu image" 
             bind:value="{record.imageSource}"  />
@@ -175,7 +175,7 @@
 
      <div class="row p-2">
        <input type="checkbox" bind:checked="{record.active}"
-        class="toggle toggle-amber-500  toggle-sm checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800 " />
+        class="toggle toggle-amber-500  toggle-sm checked:bg-orange-400 checked:text-orange-800 " />
        Active
      </div>
     </div>   
@@ -320,9 +320,8 @@ async function saveDish(){
 	let saveItem=''
 	if(modalOperation=='Create Dish'){
 		try{
-			saveItem =  await useFetch('/dishes', 'POST',record, true);
-			console.log(saveItem.status)
-			if(saveItem.status == 'available'){
+			saveItem =  await useFetch('/dishes', 'POST',record, true);	
+			if(saveItem.type == 'catering'){
 				toast.success("Saved successfully",2000);	
 				getDishList()
 	  		showModal= false
@@ -418,3 +417,22 @@ async function createMenu(){
 
 
 </script>
+
+<style>
+input{
+	max-width:220px;
+}
+
+label{
+	max-width:220px;
+}
+
+
+select{
+	max-width:220px;
+}
+
+legend{
+	max-width:220px;
+}
+</style>

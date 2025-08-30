@@ -13,7 +13,7 @@
 </script>
 
 {#if $toast}
-<div class="toast-container text-wrap p-4" in:fly={{ x: 100 }}  out:fade class:visible={isVisible}>
+<div class="toast-container text-wrap p-4 z-1000" in:fly={{ x: 100 }}  out:fade class:visible={isVisible}>
 
     <div class={{
         'toast bg-success text-black':$toast.type == 'success',

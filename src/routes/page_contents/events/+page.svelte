@@ -104,10 +104,11 @@
 	</div>
 </div>
 
-
+<Toast />
 <Modal bind:showModal>
-<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 ">
-  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
+	<div class="">
+<div class="m-10 p-5 rounded md:rounded-lg bg-base-100 max-h-200">
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1 h-150 overflow-auto">
     <legend class="fieldset-legend">{modalOperation}: {modalHeader}</legend>
     <div class="grid m-2 p-2">
      
@@ -203,7 +204,7 @@
 </div>
 
   </fieldset>
-
+</div>
 </div>
 </Modal>
 
@@ -255,11 +256,10 @@ async function getEvents(){
 
 async function getOneEvents(id){
 	modalOperation= 'Edit'
-    const offerData =  await useFetch( '/events/'+id,'GET',null,true);
-    record=offerData
-    modalHeader = record.name
-    modalOperation="Edit offer"
-
+  const offerData =  await useFetch( '/events/'+id,'GET',null,true);
+  record=offerData
+  modalHeader = record.name
+  modalOperation="Edit event"
 }
 
 async function handleSelectEvents(item){

@@ -15,7 +15,7 @@
           <summary>Accounts</summary>
           <ul class="p-2">
             <li><a href="/accounts" onclick="{()=>{document.activeElement.blur()}}">Users</a></li>
-            <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li>
+            <!-- <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li> -->
           </ul>
         </details>
         </li>
@@ -26,7 +26,8 @@
           <ul class="p-2">
             <li><a href="/page_contents/landing_page" onclick="{()=>{document.activeElement.blur()}}">Landing Page</a></li>
             <li><a href="/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offers</a></li>
-            <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li>
+            <li><a href="/page_contents/events" onclick="{()=>{document.activeElement.blur()}}">Events</a></li>
+            <!-- <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li> -->
           </ul>
         </details>
         </li>
@@ -37,10 +38,17 @@
           <ul class="p-2">
             <li><a href="/menu/dining" onclick="{()=>{document.activeElement.blur()}}">Dining Menu</a></li>
             <li><a href="/menu/dining/dish" onclick="{()=>{document.activeElement.blur()}}">Dining Dishes</a></li>
+            <div class="divider p-0 m-0"></div>
             <li><a href="/menu/catering" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
-            <div class="divider"></div>
             <li><a href="/menu/catering/dish" onclick="{()=>{document.activeElement.blur()}}">Catering Dishes</a></li>
-            <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li>
+            <div class="divider p-0 m-0"></div>
+            <li><a href="/menu/discount" onclick="{()=>{document.activeElement.blur()}}">Discount</a></li>
+            <li><a href="/menu/discount-type" onclick="{()=>{document.activeElement.blur()}}">Discount Types</a></li>
+            <div class="divider p-0 m-0"></div>
+            <li><a href="/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offer</a></li>
+            <li><a href="/menu/offer-type" onclick="{()=>{document.activeElement.blur()}}">Offer Types</a></li>
+            <div class="divider p-0 m-0"></div>
+            <li><a href="/menu/bundle" onclick="{()=>{document.activeElement.blur()}}">Bundles</a></li>
           </ul>
         </details>
         </li>
@@ -92,6 +100,15 @@
         <div class="divider p-0 m-0"></div>
         <li><a href="/menu/catering" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
         <li><a href="/menu/catering/dish" onclick="{()=>{document.activeElement.blur()}}">Catering Dishes</a></li>
+        <div class="divider p-0 m-0"></div>
+        <li><a href="/menu/discount" onclick="{()=>{document.activeElement.blur()}}">Discount</a></li>
+        <li><a href="/menu/discount-type" onclick="{()=>{document.activeElement.blur()}}">Discount Types</a></li>
+        <div class="divider p-0 m-0"></div>
+        <li><a href="/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offer</a></li>
+        <li><a href="/menu/offer-type" onclick="{()=>{document.activeElement.blur()}}">Offer Types</a></li>
+        <div class="divider p-0 m-0"></div>
+        <li><a href="/menu/bundle" onclick="{()=>{document.activeElement.blur()}}">Bundles</a></li>
+
       </ul>
     </div>
 

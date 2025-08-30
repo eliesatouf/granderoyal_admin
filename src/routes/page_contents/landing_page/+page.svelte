@@ -494,6 +494,7 @@ async function saveOfferItems(){
 }
 
 async function saveOneOfferItem(item){
+  console.log(item)
   let saveItem =  await useFetch('/offers/' + item.id, 'PATCH',item, true);
   console.log(saveItem)
 }

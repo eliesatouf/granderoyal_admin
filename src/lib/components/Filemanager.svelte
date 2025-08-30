@@ -1,6 +1,6 @@
-<button class="btn" onclick="{()=>{ (showModal = true),setTimeout(openCurrentFile(),2000)}}">change</button>
+<button class="btn btn-primary btn-soft max-w-[220px]" onclick="{()=>{ (showModal = true),setTimeout(openCurrentFile(),2000)}}">change</button>
 
-<ModalRecord bind:showModalRecord class=" backdrop-blur-sm backdrop-brightness-150 z-1000">
+<ModalRecord bind:showModalRecord class=" backdrop-blur-sm backdrop-brightness-150 z-1000 max-h-[500px] lg:max-h-[800px] overflow-auto">
 	<div class="card">
 		<form onsubmit="{()=>{createFolder()}}">
 		<div class="card-body">
@@ -42,7 +42,7 @@
 </ModalRecord>
 
 <ModalRecord bind:showModalUpload 
-	class="rounded backdrop-blur-sm backdrop-brightness-150 z-1500 grid grid-col justify-center items-center  overflow-auto">
+	class="rounded backdrop-blur-sm backdrop-brightness-150 z-1500 grid grid-col justify-center items-center  max-h-[500px] lg:max-h-[800px] overflow-auto">
 	<div class="card  ">
 
 		<div class="card-body h-140 ">
@@ -67,8 +67,8 @@
 
 
 
-<Modal bind:showModal class=" backdrop-blur-sm backdrop-brightness-150">
-  <div class="modal-box  max-w-5xl ">
+<Modal bind:showModal class=" backdrop-blur-sm backdrop-brightness-150 ">
+  <div class="modal-box  max-w-5xl max-h-[600px] lg:max-h-[800px] overflow-auto">
 
     <h3 class="text-md font-bold">Click on a folder to see contents</h3>
     
@@ -101,14 +101,14 @@
 			{/each}
 		</div>
 
-		<div class="flex mb-0 pb-0">
+		<div class="flex gap-0 mb-0 pb-0">
 			{#if selectedFolder}
 				<!-- delete FOLDER / SUB FOLDER BUTTON -->
 				<button class="btn btn-error btn-outline rounded btn-sm " onclick={()=>{showModalConfirm=true}}>
 				<Icon name="cancel" size={16}/>Delete {selectedSubFolder? selectedSubFolder: selectedFolder} folder
 				</button>
 				<!-- add files to UPLOAD BUTTON  -->
-				<button class="btn btn-info rounded btn-sm ml-8" onclick={()=>{showModalUpload=true}}>
+				<button class="btn btn-info rounded btn-sm " onclick={()=>{showModalUpload=true}}>
 					Add Files
 					<!-- <Icon name="attach_file_add"/>{selectedSubFolder? selectedFolder +' > '+ selectedSubFolder: selectedFolder} -->
 			</button>
@@ -336,6 +336,7 @@ async function getFileList(dir,level){
 		// const tmpSelectedSubfolder = ...selectedSubFolder
     try {
       const data  = await useFetch('/getFilelist','POST',requestedDir,true);
+      //console.log(data)
       modalHeader = [...data.message.level1.folders] 
       if(!requestedDir ){
       	data.message.level1.files.forEach(prefix)
@@ -365,6 +366,7 @@ function prefix(item,index, arr){
 }
 
 function clear(){
+	console.log('clear')
 	modalFolders= null;
 	modalSubFolders= null;
 	modalFiles= null;
@@ -391,6 +393,7 @@ async function createFolder(parent){
 
     const data  = await useFetch('/createFolder','POST',requestedPath,true);
     showModalRecord= false
+    //console.log(data.message)
     if(data.message.status ==0){
     	toast.success("Created successfully",5000);
     	getFileList()
@@ -401,14 +404,16 @@ async function createFolder(parent){
 			if(currentFolderLevel == 2){
 				getFileList(selectedSubFolder,2)
 			}
-
-
+    }
+    if(data.message.status ==1){
+    	toast.warning(data.message.message,5000);
     }
   }
   catch (err) {
         error = err.message;
         toast.error("Failed to create folder",5000);
   }
+  newFolderName=null
 }
 
 async function deleteFile	(filename){
@@ -479,8 +484,9 @@ async function handleUpload(files_data) {
     const res = await useFetch('/uploadFiles', 'POST', formData, true, true);
 
     getFileList(requestedFolder)
-  
+     clear()	
     showModalUpload= false
+
 }
 	
 </script>

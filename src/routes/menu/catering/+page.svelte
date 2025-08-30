@@ -1,6 +1,6 @@
-<div in:fade out:fade class="grid grid-col justify-center items-center">
+<div in:fade  class="grid grid-col justify-center items-center">
 
-<div class="" in:fade out:fade>
+<div class="" in:fade >
 	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border p-3 m-2 ">
 	  <legend class="fieldset-legend">Catering Main Menu</legend>
 	  <button class="btn btn-primary btn-soft btn-sm w-[100px]"	onclick="{()=>{createMenu(), showModal=true}}">	<Icon name="add" />new</button>
@@ -32,10 +32,10 @@
 		  </table>
 		</div>
 
-		<div class="overflow-x-auto hidden lg:block" in:fade out:fade>
-		  <table class="table table-xs" in:fade out:fade>
+		<div class="overflow-x-auto hidden lg:block" in:fade >
+		  <table class="table table-xs" in:fade >
 		    <thead >
-		      <tr in:scale out:fade>
+		      <tr in:scale >
 		      	<th>Action</th>
 		        <th>ID</th>
 		        <th>Name</th>
@@ -56,7 +56,7 @@
 		    <tbody>
 
 		      {#each menu as item, i}
-		      	<tr in:fade out:fade>
+		      	<tr in:fade >
 		      	<td><button class="btn btn-primary btn-soft btn-sm"	
 		      		onclick="{()=>{getOneMenu(item.id,i), showModal=true}}">edit	</button>
 		      	{#if item.hasChild}
@@ -84,7 +84,7 @@
 		  </table>  
 		</div>
 <!-- 
-		<div class="grid mt-10" in:fade out:fade>
+		<div class="grid mt-10" in:fade >
 			{#each menu as item}
 				{#if !item.hasChild}
 				<button class=" btn btn-primary btn-outline m-1 w-3xs">add dish in {item.name}</button>
@@ -100,8 +100,8 @@
 </div>
 
 <Modal bind:showModal>
-<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 ">
-  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
+<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 max-h-[500px] lg:max-h-[800px] overflow-auto">
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1  max-w-[250px]">
     <legend class="fieldset-legend">{modalOperation}: {modalHeader}</legend>
     <div class="grid m-2 p-2">
      
@@ -340,3 +340,22 @@ async function goToSubMenu(subMenu){
 }
 
 </script>
+
+<style>
+input{
+	max-width:220px;
+}
+
+label{
+	max-width:220px;
+}
+
+
+select{
+	max-width:220px;
+}
+
+legend{
+	max-width:220px;
+}
+</style>

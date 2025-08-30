@@ -1,6 +1,6 @@
-<div in:fade out:fade class="grid grid-col justify-center items-center">
+<div in:fade  class="grid grid-col justify-center items-center">
 
-<div class="" in:fade out:fade>
+<div class="" in:fade >
 	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border p-3 m-2 ">
 	  <button class="btn btn-primary btn-soft btn-sm w-[100px]"	onclick="{()=>{createMenu(), showModal=true}}">	<Icon name="add" />new</button>
 		 <div class="overflow-x-auto lg:hidden">
@@ -28,10 +28,10 @@
 		  </table>
 		</div>
 
-		<div class="overflow-x-auto hidden lg:block" in:fade out:fade>
-		  <table class="table table-xs" in:fade out:fade>
+		<div class="overflow-x-auto hidden lg:block" in:fade >
+		  <table class="table table-xs" in:fade >
 		    <thead >
-		      <tr in:scale out:fade>
+		      <tr in:fade >
 		      	<th>Action</th>
 		        <th>ID</th>
 		        <th>Type</th>
@@ -47,13 +47,14 @@
 		        <!-- <th>In Catering</th> -->
 		        <th>status</th>
 		        <th>active</th>
+		        <th>Add To Cart</th>
 						<th>Updated On</th>
 		      </tr>
 		    </thead>
 		    <tbody>
 
 		      {#each menu as item, i}
-		      	<tr in:fade out:fade>
+		      	<tr in:fade >
 		      	<td><button class="btn btn-primary btn-soft btn-sm"	
 		      		onclick="{()=>{getDish(item.id,i), showModal=true}}">edit	</button>
 		      		</td>
@@ -71,6 +72,7 @@
 		      	<!-- <td>{item.availableInCatering}</td> -->
 		      	<td>{item.status}</td>
 		      	<td><span class="{item.active? 'status status-success':'status'}"></span></td>
+		      	<td><span class="{item.enableAddToCart? 'status status-success':'status'}"></span></td>
 		      	<td readonly>{item.updatedOn}</td>
 		      	</tr>
 					{/each}
@@ -78,7 +80,7 @@
 		  </table>  
 		</div>
 <!-- 
-		<div class="grid mt-10" in:fade out:fade>
+		<div class="grid mt-10" in:fade >
 			{#each menu as item}
 				{#if !item.hasChild}
 				<button class=" btn btn-primary btn-outline m-1 w-3xs">add dish in {item.name}</button>
@@ -94,45 +96,58 @@
 </div>
 
 <Modal bind:showModal>
-<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 ">
-  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-1">
+<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 max-h-[500px] lg:max-h-[800px] overflow-auto">
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-1 w-[280px] lg:w-md">
     <legend class="fieldset-legend">{modalOperation}: {modalHeader}</legend>
-    <div class="grid m-2 p-2">
+    <div class="grid m-2 p-2 lg:flex lg:gap-3">
 
-
+    <div class="grid ">
       <label class="label">Type</label>
-      <input readonly type="text" class="input" 
+      <input readonly type="text" class="input input-sm" 
        bind:value="{record.type}"/>
 
       <label type="label" class="label">Menu </label>
-          <select class="select" bind:value={record.menu}>
+          <select class="select select-sm" bind:value={record.menu}>
           {#each dishMenu as menu}
               <option value={menu}>{menu}</option>
           {/each}
         </select>
 
       <label class="label">Name</label>
-      <input type="text" class="input" placeholder="name of dish " 
+      <input type="text" class="input input-sm" placeholder="name of dish " 
        bind:value="{record.name}"/>
 
       <label class="label">Description</label>
-      <input type="text" class="input" placeholder="description of dish" 
+      <input type="text" class="input input-sm" placeholder="description of dish" 
        bind:value="{record.description}"/>
 
       <label type="label" class="label">Tag </label>
-          <select class="select" bind:value={record.tag}>
+          <select class="select select-sm" bind:value={record.tag}>
           {#each tag as tag}
               <option value={tag}>{tag}</option>
           {/each}
         </select>
 
       <label class="label">Price</label>
-      <input type="number" class="input validator" required placeholder="price > 0 " min="1"
+      <input type="number" class="input input-sm validator" required placeholder="price > 0 " min="1"
        bind:value="{record.price}"/>
+    </div>
+    <div class="grid">
 
+      <label class="label">Brightness</label>
+      <input type="text" class="input input-sm" placeholder="image brightness 50 to 150" 
+       bind:value="{record.brightness}"/>
 
-      <label class="label">Image Source</label>
-      <div class="join mt-0" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
+      <label class="label">Opacity</label>
+      <input type="text" class="input input-sm" placeholder="image opacity 0 to 100" 
+       bind:value="{record.opacity}"/>
+
+      <label class="label">Contrast</label>
+      <input type="text" class="input input-sm" placeholder="image contrast 0 to 100" 
+       bind:value="{record.contrast}"/>
+
+       <label class="label">Image Source</label>
+      <div class="grid mt-0" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
       	{#if record.imageSource}
         <div class="tooltip">
           <div class="tooltip-content m-0 p-0">
@@ -142,23 +157,11 @@
             bind:value="{record.imageSource}"  />
           </div>
           {/if}
-        <Filemanager  selectedImage={handleSelectMenu} />
-        <button class="btn btn-soft" onclick={()=>{showModalPreview=true}}>preview</button>
+        <Filemanager selectedImage={handleSelectMenu} />
+        <button class="btn btn-sm btn-soft w-[220px]" onclick={()=>{showModalPreview=true}}>preview</button>
       </div>
 
-      <label class="label">Brightness</label>
-      <input type="text" class="input" placeholder="image brightness 50 to 150" 
-       bind:value="{record.brightness}"/>
-
-      <label class="label">Opacity</label>
-      <input type="text" class="input" placeholder="image opacity 0 to 100" 
-       bind:value="{record.opacity}"/>
-
-      <label class="label">Contrast</label>
-      <input type="text" class="input" placeholder="image contrast 0 to 100" 
-       bind:value="{record.contrast}"/>
-
-<!--       <div class="row p-2">
+<!--       	<div class="row p-2">
        <input type="checkbox" bind:checked="{record.availableInCatering}"
         class="toggle toggle-amber-500  toggle-sm checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800 " />
        In catering
@@ -166,7 +169,7 @@
 
 
       <label type="label" class="label">Status</label>
-      <select class="select validator" required placeholder="select a status" bind:value={record.status}>
+      <select class="select select-sm validator" required placeholder="select a status" bind:value={record.status}>
       	{#each status as status}
           <option value={status}>{status}</option>
         {/each}
@@ -178,7 +181,18 @@
         class="toggle toggle-amber-500  toggle-sm checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800 " />
        Active
      </div>
+
+      <div class="row p-2">
+       <input type="checkbox" bind:checked="{record.enableAddToCart}"
+        class="toggle toggle-amber-500  toggle-sm checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800 " />
+       Add to cart
+     </div>
+
     </div>   
+
+    </div>
+
+
 
   <div class="flex justify-between">
    <button class="btn btn-soft btn-primary w-1/4" onclick={()=>(saveDish())}>
@@ -219,19 +233,19 @@
 		  	<label class="label basis-1/4">Brightness</label>
 		  	<input type="range" min="30" max="200" step="10" bind:value="{record.brightness}" 
   				class="range basis-2/4 text-stone-300 [--range-bg:grey] [--range-thumb:darkgrey] [--range-fill:0]" />
-  				<input class="input input-xs basis-1/6 ml-5" type="number" bind:value={record.brightness}/>
+  				<input class="input input-sm input-xs basis-1/6 ml-5" type="number" bind:value={record.brightness}/>
   			</div>
   			<div class="flex flex-row w-full m-2">
   			<label class="label label basis-1/4">Opacity </label>
   			<input type="range" min="20" max="100" step="5" bind:value="{record.opacity}" 
   				class="range label basis-2/4 text-stone-300 [--range-bg:grey] [--range-thumb:darkgrey] [--range-fill:0]" />
-  				<input class="input input-xs basis-1/6 ml-5" type="number" bind:value={record.opacity}/>
+  				<input class="input input-sm input-xs basis-1/6 ml-5" type="number" bind:value={record.opacity}/>
   			</div>
   			<div class="flex flex-row w-full m-2">
   			<label class="label label basis-1/4">Contrast </label>
   			<input type="range" min="20" max="200" step="5" bind:value="{record.contrast}" 
   				class="range label basis-2/4 text-stone-300 [--range-bg:grey] [--range-thumb:darkgrey] [--range-fill:0]" />
-  				<input class="input input-xs basis-1/6 ml-5" type="number" bind:value={record.contrast}/>
+  				<input class="input input-sm input-xs basis-1/6 ml-5" type="number" bind:value={record.contrast}/>
   			</div>
 		  </div>
 		</div>
@@ -239,7 +253,7 @@
 	{/snippet}
 
 </ModalPreview>
-
+<Toast />
 
 <script>
 	
@@ -414,6 +428,23 @@ async function createMenu(){
 	
 }
 
-
-
 </script>
+
+<style>
+input{
+	max-width:220px;
+}
+
+label{
+	max-width:220px;
+}
+
+
+select{
+	max-width:220px;
+}
+
+legend{
+	max-width:220px;
+}
+</style>
