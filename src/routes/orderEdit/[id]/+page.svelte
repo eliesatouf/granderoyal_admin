@@ -97,6 +97,15 @@
       </select>
     </div>
 
+     <div class="grid">
+      <label type="label" class="label" >Order Type</label>
+		    <select class="select" bind:value={record.orderType}>
+		  		<option>delivery</option>
+		  		<option>pickup</option>
+				</select>
+			</div>
+
+
     	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-1  ">
     		<legend class="fieldset-legend">Summary</legend>
     		<div class="grid m-2 p-2 lg:flex lg:gap-3">

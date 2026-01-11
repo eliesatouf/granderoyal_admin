@@ -1,5 +1,5 @@
 <script>
-  export let name = "menu"; // default icon
+  export let name = "home"; // default icon
   export let size = 24;
   export let fill = false;
 </script>

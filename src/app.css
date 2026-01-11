@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/typography';
- @plugin "daisyui" {
-   themes: light --default, dark --preferslight , automn;
- }
+@plugin "daisyui" {
+  themes: light --default, dark --preferslight , fantasy;
+}

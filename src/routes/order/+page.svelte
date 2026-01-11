@@ -156,10 +156,10 @@ class="grid grid-col justify-center items-center
             <option value={JSON.stringify(channel.id)}>{channel.name}</option>
           {/each}
       	</select>
-      {:else}
+      {:else if orderChannels.length > 0}
       	<label class="label">Order channel</label>
 	      <input type="text" class="input" 
-       value={orderChannels?.find(el => el.id === Number(record?.orderChannel))?.name ?? ''}
+        value={orderChannels.find(el => el.id === Number(record?.orderChannel))?.name ?? ''}
        readonly />
       {/if}
     </div>	
@@ -182,6 +182,12 @@ class="grid grid-col justify-center items-center
        	{/each}
       </select>
     </div>
+    <div class="grid">
+	    <select class="select" bind:value={record.orderType}>
+			  <option>Delivery</option>
+			  <option>Pickup</option>
+			</select>
+		</div>
 
     
 
@@ -545,7 +551,10 @@ onMount(() => {
 	//getOfferList()
 	// getCustomerList()
   // getOrderList()
+
+
 })
+
 
 function getDishName(item){
 	let x = dishList.find(el=>el.id == item.dish?.split('/')[3])

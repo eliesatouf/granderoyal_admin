@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 shadow-sm mx-auto">
+<div class="navbar bg-base-100 mx-auto container shadow shadow-xs">
 
   <div class="navbar-start">
 
@@ -84,7 +84,7 @@
     <a href="/" class="flex items-center gap-3 no-underline group" onclick="{closeMobileMenu}">
           <div class="h-16  flex items-center justify-center  ">
           <img 
-            src="/logo_100.png" 
+            src="/logo_100.avif" 
             alt="Sandys FUSION KITCHEN" 
             class="h-full w-full object-contain" 
           />
