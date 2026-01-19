@@ -54,14 +54,14 @@
 
 <div class="time-picker relative">
   {#if label}
-    <label class="block text-sm font-medium text-gray-700 mb-1">
+    <label class="text-center block text-sm font-medium text-gray-700 mb-1">
       {label}
     </label>
   {/if}
-  
+  <div class="flex justify-center">
   <button
     type="button"
-    class="px-4 py-2.5 text-left border border-gray-300 rounded-lg bg-white hover:bg-gray-50 focus:ring-2 focus:ring-lime-900 focus:border-lime-800 
+    class="px-4 py-2.5 text-center border border-gray-300 rounded-lg bg-white hover:bg-gray-50 focus:ring-2 focus:ring-lime-900 focus:border-lime-800 
     {value ? '':'ring ring-red-500 ring-2'}"
     onclick={() => showDropdown = !showDropdown}
     onkeydown={(e) => e.key === 'Escape' && (showDropdown = false)}
@@ -75,6 +75,7 @@
       </svg>
     </div>
   </button>
+</div>
 
   {#if showDropdown}
     <div class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-64 overflow-y-auto">

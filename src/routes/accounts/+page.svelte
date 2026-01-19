@@ -1,31 +1,21 @@
 <div in:fade out:fade class="grid grid-col justify-center items-center mt-1">
-    <button class="btn btn-primary btn-sm btn-outline btn-circle" value="add"
+    <button class="btn btn-primary btn-xs btn-outline btn-circle mx-3" value="add"
             onclick={addUser}>
-        <Icon name="person_add" size={24}/></button>
+        <Icon name="person_add" /></button>
 {#if error}
     <p class="error">{error}</p>
 {:else if data}
     {#each data as user}
-    <div class="card bg-base-300 my-1 w-80 flex flex-row" >
-       <div class="card-body p-4 basis-2/3">
-        <p class="card-title">{user.email}</p>
+    <div class="card bg-base-300 my-1 flex flex-row m-3 lg:w-xs" >
+       <article class="card-body break-all text-wrap">
+        <p class="">{user.email}</p>
         <p >{user.givenName}</p>
+        <div class="flex flex-row justify-start items-center">
         <div aria-label="status" class="status status-lg {user.active ? 'status status-success':''}"></div>
-
-<!--         <div class="flex justify-items-start gap-2">
-            <ul>
-                {#each user.roles as role}
-                <li>{role}</li>
-                {/each}
-            </ul>
-        </div> -->
-      </div>
-      <div class="card-actions justify-end basis-1/3 self-end p-1">
-
         <button class="btn btn-sm btn-soft btn-primary"
             onclick={()=>(getUser(user.id))}>Edit</button>
         </div>
-
+      </article>
     </div>    
 
   {/each}
@@ -36,16 +26,15 @@
 
 <Modal bind:showModal>
   {#snippet header()}
-  <div class="text-primary text-lg font-bold">
+  <div class="text-primary text-lg font-bold ">
    {modalOperation}
   </div>
   {/snippet}
-
+ 
  {#snippet children()}
-
     {#each modalContents as item}
-    <form  autocomplete="off">
-    <fieldset class="fieldset bg-base-200 border-base-300 rounded-box min-w-100 border p-4 m-4 ">
+    <form  autocomplete="off" class="">
+    <fieldset class="fieldset bg-base-200 border-base-300 rounded-box lg:min-w-100 lg:h-full overflow-auto p-7">
         <label class="label text-md">
             <input type="checkbox" class="toggle toggle-primary"
                 bind:checked={item.active}  />Active
@@ -56,7 +45,7 @@
 
 
       <label class="label">Email</label>
-      <input type="email" class="input" placeholder="Email"
+      <textarea class="textarea  break-all text-wrap" placeholder="Email"
         bind:value="{item.email}" autocomplete="new-email" 
         />
 
@@ -113,7 +102,7 @@
                 onclick={()=>(saveUser(item))}>Save
               </button>
               <button class="btn btn-sm btn-soft btn-warning"
-                onclick={()=>(deleteUser(item.id))}>Delete
+                onclick={()=>(deleteUser(item.id, item.email))}>Delete
               </button>
           {:else if modalOperation =='New User'}
               <button class="btn btn-sm btn-soft btn-primary"
@@ -130,18 +119,14 @@
     </fieldset>
     </form>
     {/each}
-        {#if showModal}
-        <Toast/>
-        {/if}
-
  {/snippet}
 
 
 </Modal>
 
-{#if !showModal}
-<Toast/>
-{/if}
+
+<Toaster richColors position="top-center" />
+
 
 
 
@@ -150,8 +135,7 @@ import { onMount } from 'svelte';
 import useFetch from '$lib/services/useFetch'
 import { fade, fly,slide } from 'svelte/transition';
 import Modal from '$lib/components/Modal.svelte';
-import { toast } from '$lib/stores/toast';
-import Toast from '$lib/components/Toast.svelte';
+import { Toaster, toast } from 'svelte-sonner';
 import Icon from '$lib/components/Icon.svelte'
 import { afterNavigate} from '$app/navigation';
 import { jwtDecode } from 'jwt-decode';
@@ -211,14 +195,18 @@ async function getUser(id){
     showModal = true
 }
 
-async function deleteUser(id){
+async function deleteUser(id,name){
+    let confirmDelete = confirm(`Delete user ${name}`)
+    if(!confirmDelete) return 0
+
     const response =  await useFetch('/users/'+id,'DELETE',null,true);
-    if(response === null){
-        toast.success("User deleted",5000)
+    //console.log('response', response)
+    if(!response){
+        toast.success("User deleted")
         showModal = false
         getUserList()
     }else{
-        toast.error("Failed to deleted",5000)
+        toast.error("Failed to deleted")
     }
 
 }

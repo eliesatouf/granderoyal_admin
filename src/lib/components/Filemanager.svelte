@@ -1,11 +1,11 @@
-<button class="btn btn-primary btn-soft max-w-[220px]" onclick="{()=>{ (showModal = true),setTimeout(openCurrentFile(),2000)}}">change</button>
+<button class="btn btn-primary btn-soft max-w-[220px] " onclick="{()=>{ (showModal = true),setTimeout(openCurrentFile(),2000)}}">change</button>
 
-<ModalRecord bind:showModalRecord class=" backdrop-blur-sm backdrop-brightness-150 z-1000 max-h-[500px] lg:max-h-[800px] overflow-auto">
-	<div class="card">
+<ModalRecord bind:showModalRecord class="bg-red-500 backdrop-blur-sm backdrop-brightness-150 z-1000 max-h-[500px] lg:max-h-[800px] overflow-auto">
+	<div class="card ">
 		<form onsubmit="{()=>{createFolder()}}">
 		<div class="card-body">
 			<p>Create new folder in <span class="text-warning font-bold">
-			{currentFolderLevel ==1 ? SHRED_FOLDER : SHRED_FOLDER+'/'+selectedFolder}</span></p>
+			{currentFolderLevel ==1 ? SHARED_FOLDER : SHARED_FOLDER+'/'+selectedFolder}</span></p>
 			<input type="input" class="input" bind:value="{newFolderName}" placeholder="Enter folder name" /> 
 		</div>
 		<div class="card-actions">
@@ -75,7 +75,7 @@
 		<div class="join flex-wrap ">
     	<!-- ADD folder  BUTTON -->
     	<button class="btn btn-info btn-soft rounded btn-sm mr-2" onclick="{()=>{currentFolderLevel = 1, showModalRecord=true}}">
-    		<Icon name="create_new_folder" size={24}/>
+    		<Icon name="create_new_folder"/>
     	</button>
     	<!-- First level DIR -->
 			{#each modalHeader as item}
@@ -90,7 +90,7 @@
 		<div class="join flex-wrap my-3 ">
 			{#if selectedFolder}
 			<button class="btn btn-info btn-soft rounded btn-sm " onclick="{()=>{currentFolderLevel = 2,showModalRecord=true}}">
-    		<Icon name="create_new_folder" size={24}/>
+    		<Icon name="create_new_folder" />
     	</button>
     	{/if}
 
@@ -101,11 +101,11 @@
 			{/each}
 		</div>
 
-		<div class="flex gap-0 mb-0 pb-0">
+		<div class="grid lg:flex gap-0 mb-0 pb-0">
 			{#if selectedFolder}
 				<!-- delete FOLDER / SUB FOLDER BUTTON -->
 				<button class="btn btn-error btn-outline rounded btn-sm " onclick={()=>{showModalConfirm=true}}>
-				<Icon name="cancel" size={16}/>Delete {selectedSubFolder? selectedSubFolder: selectedFolder} folder
+				<Icon name="delete" />Delete {selectedSubFolder? selectedSubFolder: selectedFolder} folder
 				</button>
 				<!-- add files to UPLOAD BUTTON  -->
 				<button class="btn btn-info rounded btn-sm " onclick={()=>{showModalUpload=true}}>
@@ -118,11 +118,8 @@
 
 			<div class="card-body m-0 p-0">
 			<div class="card shadow-sm h-150 max-h-3/4 overflow-auto">
-			<div class="card-actions">
-		
-		  </div>
 
-				<div class="lg:flex lg:flex-wrap grid">
+				<div class="lg:flex lg:flex-wrap grid w-full lg:w-4xl">
 
 				{#each modalFiles as file}
 
@@ -134,7 +131,7 @@
 			        	<div  dir="" class="w-full absolute start-0 top-0 bg-base-100 opacity-80 text-primary">
 
 			        	<button class="btn btn-primary btn-sm btn-soft rounded" onclick="{()=>{selectedImage(file),showModal = false}}">
-			        			<Icon name="add" class=" bg-error bottom-0"/>
+			        			<Icon name="ios-check-circle" />
 			        	</button>
 			        	<span>{selectedSubFolder ? file.split('/')[4]: file.split('/')[3]}</span>
 			        </div>
@@ -259,8 +256,8 @@ let targetPath = $state()
 let currentFolderLevel = $state()
 
 const API_URL = import.meta.env.VITE_API_URL;
-const SHRED_FOLDER = import.meta.env.VITE_SHARED
-const targetBaseFolder = SHRED_FOLDER
+const SHARED_FOLDER = import.meta.env.VITE_SHARED
+const targetBaseFolder = SHARED_FOLDER
 let requestedFolder = '';
 let currentFiles = [];
 let folderToDelete=$state();

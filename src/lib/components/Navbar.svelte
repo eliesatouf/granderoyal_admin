@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 mx-auto container shadow shadow-xs">
+<div class="sticky top-0 z-50 navbar bg-base-100 mx-auto  shadow shadow-xs">
 
   <div class="navbar-start">
 
@@ -9,17 +9,17 @@
 
       <ul
         tabindex="0"
-        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow ">
+        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 w-screen -ml-2 mt-5 text-xl shadow">
         <li>
          <details>
-          <summary>Dashboard</summary>
-          <ul class="p-2">
-            <li><a href="{base}/dashboard" onclick="{()=>{document.activeElement.blur()}}">Dashboard</a></li>
-            <li><a href="{base}/order/order_monitor" onclick="{()=>{document.activeElement.blur()}}">Order Monitor</a></li>
-            <li><a href="{base}/reports/daily" onclick="{()=>{document.activeElement.blur()}}">Daily report</a></li>
-            <li><a href="{base}/reports/weekly" onclick="{()=>{document.activeElement.blur()}}">Weekly report</a></li>
-            <li><a href="{base}/reports/monthly" onclick="{()=>{document.activeElement.blur()}}">Monthly report</a></li>
-            <li><a href="{base}/reports/custom" onclick="{()=>{document.activeElement.blur()}}">Custom report</a></li>
+          <summary class=" text-lg">Dashboards</summary>
+          <ul class=" w-full text-lg">
+            <li><a href="{base}/dashboard" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Sales</a></li>
+            <li><a href="{base}/order/order_monitor" class="text-lg"  onclick="{()=>{document.activeElement.blur()}}">Order Monitor</a></li>
+            <li><a href="{base}/reports/daily" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Daily report</a></li>
+            <li><a href="{base}/reports/weekly" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Weekly report</a></li>
+            <li><a href="{base}/reports/monthly" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Monthly report</a></li>
+            <li><a href="{base}/reports/custom" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Custom report</a></li>
             <!-- <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li> -->
           </ul>
         </details>
@@ -27,9 +27,9 @@
 
         <li>
          <details>
-          <summary>Accounts</summary>
+          <summary class="text-lg">Accounts</summary>
           <ul class="p-2">
-            <li><a href="{base}/accounts" onclick="{()=>{document.activeElement.blur()}}">Users</a></li>
+            <li><a href="{base}/accounts" class="text-lg"onclick="{()=>{document.activeElement.blur()}}">Users</a></li>
             <!-- <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li> -->
           </ul>
         </details>
@@ -37,10 +37,10 @@
 
         <li>
          <details>
-          <summary>Page contents</summary>
+          <summary class="text-lg">Page contents</summary>
           <ul class="p-2">
-            <li><a href="{base}/page_contents/landing_page" onclick="{()=>{document.activeElement.blur()}}">Landing Page</a></li>
-            <li><a href="{base}/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offers</a></li>
+            <li><a href="{base}/page_contents/landing_page" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Landing Page</a></li>
+            <li><a href="{base}/page_contents/offers" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Offers</a></li>
             <!-- <li><a href="{base}/page_contents/events" onclick="{()=>{document.activeElement.blur()}}">Events</a></li> -->
             <!-- <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li> -->
           </ul>
@@ -49,45 +49,57 @@
 
         <li>
          <details>
-          <summary>Menus</summary>
+          <summary class="text-lg">Menus</summary>
           <ul class="p-2">
-            <li><a href="{base}/menu/category" onclick="{()=>{document.activeElement.blur()}}">Category</a></li>
-            <!-- <li><a href="{base}/menu/dining" onclick="{()=>{document.activeElement.blur()}}">Dining Menu</a></li> -->
-            <li><a href="{base}/menu/dining/dish" onclick="{()=>{document.activeElement.blur()}}">Dining Dishes</a></li>
+            <li><a href="{base}/menu/category" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Category</a></li>
+            <!-- <li><a href="{base}/menu/dining" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Dining Menu</a></li> -->
+            <li><a href="{base}/menu/dining/dish" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Dining Dishes</a></li>
             <div class="{base}/divider p-0 m-0"></div>
-<!--             <li><a href="{base}/menu/catering" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
-            <li><a href="{base}/menu/catering/dish" onclick="{()=>{document.activeElement.blur()}}">Catering Dishes</a></li> -->
+<!--             <li><a href="{base}/menu/catering" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Catering Menu</a></li>
+            <li><a href="{base}/menu/catering/dish" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Catering Dishes</a></li> -->
             <div class="{base}/divider p-0 m-0"></div>
-            <li><a href="{base}/menu/discount" onclick="{()=>{document.activeElement.blur()}}">Discount</a></li>
-            <li><a href="{base}/menu/discount-type" onclick="{()=>{document.activeElement.blur()}}">Discount Types</a></li>
+            <li><a href="{base}/menu/discount" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Discount</a></li>
+            <li><a href="{base}/menu/discount-type" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Discount Types</a></li>
             <div class="{base}/divider p-0 m-0"></div>
-            <li><a href="{base}/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offer</a></li>
-            <li><a href="{base}/menu/offer-type" onclick="{()=>{document.activeElement.blur()}}">Offer Types</a></li>
+            <li><a href="{base}/page_contents/offers" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Offer</a></li>
+            <li><a href="{base}/menu/offer-type" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Offer Types</a></li>
             <div class="{base}/divider p-0 m-0"></div>
-            <li><a href="{base}/menu/bundle" onclick="{()=>{document.activeElement.blur()}}">Bundles</a></li>
+            <li><a href="{base}/menu/bundle" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Bundles</a></li>
           </ul>
         </details>
         </li>
 
         <li>
          <details>
-          <summary>Order</summary>
+          <summary class="text-lg">Order</summary>
           <ul class="p-2">
-            <li><a href="{base}/orders" onclick="{()=>{document.activeElement.blur()}}">All Orders</a></li>
-            <li><a href="{base}/menu/oorderChannel" onclick="{()=>{document.activeElement.blur()}}">Order Type</a></li>
+            <li><a href="{base}/order" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">All Orders</a></li>
+            <li><a href="{base}/menu/oorderChannel" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Order Type</a></li>
           </ul>
         </details>
         </li>
+
+        <li>
+         <details>
+          <summary class="text-lg">Sync Service</summary>
+          <ul class="p-2">
+            <li><a href="{base}/sync/connect"  class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Connect</a></li>
+            <li><a href="{base}/sync/fetch_items"  class="text-lg" onclick="{()=>{document.activeElement.blur()}}">fetch Items</a></li>
+          </ul>
+        </details>
+        </li>
+
       </ul>
     </div>
 
-    <a href="/" class="flex items-center gap-3 no-underline group" onclick="{closeMobileMenu}">
+    <a href="/" class="flex items-center gap-3 no-underline group">
           <div class="h-16  flex items-center justify-center  ">
           <img 
-            src="/logo_100.avif" 
-            alt="Sandys FUSION KITCHEN" 
+            src="{base}/logo_1.png" 
+            alt="Dayon Cafe" 
             class="h-full w-full object-contain" 
           />
+          Dayon Cafe
         </div>
         </a>
   </div>
@@ -157,7 +169,14 @@
       </ul>
     </div>
 
-
+    <div class="dropdown">
+    <div tabindex="0" role="button" class="btn btn-ghost rounded-field">Sync Service</div>
+      <ul tabindex="0"
+          class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
+          <li><a href="{base}/sync/connect" onclick="{()=>{document.activeElement.blur()}}">Connect</a></li>
+          <li><a href="{base}/sync/fetch_items" onclick="{()=>{document.activeElement.blur()}}">fetch Items</a></li>
+      </ul>
+    </div>
 
 <!--     <div class="dropdown">
       <div tabindex="0" role="button" class="btn m-1">Click</div>
@@ -202,6 +221,6 @@
 <script>
   import Icon from '$lib/components/Icon.svelte'
   import userState from '$lib/stores/user.svelte.js';
-  import { getContext } from 'svelte';
-  const base = getContext('base');
+
+  import { base } from '$app/paths';
 </script>

@@ -1,12 +1,20 @@
 import adapter from '@sveltejs/adapter-static';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-export default {
-  kit: {
-    adapter: adapter({
+const isProduction = process.env.NODE_ENV === 'production';
+const basePath = isProduction ? '/admin' : '';
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = { 
+  preprocess: vitePreprocess(),
+  kit: { 
+    adapter: adapter({ 
       fallback: 'index.html'
     }),
     paths: {
-     // base: '/admin'
+      base: basePath
     }
-  }
+  } 
 };
+
+export default config;

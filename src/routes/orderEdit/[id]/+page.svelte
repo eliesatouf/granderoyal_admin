@@ -73,7 +73,7 @@
       {:else}
       	<label class="label">Order channel</label>
 	      <input type="text" class="input" 
-       value={orderChannels.find(el => el.id === Number(record.orderChannel))?.name ?? ''}
+       value={orderChannels?.find(el => el.id === Number(record.orderChannel))?.name ?? ''}
        readonly />
       {/if}
     </div>	
@@ -127,7 +127,7 @@
 		   <button class="btn btn-soft btn-primary w-1/4" onclick={()=>(saveOneOrder())}>
 		    Save
 		  	</button>
-			  <button class="btn btn-soft btn-default w-1/4" onclick={()=>goto('/order')}>
+			  <button class="btn btn-soft btn-default w-1/4" onclick={()=> { previousPath == '/order/order_monitor' ? goto(`${base}/order/order_monitor`) : goto(`${base}/order`)}}>
 			    Close
 			  </button>
   		</div>
@@ -428,12 +428,18 @@ import fileManagerState from '$lib/stores/fileManagerState.svelte.js'
 import dayjs from 'dayjs';
 import { goto } from '$app/navigation';
 import userState from '$lib/stores/user.svelte.js';
-
 import { page } from '$app/stores';
+import { afterNavigate,beforeNavigate } from '$app/navigation';
+import { jwtDecode } from 'jwt-decode';
+import { base } from '$app/paths';
+
+
 let {data} = $props();
 
-let recordId = $derived($page.url.searchParams.get('id'));
+let preLoad = data.preLoad
 
+let recordId = $derived($page.url.searchParams.get('id'));
+let previousPath = $state();
 
 
 let showModal = $state(false);
@@ -464,27 +470,30 @@ let timeoutId;
 let isLoading = $state(false)
 let IdParameter= $state()
 let detailedView = $state(false)
-let orderList = $state()
+//let orderList = $state()
 let paymentTypes= $state()
-import { afterNavigate} from '$app/navigation';
-import { jwtDecode } from 'jwt-decode';
+
 let admin =$state(false)
 
-dishList = data.dishList
-statusList = data.statusList
+dishList = preLoad.dishList
+statusList = preLoad.statusList
 orgStatusList = statusList
-customerList =data.customerList
-orderList = data.orderList
-offerList = data.offerList
-paymentTypes = data.paymentTypes
-orderChannels = data.orderChannels
-orgOrderChannels= data.orderChannels
+customerList =preLoad.customerList
+//orderList = data.orderList
+offerList = preLoad.offerList
+paymentTypes = preLoad.paymentTypes
+orderChannels = preLoad.orderChannels
+orgOrderChannels= preLoad.orderChannels
 
 menuList = dishList
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 afterNavigate(({ to, from }) => {
+		if(from){
+			previousPath = from.route.id
+		}
+		
     const token = localStorage.getItem('token');
     if(token){
         const decoded = jwtDecode(token);
@@ -495,10 +504,13 @@ afterNavigate(({ to, from }) => {
     }
   });
 
+
 onMount(() => {
 	IdParameter =  $page.url.pathname.split('/').slice(-1).pop();
 
 	getOrder()
+
+
 
 	// getCustomerList()
 	// getStatusList()
@@ -530,6 +542,7 @@ function getBundleName(item){
 
 
 function selectEmail(customer){
+	console.log('customer', customer)
 	record.customer = `/api/customers/${customer.id}`
 	record.email = customer.email
 
@@ -657,7 +670,7 @@ async function getOrder(){
 	
 	isLoading= true
 	statusList =orgStatusList
-	statusList = statusList.filter(el=>el.name != 'new'?el:'')
+	statusList = statusList?.filter(el=>el.name != 'new'?el:'')
 
 	orderChannels = orgOrderChannels
 	modalOperation='Edit Order'
@@ -685,8 +698,9 @@ async function getOrder(){
 
 function getCustomer(iri){
 	const id = iri.split('/')[3]
-	let customer = customerList.find(el =>el.id == id)
-	return customer
+	let customer = customerList?.find(el =>el.id == id)
+	if(customer){return customer }
+		return 0;
 
 }
 
@@ -746,7 +760,11 @@ async function saveOneOrder(){
 async function createOrder(){
 	
 	statusList = statusList.filter(el=>el.name != 'confirmed'?el:'')
-	orderChannels = orderChannels.filter(el=>el.name != 'web'?el:'')
+	console.log('orderChannels', orderChannels)
+	return 0
+	if(orderChannels){
+
+	}  orderChannels.filter(el=>el.name != 'web'?el:'')
 
   modalHeader='Create Order'
 	modalOperation='Create Order'

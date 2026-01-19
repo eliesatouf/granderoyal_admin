@@ -16,27 +16,25 @@ class="grid grid-col justify-center items-center
 <button class="btn btn-primary btn-soft btn-sm"
 		      			onclick="{()=>{createOrder(), showModal=true}}">
 		      			<Icon name="add" />new</button>
-	<div class="overflow-x-auto lg:hidden">
+	<div class="lg:hidden overflow-x-auto">
 
-		<table class="table table-xs  ">
+		<table class="table table-xs  overflow-x-auto ">
 		    <thead>
 		      <tr>
 		      	<th>Action</th>
-		        <th>ID</th>
-		        <th>Type</th>
-		        <th>Name</th>
+		        <th>orderNumber</th>
+		        <th>grandTotal</th>
+		        <th>orderDate</th>
 		      </tr>
 		    </thead>
 		    <tbody>
 		      {#each orderList as item, i}
 		      	<tr>
-		      		<td><a class="btn btn-primary btn-soft btn-sm" href="/orderEdit/{item.id}">edit	</a>
-		      		</td>
-		      	<td>{i+1}
+		      		<td><a class="btn btn-primary btn-soft btn-sm" href="{base}/orderEdit/{item.id}">edit	</a>
 		      	</td>
-		      	<td>{item.name} {item.active} <span class="{item.active? 'status status-success':'status'}"></span>
-		      	</td>
-
+		      	<td>{item.orderNumber}</td>
+		      	<td>{item.grandTotal}</td>
+						<td>{dayjs(item.orderDate).format('YY-MM-DD')}</td>
 		      </tr>
 		      {/each}
 		    </tbody>
@@ -67,7 +65,7 @@ class="grid grid-col justify-center items-center
 		    	{#if orderList.length > 0}
 		      {#each orderList as item, i}
 		      	<tr in:fade >
-		      		<td><a class="btn btn-primary btn-soft btn-sm" href="/orderEdit/{item.id}">edit	</a>
+		      		<td><a class="btn btn-primary btn-soft btn-sm" href="{base}/orderEdit/{item.id}">edit	</a>
 		      		</td>
 		      	<!-- <td><button class="btn btn-primary btn-soft btn-sm"	
 		      		onclick="{()=>{getOrder(item.id,i), showModal=true}}">edit	</button>
@@ -102,16 +100,16 @@ class="grid grid-col justify-center items-center
 	</div>
 	{/if}
 
-<div class="static flex justify-center items-center p-1 rounded md:rounded-lg bg-base-100 max-h-[500px] lg:max-h-[800px] lg:w-8xl overflow-auto">
+<div class="static grid lg:flex lg:justify-center lg:items-center p-1 rounded md:rounded-lg bg-base-100 max-h-[700px] lg:max-h-[800px] lg:w-8xl overflow-auto">
 	{#if isLoading }
-<div in:fade out:fade 
-		class="grid grid-col justify-center items-center absolute top-0  bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50
-             z-1000  lg:w-4xl h-800">
-  <span class="loading loading-spinner loading-xl"></span>
-</div>
-{/if}
+		<div in:fade out:fade 
+				class="grid grid-col justify-center items-center absolute top-0  bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-50
+		             z-1000  lg:w-4xl h-800">
+		  <span class="loading loading-spinner loading-xl"></span>
+		</div>
+	{/if}
 
-  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border m-3 w-[280px] lg:max-w-2xl overflow-hidden">
+  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border m-3 w-[280px] lg:max-w-2xl overflow-auto">
     <legend class="fieldset-legend">{modalOperation}: {modalHeader}</legend>
     <div class="grid m-2 p-2 lg:flex lg:gap-3">
 
@@ -501,7 +499,9 @@ import userState from '$lib/stores/user.svelte.js';
 import { page } from '$app/stores';
 import { afterNavigate} from '$app/navigation';
 import { jwtDecode } from 'jwt-decode';
+import { base } from '$app/paths';
 let {data} = $props();
+
 let admin =$state(false)
 
 
@@ -533,15 +533,15 @@ let timeoutId;
 let isLoading = $state(false)
 let paymentTypes= $state([])
 
-dishList = data.dishList
-statusList = data.statusList
+dishList = data.preLoad.dishList
+statusList = data.preLoad.statusList
 orgStatusList = statusList
-customerList =data.customerList
-orderList = data.orderList
-offerList = data.offerList
-paymentTypes = data.paymentTypes
-orderChannels = data.orderChannels
-orgOrderChannels= data.orderChannels
+customerList =data.preLoad.customerList
+orderList = data.preLoad.orderList
+offerList = data.preLoad.offerList
+paymentTypes = data.preLoad.paymentTypes
+orderChannels = data.preLoad.orderChannels
+orgOrderChannels= data.preLoad.rderChannels
 
 const API_URL = import.meta.env.VITE_API_URL;
 

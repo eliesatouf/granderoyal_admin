@@ -1,12 +1,100 @@
-<!doctype html>
-<html lang="en" data-theme="fantasy">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="/logo_100.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div>%sveltekit.body%</div>
-	</body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="msapplication-navbutton-color" content="#3b82f6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Dayon Admin">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/admin/manifest.webmanifest" />
+  <!-- Manifest -->
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon" href="/admin/pwa-192x192.png">
+  <link rel="icon" href="/admin/favicon.ico">
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  
+  <title>Dayon Admin</title>
+  %sveltekit.head%
+</head>
+<body data-sveltekit-preload-data="hover">
+  <div style="display: contents">%sveltekit.body%</div>
+</body>
 </html>
+
+<script>
+  // Debug PWA criteria
+  setTimeout(() => {
+    console.log('=== PWA CRITERIA CHECK ===');
+    
+    // 1. HTTPS or localhost
+    const isSecure = window.location.protocol === 'https:' || 
+                    window.location.hostname === 'localhost' ||
+                    window.location.hostname === '127.0.0.1';
+    console.log('✅ Secure context:', isSecure);
+    
+    // 2. Has manifest
+    const manifestLink = document.querySelector('link[rel="manifest"]');
+    const hasManifest = !!manifestLink;
+    console.log('✅ Manifest exists:', hasManifest);
+    if (manifestLink) {
+      console.log('   Manifest URL:', manifestLink.href);
+      fetch(manifestLink.href)
+        .then(r => r.json())
+        .then(manifest => {
+          console.log('   Manifest content:', manifest);
+          console.log('   Start URL:', manifest.start_url);
+          console.log('   Scope:', manifest.scope);
+        })
+        .catch(e => console.log('   ❌ Manifest error:', e));
+    }
+    
+    // 3. Has service worker
+    const hasServiceWorker = 'serviceWorker' in navigator;
+    console.log('✅ Service Worker support:', hasServiceWorker);
+    if (hasServiceWorker) {
+      navigator.serviceWorker.getRegistrations()
+        .then(regs => {
+          console.log('   Registered SWs:', regs.length);
+          regs.forEach((reg, i) => {
+            console.log(`   SW ${i+1}:`, reg.scope);
+          });
+        });
+    }
+    
+    // 4. Check icons
+    const icon192 = new Image();
+    icon192.src = '/admin/pwa-192x192.png';
+    icon192.onload = () => console.log('✅ Icon 192x192: OK');
+    icon192.onerror = () => console.log('❌ Icon 192x192: Missing');
+    
+    const icon512 = new Image();
+    icon512.src = '/admin/pwa-512x512.png';
+    icon512.onload = () => console.log('✅ Icon 512x512: OK');
+    icon512.onerror = () => console.log('❌ Icon 512x512: Missing');
+    
+    // 5. Display mode
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    console.log('📱 Running as PWA:', isStandalone);
+    
+    // 6. Check if already triggered beforeinstallprompt
+    console.log('🔔 beforeinstallprompt fired:', !!window._pwaInstallEvent);
+    
+    // Manually check installability
+    if (isSecure && hasManifest && hasServiceWorker) {
+      console.log('🎯 All PWA criteria met!');
+      console.log('ℹ️ The browser will show install prompt after user engagement');
+    } else {
+      console.log('⚠️ Some PWA criteria missing');
+    }
+  }, 2000);
+
+  
+</script>

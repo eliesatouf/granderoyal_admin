@@ -10,16 +10,16 @@
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
-<dialog class="modal rounded md:rounded-lg mx-auto justify-center  backdrop-brightness-80 "
+<dialog class="modal rounded md:rounded-lg mx-auto justify-center  backdrop-brightness-80 overflow-auto"
   bind:this={dialog}
   onclose={() => (showModal = false)}
   onclick={(e) => { if (e.target === dialog) dialog.close(); }}
 >
-  <div class=" flex justify-center flex row lg:w-[850px] w-[350px]">
-    {@render header?.()}
+  <div class="flex justify-center flex row ">
 
+    <div class="">
       {@render children?.(closeModal)}
-
+    </div>
     <!-- svelte-ignore a11y_autofocus -->
     <!-- <button class="btn btn-soft m-1" autofocus onclick={() => dialog.close()}>close</button> -->
   </div>

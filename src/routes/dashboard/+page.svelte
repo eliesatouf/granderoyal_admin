@@ -5,6 +5,8 @@
   import useFetch from '$lib/services/useFetch'
   import { afterNavigate} from '$app/navigation';
   import { jwtDecode } from 'jwt-decode';
+  import { base } from '$app/paths';
+
 
   let admin =$state(false)
   afterNavigate(({ to, from }) => {
@@ -337,19 +339,19 @@
       <div class="bg-white rounded-lg shadow p-6">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Reports</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <a href="/reports/daily" class="bg-blue-50 text-blue-700 px-4 py-3 rounded-lg text-center hover:bg-blue-100 transition-colors">
+          <a href="{base}/reports/daily" class="bg-blue-50 text-blue-700 px-4 py-3 rounded-lg text-center hover:bg-blue-100 transition-colors">
             <div class="font-medium">Daily Report</div>
             <div class="text-sm opacity-75">View today's details</div>
           </a>
-          <a href="/reports/weekly" class="bg-green-50 text-green-700 px-4 py-3 rounded-lg text-center hover:bg-green-100 transition-colors">
+          <a href="{base}/reports/weekly" class="bg-green-50 text-green-700 px-4 py-3 rounded-lg text-center hover:bg-green-100 transition-colors">
             <div class="font-medium">Weekly Report</div>
             <div class="text-sm opacity-75">This week's performance</div>
           </a>
-          <a href="/reports/monthly" class="bg-purple-50 text-purple-700 px-4 py-3 rounded-lg text-center hover:bg-purple-100 transition-colors">
+          <a href="{base}/reports/monthly" class="bg-purple-50 text-purple-700 px-4 py-3 rounded-lg text-center hover:bg-purple-100 transition-colors">
             <div class="font-medium">Monthly Report</div>
             <div class="text-sm opacity-75">Monthly overview</div>
           </a>
-          <a href="/reports/custom" class="bg-orange-50 text-orange-700 px-4 py-3 rounded-lg text-center hover:bg-orange-100 transition-colors">
+          <a href="{base}/reports/custom" class="bg-orange-50 text-orange-700 px-4 py-3 rounded-lg text-center hover:bg-orange-100 transition-colors">
             <div class="font-medium">Custom Report</div>
             <div class="text-sm opacity-75">Custom date range</div>
           </a>

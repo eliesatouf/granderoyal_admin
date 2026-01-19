@@ -134,15 +134,15 @@ function getSelectedDate(){
 onMount(() => {
 
   const date = new Date();
-  console.log('date', date)
+ // console.log('date', date)
   //date.setMinutes(date.getMinutes() + 30); 
-  console.log('date + 30', date)
+  //console.log('date + 30', date)
   const year = date.getFullYear();
   let month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-indexed, so add 1
   let day = date.getDate().toString().padStart(2, '0');
   const currentDate = `${year}-${month}-${day}`;
-  console.log('currentDate', currentDate)
-  checkAvailability(currentDate, "19:30", 4, 90)
+  //console.log('currentDate', currentDate)
+  //checkAvailability(currentDate, "19:30", 4, 90)
   //getWeeklyAvailability(currentDate,"19:30", 4, 90)
 })
 
@@ -372,7 +372,7 @@ function assignCustomer(person){
           </button>
          </div>
 
-         <TimePicker 
+          <TimePicker 
             value={selectedTime}
             onChange={(time) => selectedTime = time}
             interval={30}
@@ -380,7 +380,6 @@ function assignCustomer(person){
             endHour={timeRange.endHour}
             label="Pick a time"
           />
-
         
           <h2 class="text-lg mt-5 text-center">Guests</h2>
          <div class="flex flex-wrap gap-1 mx-auto">

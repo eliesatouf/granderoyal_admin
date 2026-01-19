@@ -10,7 +10,6 @@
 		      <tr>
 		      	<th>Action</th>
 		        <th>ID</th>
-		        <th>Type</th>
 		        <th>Name</th>
 		      </tr>
 		    </thead>
@@ -96,7 +95,7 @@
 </div>
 
 <Modal bind:showModal>
-<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 max-h-[800px] lg:max-h-[800px] overflow-auto">
+<div class="m-2 p-2 rounded md:rounded-lg bg-base-100 max-h-[800px] lg:max-h-[800px] overflow-auto ">
   <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-1 w-[280px] lg:w-3xl">
     <legend class="fieldset-legend">{modalOperation}: {modalHeader}</legend>
     <div class="grid m-2 lg:p-2 lg:flex lg:max-w-3xl lg:gap-3  overflow-auto">
@@ -207,7 +206,7 @@
 
     	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-3">
     	<legend class="fieldset-legend">Variants</legend> 
-    		{#each record.priceVariants as variant}
+    		{#each record.variants as variant}
     			<div class="flex lg:h-10 my-2 gap-2">
 
     				<div class="grid">
@@ -298,15 +297,14 @@
 	{/snippet}
 
 </ModalPreview>
-<Toast />
+<Toaster richColors position="top-center" />
 
 <script>
 	
 import { onMount } from 'svelte';
 import { fade, scale,fly } from 'svelte/transition';
 import useFetch from '$lib/services/useFetch'
-import { toast } from '$lib/stores/toast';
-import Toast from '$lib/components/Toast.svelte';
+import { Toaster, toast } from 'svelte-sonner';
 import Filemanager from '$lib/components/Filemanager.svelte';
 import Modal from '$lib/components/Modal.svelte';
 import ModalPreview from '$lib/components/ModalEditRecord.svelte';
@@ -368,18 +366,18 @@ onMount(() => {
 })
 
 function removePrice(variant){
-	record.priceVariants= record.priceVariants.filter(el => el.id !== variant.id)
+	record.variants= record.variants.filter(el => el.id !== variant.id)
 }
 
 function addVariant(){
-	if(!record.priceVariants){
-		record.priceVariants=[{'size':'', 'price':0}]
+	if(!record.variants){
+		record.variants=[{'size':'', 'price':0}]
 	}else{
-		let obj = {...record.priceVariants[0]}
+		let obj = {...record.variants[0]}
 		obj.id=null
 		obj.price=0
 		obj.size=""
-		record.priceVariants.push(obj)
+		record.variants.push(obj)
 	}
 
 }

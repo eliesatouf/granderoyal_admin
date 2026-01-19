@@ -11,8 +11,10 @@ import { goto } from '$app/navigation';
 import { beforeNavigate , afterNavigate} from '$app/navigation';
 import { onMount } from 'svelte';
 const API_URL = import.meta.env.VITE_API_URL;
+import { getContext } from 'svelte';
+import { base } from '$app/paths';
 
-console.log(API_URL)
+
 let email = '';
 let password = '';
 let error = '';
@@ -30,7 +32,7 @@ const closeAlert= ()=>{
         tokenLogin()
       }
       if(admin){
-        goto('/dashboard',{ replaceState: true });
+        goto(`${base}/dashboard`,{ replaceState: true });
       }
     }else{
       tokenLogin()
@@ -98,7 +100,7 @@ async function handleLogin(event) {
 
       if(admin){
         console.log('redirect to dashboard')
-        goto('/dashboard',{ replaceState: true });
+        goto('/admin/dashboard',{ replaceState: true });
       }
       //goto('/dashboard',{ replaceState: true });
 
