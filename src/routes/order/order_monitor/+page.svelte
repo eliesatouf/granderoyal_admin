@@ -444,7 +444,7 @@
             return;
         }
         
-        es = new EventSource(`${VITE_MERCURE}/.well-known/mercure?topic=/dayon_orders`);
+        es = new EventSource(`${VITE_MERCURE}/.well-known/mercure?topic=/sandys_orders`);
         
         es.onopen = () => {
             console.log('✅ Mercure order connected');
