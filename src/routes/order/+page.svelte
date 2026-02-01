@@ -8,6 +8,20 @@ class="grid grid-col justify-center items-center
 </div>
 {/if}
 
+{#if processingOrder}
+          <div class="absolute backdrop-brightness-5 bg-green-950 p-3 lg:p-10 lg:-top-10 lg:-mx-0 z-500">
+            <div class="flex justify-center w-[300px]">
+              <div> 
+              <h3 class="text-lg lg:text-lg lg:text-left text-stone-100 ">Processing order, please don't close the window.</h3>
+              </div>
+              <div>
+                <span class="loading loading-bars lg:w-[100px] text-amber-200 z-1000 "></span>
+              </div>
+            </div>
+          </div>
+        {/if}
+
+
 {#if userState.user.isAuthenticated}
 <div class="static {isLoading ? 'blur-xs':''}">
 
@@ -122,7 +136,7 @@ class="grid grid-col justify-center items-center
     <div class="grid ">
       <label class="label">Customer Name</label>
       <input type="text" readonly class="input input"
-      value="{record.customer?getCustomer(record.customer).name:''}"/>
+      value="{userState.user.name}"/>
     </div>
 
     {#if modalOperation=='Create Order'}
@@ -130,7 +144,7 @@ class="grid grid-col justify-center items-center
 	    <label class="label">Email</label>
 	    <div class=" join">
 	      	<input type="text" readonly class="input join-item"
-	       				value="{record.customer?getCustomer(record.customer).email:''}"/>
+	       				value="{userState.user.email}"/>
 	       	<button class="btn btn-soft m-0 join-item" 
 	       	onclick="{()=>{showModalRecord =true,createOrder(),focusSearch('customerSearch')}}">
 	       		<Icon name="search"/>
@@ -138,18 +152,18 @@ class="grid grid-col justify-center items-center
 	    </div>
   	</div>
     {:else}
-     <div class="grid">
+    <div class="grid">
       <label class="label">Email</label>
       <input type="text" class="input input"
-       value="{record.customer?getCustomer(record.customer).email:''}"/>
+       value="{userState.user.email}"/>
     </div>
     {/if}
 
 
-    <div class="grid">
+<!--     <div class="grid">
       {#if modalOperation == "Create Order"}
       <label type="label" class="label">Order channel </label>
-        <select class="select select" bind:value={record.orderChannel}>
+        <select class="select select" bind:value={userState.user.order.orderChannel}>
           {#each orderChannels as channel}
             <option value={JSON.stringify(channel.id)}>{channel.name}</option>
           {/each}
@@ -157,14 +171,31 @@ class="grid grid-col justify-center items-center
       {:else if orderChannels.length > 0}
       	<label class="label">Order channel</label>
 	      <input type="text" class="input" 
-        value={orderChannels.find(el => el.id === Number(record?.orderChannel))?.name ?? ''}
+        value={orderChannels.find(el => el.id === Number(userState.user.order.orderChannel))?.name ?? ''}
        readonly />
       {/if}
-    </div>	
+    </div>	 -->
+
+
+    <div class="flex"> <div class="text-md m-2">Order by</div>
+    	<label class="swap swap-flip">
+			  <input type="checkbox" />
+				  <div class="swap-on btn btn-primary btn-sm" 
+				  	onclick="{()=>{ userState.user.order.orderChannels=orderChannels[1]?.id }}">
+				  	<Icon name="receipt"/>{orderChannels[1]?.name.toUpperCase()}
+				  </div>
+				  <div class="swap-off btn btn-primary btn-sm" 
+				  	onclick="{()=>{ userState.user.order.orderChannels=orderChannels[0]?.id }}">
+			  		<Icon name="call"/> {orderChannels[0]?.name.toUpperCase()}
+			  	</div>
+			</label>
+		</div>
+
+
     <div class="grid">
       <label type="label" class="label" >Status</label>
-      <select class="select select" bind:value={record.orderStatus}>
-      {#if record.orderStatus}
+      <select class="select select" bind:value={userState.user.order.orderStatus}>
+      {#if userState.user.order.orderStatus}
        	{#each statusList as stat}
           <option value="{JSON.stringify(stat.id)}">{stat.name}</option>
        	{/each}
@@ -172,19 +203,28 @@ class="grid grid-col justify-center items-center
       </select>
     </div>
 
-    <div class="grid">
-      <label type="label" class="label" >paymentTypes</label>
-      <select class="select select" bind:value={record.paymentMethod}>
-       	{#each paymentTypes as type}
-          <option value="{JSON.stringify(type.id)}">{type.name}</option>
-       	{/each}
-      </select>
-    </div>
-    <div class="grid">
-	    <select class="select" bind:value={record.orderType}>
-			  <option>Delivery</option>
-			  <option>Pickup</option>
-			</select>
+    <div class="flex">
+		  <label class="swap swap-flip flex-1">
+			  <input type="checkbox" />
+				  <div class="swap-off btn btn-secondary btn-sm" onclick="{()=>{userState.orderType='delivery'}}">
+			  		<Icon name="takeout_dining_2"/> Pick up
+			  	</div>
+			  	<div class="swap-on btn btn-secondary btn-sm" onclick="{()=>{userState.orderType='pickup'}}">
+				  	<Icon name="moped"/>Delivery
+				  </div>
+			</label>
+
+			<label class="swap swap-flip flex-1">
+			  <input type="checkbox" />
+				  <div class="swap-on btn btn-info btn-sm" 
+				  	onclick="{()=>{ userState.user.order.paymentMethod=	paymentTypes[1]?.id.toString() }}">
+				  	<Icon name="paid"/>{paymentTypes[1]?.name}
+				  </div>
+				  <div class="swap-off btn btn-info btn-sm" 
+				  	onclick="{()=>{ userState.user.order.paymentMethod=paymentTypes[0]?.id.toString() }}">
+			  		<Icon name="credit_card"/> {paymentTypes[0]?.name}
+			  	</div>
+			</label>
 		</div>
 
     
@@ -193,16 +233,12 @@ class="grid grid-col justify-center items-center
     	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-1 w-[250px] ">
     		<legend class="fieldset-legend">Summary</legend>
     		<div class="grid m-2 p-2 lg:flex lg:gap-3">
-    			{#if record.discountStatus}
-    				{#each Object.keys(record.discountStatus) as key}
-    					{#if key =="summary"}
+    			{#if orderPreviewResult}
     					<ul class="text-[14px]">
-    							<li  class="list-row ">Base subtotal: {JSON.stringify(record.discountStatus["baseSubtotal"])}</li>
-    							<li  class="list-row ">Final subtotal: {JSON.stringify(record.discountStatus[key]["finalSubtotal"])}</li>
-    							<li  class="list-row ">Total discount: {JSON.stringify(record.discountStatus[key]["totalDiscount"])}</li>
+    							<li  class="list-row ">Base subtotal: {orderPreviewResult.calculationDetails.summary.baseSubtotal}</li>
+    							<li  class="list-row ">Final subtotal: {orderPreviewResult.calculationDetails.summary.finalSubtotal}</li>
+    							<li  class="list-row ">Total discount: {orderPreviewResult.calculationDetails.summary.totalDiscount}</li>
     					</ul>
-    					{/if}
-    				{/each}
     			{/if}
 
     		</div>
@@ -210,8 +246,8 @@ class="grid grid-col justify-center items-center
 
     	</div>
 
-    	{#if modalOperation=='Create Order'}
-    	<div class="grid  w-[250px]">
+    	{#if modalOperation=='Create Order' && userState.user.order.customer}
+    	<div class="grid  w-[250px] lg:w-xs">	
     	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border h-98 ">
     		<legend class="fieldset-legend">Order items</legend>
     			<button class="btn btn-soft m-0 " 
@@ -225,81 +261,43 @@ class="grid grid-col justify-center items-center
 	       	</button> 
 
     	<ol class="list-decimal list-inside text-[14px]">
-    		{#each record.orderItem as item}
-    		{#if getDishName(item)}
-    			<li>{getDishName(item)} x {item.quantity}</li>
-    		{/if}
-    		{/each}
+    		{#each orderPreviewResult?.order.orderItems as item,i}
+    			<div class="m-3">
+    			<ul class="list">
+    				
 
-    		{#each record.orderItem as item}
-    		{#if getBundleName(item)}
-    			<li>{getBundleName(item)} x {item.quantity}</li>
-    		{/if}
-    		{/each}
+    					{#if item.type == "bundle"}
+
+    						<li class="list-row text-xs m-0 ">type: {item.type}</li>
+    						<li class="list-row text-xs m-0">finalPrice: {item.finalPrice}</li>
+
+    					{:else}
+
+    					<li class="list-row text-sm  p-0 m-0">
+    					<div class="text-xs opacity-30 tabular-nums">{i+1}</div>
+    						{item.dish.name} x {item.quantity} - {item.unitPrice}</li>	
+    					{/if}
+    			</ul>
+    			</div>
+    			{/each}
     	</ol>
     	</fieldset>
       </div>
 
       {/if}
 
-    {#if modalOperation!='Create Order'}
-    <div class="grid lg:w-4xl lg:flex">
-    	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border h-98 ">
-    		<legend class="fieldset-legend">Items</legend>
-    		<div class="grid  w-[250px] lg:w-3xl lg:flex h-88">
-    			{#if record.discountStatus}
-    		
-    			{#each Object.keys(record.discountStatus) as key}
-
-
-    			{#if key !="summary"}
-    
-    			<div class="  m-3">
-    			<ul class="grid  text-[14px] ">
-
-    					{#if record.discountStatus[key].type == "bundle"}
-    						<li>type: {record.discountStatus[key].type}</li>
-    						<li>finalPrice: {record.discountStatus[key].finalPrice}</li>
-
-    					{:else}
-
-    					<li class="">{record.discountStatus[key].dish} x {record.discountStatus[key].quantity}</li>
-   					<li>type: {record.discountStatus[key].type}</li>
-    					<li>originalPrice: {record.discountStatus[key].originalPrice}</li>
-    					<li>finalPrice: {record.discountStatus[key].finalPrice}</li>
-    					<li>discountValue: {record.discountStatus[key].discountValue}</li>
-    					<li>discountType: {record.discountStatus[key].discountType}</li>
-    					<li>minOrderAmount: {record.discountStatus[key].minOrderAmount}</li>
-    					<li>orderSubtotal: {record.discountStatus[key].orderSubtotal}</li>
-    					<li>discountEligible: {record.discountStatus[key].discountEligible}</li>
-    					<li>discountApplied: {record.discountStatus[key].discountApplied}</li>
-    					<li>status: {record.discountStatus[key].status}</li>
-    					{/if}
-    			</ul>
-    			</div>
-    			{/if}
-    			{/each}
-    			
-    			{/if}
-
-    		</div>
-    	</fieldset>
-    </div>  
-    {/if}
-
-
-
 </div>
 
 <div class="flex justify-end w-xs">
-		   <button class="btn btn-soft btn-primary w-1/4" onclick={()=>(saveOneOrder())}>
-		    Save
-		  	</button>
-			  <button class="btn btn-soft btn-default w-1/4" onclick={()=>showModal = false}>
-			    Close
-			  </button>
-  		</div>
-  </fieldset>
+	<button class="btn btn-soft btn-primary w-1/4" onclick={()=>(confirmOrder())}>
+	  Save
+	</button>
+	 <button class="btn btn-soft btn-default w-1/4" onclick={()=>showModal = false}>
+	  Close
+	 </button>
+</div>
+
+</fieldset>
 
 </div>
 <Toast/>
@@ -336,10 +334,12 @@ class="grid grid-col justify-center items-center
 		<ul class="list p-3">
 			{#each searchResults as customer}
 			<li class="list-row p-1 m-1 gap-1" >
-				<button class="btn btn-sm btn-outline m-0" onclick="{()=>{selectEmail(customer),showModalRecord=false}}">
+				<button class="btn btn-sm btn-outline m-0 " 
+					onclick="{()=>{selectEmail(customer),showModalRecord=false}}">
 					{customer.name} 
 				</button>
-				<button class="btn btn-sm btn-outline m-0" onclick="{()=>{selectEmail(customer),showModalRecord=false}}">
+				<button class="btn btn-sm btn-outline m-0" 
+					onclick="{()=>{selectEmail(customer),showModalRecord=false}}">
 			   	{customer.email} 
 				</button>
 			</li>
@@ -349,6 +349,26 @@ class="grid grid-col justify-center items-center
 <Toast/>
 </ModalEditRecord>
 
+<ModalAddon bind:showModalAddon>
+	{#snippet children()}
+		<div class="card bg-base-200 p-2">
+				<div class="card-title">Add On</div>
+				<div class="card-body">
+				{#each modifiers?.filter(el => el.id == 1) as modifier}
+				<div class="grid gap-1">
+					{#each modifier.modifierOptions as option}
+								<button class="btn btn-primary btn-soft btn-sm"
+									onclick="{()=>{addAddon(option)}}">
+									{option.name} - {option.price}
+								</button>
+					{/each}
+				</div>
+				{/each}
+			</div>
+		</div>
+	{/snippet}
+</ModalAddon>
+
 <ModalSearch bind:showModalSearch>
 
 	{#snippet children()}
@@ -357,8 +377,8 @@ class="grid grid-col justify-center items-center
 		<span class="loading loading-spinner text-secondary loading-xl w-[100px] h-100"></span>
 	</div>
 	{/if}
-<div class="max-h-200">
-	<label class="input input-bordered">
+<div class="max-h-200 max-w-xs  grid mx-auto">
+	<label class="input input-bordered ">
   <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <g
       stroke-linejoin="round"
@@ -375,39 +395,62 @@ class="grid grid-col justify-center items-center
   	bind:value="{dishTerm}" onkeydown="{()=>{findDish()}}"/>
 </label>
 
-<div class="flex gap-1 mt-3 h-56">
+<div class="flex gap-1 mt-3 h-56 ">
 
-		<ul class="list p-3  overflow-auto">
-			{#each dishList as dish}
-			<li class="list-row justify-between" >
-
-				<div class="flex p-1">
-					<div class="badge p-1 m-1" >
+		<ul class="list overflow-auto">
+			{#each dishListSearch as dish}
+			<li class="list list-row justify-between gap-1" >
+				<div>
+				<div class="flex my-1">
+					<button class="list-col-grow btn btn-primary btn-soft btn-sm" 
+					onclick="{()=>{addToCart(dish)}}">
 						{dish.name} 
-					</div>
-
-					<button disabled="{dish.status!='available'}" 
-						class="btn btn-sm btn-soft btn-square btn-primary"
-						onclick="{()=>{addDish(dish)}}">+
-					</button>
-
-					<button disabled="{dish.status!='available'}" class="btn btn-sm btn-soft btn-square btn-secondary">-
 					</button>
 				</div>
 
-				<div class="flex justify-end">
-				{#if dish.discountedPrice}
-				<label class="m-1">{dish.discountedPrice}</label>
-				<label class="line-through  m-1">{dish.price}</label>
-				{:else}
-				<label class=" m-1">{dish.price}</label>
-				{/if}
+				<div class="flex gap-1">
+					<button disabled="{dish.status!='available'}" 
+						class="btn btn-sm btn-soft btn-square btn-primary"
+						onclick="{()=>{increaseQty(dish)}}">+
+					</button>
 
-				{#if dish.promoStatus.active && dish.promoStatus.isBogo}
-				<div class="badge badge-success m-1">BOGO</div>
-				{/if}
+					<button disabled="{dish.status!='available'}" 
+					class="btn btn-sm btn-soft btn-square btn-secondary"
+					onclick="{()=>{removeDish(dish.id)}}">-
+					</button>
+
+					{#if dish.variants.length > 0}
+						{#each  dish.variants as variant}
+							<button  
+							class="btn btn-sm btn-soft btn-square btn-accent"
+							onclick="{()=>{addToCart(dish, variant)}}"> {variant.size[0].toUpperCase()	}
+							</button>
+							{/each}
+					{/if}
+
+					{#if dish.loyverseModifiersIds.length > 0}
+					<div class="tooltip" data-tip="Add On">
+						<button 
+							class="btn btn-sm btn-soft btn-square btn-warning {userState.user.order.orderItem.find(el =>el.dish.split('/')[3] === dish.id) ? '': 'btn-disabled	'}"
+							onclick="{()=>{selectedItem = dish, showModalAddon=true}}">
+							<Icon name="family_star"/>
+						</button>
+					</div>
+					{/if}
+
+					{#if dish.discountedPrice}
+						<label class="m-1">{dish.discountedPrice}</label>
+						<label class="line-through  m-1">{dish.price}</label>
+						{:else}
+						<label class="">{dish.price}</label>
+						{/if}
+
+						{#if dish.promoStatus.active && dish.promoStatus.isBogo}
+						<div class="badge badge-success m-1">BOGO</div>
+					{/if}
+				
 			</div>
-
+		</div>
 			</li>
 			{/each}
 		</ul>	
@@ -442,33 +485,47 @@ class="grid grid-col justify-center items-center
 <div class="flex gap-1 mt-3 h-56">
 
 		<ul class="list p-3  overflow-auto">
-			{#each offerList as offer}
+			{#each bundleList as bundle}
 			<li class="list-row justify-between" >
-
+			<div>
 				<div class="flex p-1">
-					<div class="badge p-1 m-1" >
-						{offer.name} 
+					<div class="p-1 m-1" >
+						{bundle.name} 
 					</div>
 
-					<button disabled="{!offer.active}" 
+					<button disabled="{!bundle.active}" 
 						class="btn btn-sm btn-soft btn-square btn-primary"
-						onclick="{()=>{addBundle(offer.bundle)}}">+
+						onclick="{()=>{addBundle(bundle.bundle)}}">+
 					</button>
 
-					<button disabled="{offer.status!='available'}" class="btn btn-sm btn-soft btn-square btn-secondary">-
+					<button  class="btn btn-sm btn-soft btn-square btn-secondary">-
 					</button>
-				</div>
 
-				<div class="flex justify-end">
-				{#if offer.discountedPrice}
-				<label class="m-1">{offer.discountedPrice}</label>
-				<label class="line-through  m-1">{offer.price}</label>
-				{:else}
-				<label class=" m-1">{offer.price}</label>
+					{#if bundle.totalOriginalPrice}
+					<label class="m-1">{bundle.price}</label>
+					<label class="line-through m-1">{bundle.totalOriginalPrice}</label>
+					
+					{:else}
+					<label class=" m-1">{bundle.price}</label>
 				{/if}
 
-			</div>
+				</div>
 
+
+				<div>
+					<ol class="list">
+						{#each bundle.bundleItems as item}
+							<li class="list-row">
+									{dishList?.find(el => el.id == item.dish.split('/')[3] )?.name} - 
+									{dishList?.find(el => el.id == item.dish.split('/')[3] )?.price}
+							</li>
+						{/each}
+					</ol>
+
+				</div>
+
+
+			</div>
 			</li>
 			{/each}
 		</ul>	
@@ -482,12 +539,14 @@ class="grid grid-col justify-center items-center
 
 <script>
 import { onMount } from 'svelte';
+import { browser } from '$app/environment';
 import { fade, scale,fly } from 'svelte/transition';
 import useFetch from '$lib/services/useFetch'
 import { toast } from '$lib/stores/toast';
 import Toast from '$lib/components/Toast.svelte';
 import Filemanager from '$lib/components/Filemanager.svelte';
 import Modal from '$lib/components/Modal.svelte';
+import ModalAddon from '$lib/components/ModalAddon.svelte';
 import ModalEditRecord from '$lib/components/ModalEditRecord.svelte';
 import ModalSearch from '$lib/components/ModalSearch.svelte';
 import ModalBundleSearch from '$lib/components/BundleModalSearch.svelte';
@@ -500,12 +559,16 @@ import { page } from '$app/stores';
 import { afterNavigate} from '$app/navigation';
 import { jwtDecode } from 'jwt-decode';
 import { base } from '$app/paths';
+import { invalidate } from '$app/navigation';
+
 let {data} = $props();
+console.log('data', data)
 
 let admin =$state(false)
 
 
 let showModal = $state(false);
+let showModalAddon = $state(false)
 let closeModal = $state(false);
 let modalOperation = $state('');
 let modalContents=$state([]);
@@ -532,8 +595,23 @@ let showBundleModalSearch = $state(false)
 let timeoutId;
 let isLoading = $state(false)
 let paymentTypes= $state([])
+let dishListSearch= $state()
+let modifiers =$state()
+let selectedItem = $state()
+let processingOrder=$state(false)
+let orderPreviewResult = $state()
 
-dishList = data.preLoad.dishList
+console.log('data', data)
+
+
+
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+onMount(() => {
+	invalidate('/order');
+	dishList = data.preLoad.dishList
+dishListSearch = data.preLoad.dishList
 statusList = data.preLoad.statusList
 orgStatusList = statusList
 customerList =data.preLoad.customerList
@@ -542,15 +620,11 @@ offerList = data.preLoad.offerList
 paymentTypes = data.preLoad.paymentTypes
 orderChannels = data.preLoad.orderChannels
 orgOrderChannels= data.preLoad.rderChannels
+modifiers = data.preLoad.modifiers
+bundleList = data.preLoad.bundleList
 
-const API_URL = import.meta.env.VITE_API_URL;
+console.log('dishList', dishList)
 
-onMount(() => {
-	//getStatusList()
-	//getMenu()
-	//getOfferList()
-	// getCustomerList()
-  // getOrderList()
 
 
 })
@@ -577,10 +651,10 @@ function getBundleName(item){
 
 function selectEmail(customer){
 
-	record.customer = `/api/customers/${customer.id}`
-	record.email = customer.email
-
-	//console.log(record)
+	userState.user.customerId = `/api/customers/${customer.id}`
+	userState.user.order.customer = `/api/customers/${customer.id}`
+	userState.user.email = customer.email
+	userState.user.name = customer.name
 }
 
 function findCustomer(term){
@@ -593,7 +667,7 @@ function findCustomer(term){
 function debouncedSearch(term) {
   clearTimeout(timeoutId);
   timeoutId = setTimeout(async () => {
-    if (term.length > 3) {
+    if (term.length > 2) {
       searchResults = await findCustomer(term);
     }
   }, 300);
@@ -632,6 +706,28 @@ async function emailSearch(term){
 	
 }
 
+function addAddon(option){
+	let index =-1
+	const itemOrderId = selectedItem.id
+
+
+	//-- check if item in record
+	if(record.orderItem){
+		index = record.orderItem.findIndex(el => el.dish.split('/')[3] == itemOrderId)
+	}
+	
+	if (index == -1){
+		addToCart(selectedItem)
+	}
+
+	let index1 = record.orderItem.findIndex(el => el.dish.split('/')[3] == itemOrderId)
+	if(!record.orderItem[index1].lineModifiers){
+	 record.orderItem[index1].lineModifiers=[]
+	}
+	record.orderItem[index1].lineModifiers.push(option)
+
+}
+
 // async function getMenu(){
 // 	isLoading=true
 // 	const response = await useFetch(`/dishes?type=dining&active=true`, 'GET',null, false);
@@ -657,18 +753,20 @@ async function emailSearch(term){
 // }
 
 function findDish(){
-	//if(dishTerm.length < 3) return ''
-	let res =  menuList.filter(el=>el.name.toLowerCase().includes(dishTerm)? el : null)
-	dishList = res
+	dishListSearch = dishList
+
+	let res =  dishListSearch.filter(el=>el.name.toLowerCase().includes( dishTerm)? el : null)
+	dishListSearch = res
 }
 
 function findBundle(){
 	//if(bundleTerm.length < 3) return ''
-	let res =  offerList.filter(el=>el.name.toLowerCase().includes(bundleTerm)? el : null)
-	bundleList = res
+	// let res =  offerList.filter(el=>el.name.toLowerCase().includes(bundleTerm)? el : null)
+	// bundleList = res
 }
 
 function addDish(dish){
+	console.log('dish', dish)
 	let di= record.orderItem.find(el=>parseInt(el.dish.split('/')[3]) == dish.id) 
 	if(!di){
 		record.orderItem.push(
@@ -682,12 +780,12 @@ function addDish(dish){
 	}
 }
 
-function removeDish(){
-	
+function removeDish(id){
+	record.orderItem = record.orderItem.filter(el => el.dish.split('/')[3] != String(id))
 }
 
 function addBundle(bundle){
-	//console.log(bundle)
+	console.log('bundle', bundle)
 	let di= record.orderItem.find(el=>el.bundle == bundle) 
 	//console.log(di?.quantity)
 	if(!di){
@@ -762,13 +860,128 @@ function getOrderStatusName(id){
 	return status.name
 }
 
+async function addToCart(item, variant){
+    // return 0 
+     console.log('variant', variant)
+    if(variant){
+      item.price = variant.price
+    }
+    let foundItem = userState.user.order.dishes.find(el => el.id == item.id )
+
+    if(foundItem){
+      toast.warning("This item is already in your cart.",2000); 
+      return 0;
+    }
+    let variantId=null
+    if(variant){
+      variantId = variant.id
+    }
+		
+		 console.log('item', item)
+     //return 0 
+
+      if(item.type){
+        userState.user.order.dishes.push(item)
+      
+        userState.user.order.orderItem.push(
+          {"dish":`/api/dishes/${item.id}`,
+            "quantity":1,
+            "unitPrice":item.discountedPrice,
+            "variantId":variantId,
+            "category":item.category,
+            "loyverseModifiersIds":item.loyverseModifiersIds
+          }
+        )
+      }else{
+        userState.user.order.bundles.push(item)
+      
+        userState.user.order.orderItem.push(
+          {"dish":`/api/bundles/${item.id}`,
+            "quantity":1,
+            "unitPrice":item.price,
+            "variantId":variantId,
+            "category":item.category,
+            "loyverseModifiersIds":item.loyverseModifiersIds
+          }
+        )
+      }
+      //console.log('MENU - item', item)
+      console.log('userState.user.order.orderItem', userState.user.order.orderItem)
+      //userState.selectedDish = item
+      
+
+      userState.user.order.orderItem.quantity=1
+      userState.user.order.itemCount+=1
+      
+      console.log('addToCart userState.user.order', userState.user.order)
+
+      const response = await useFetch('/orders/preview', 'POST',userState.user.order, false,false,true);
+      userState.user.orderPreview = response
+      orderPreviewResult = response
+      console.log('addToCart response', response)
+      return 0 
+
+      toast.success("Item added successfully to your cart",2000); 
+
+      localStorage.setItem('order',JSON.stringify(userState.user.order))
+      localStorage.setItem('orderPreview',JSON.stringify(userState.user.orderPreview))
+
+  }
+
+  function increaseQty(item){
+	  console.log('increaseQty', item)
+	  //console.log('orderitem', userState.user.order.orderItem)
+	  if(!item.promoStatus.active){ 
+	    const dish =  userState.user.order.orderItem.find(el=>el.dish?.split('/')[3] == item.id)
+	    console.log('dish', dish)
+	    const qty = dish.quantity
+	    dish.quantity+=1
+	  }else{
+	    const bundle =  userState.user.order.orderItem.find(el=>el.bundle?.split('/')[3] == item.id)
+	    bundle.quantity+=1
+	  }
+	  userState.user.order.itemCount+=1
+	  //console.log('orderItem',$state.snapshot( userState.user.order.orderItem))
+	  orderPreview()
+	}
+
+	function decreaseQty(item){
+	   if(item.dish){ 
+	    const dish =  userState.user.order.orderItem.find(el=>el.dish?.split('/')[3] == item.dish.id)
+	    const qty = dish.quantity
+	    if(Number(dish.quantity) > 1){
+	      dish.quantity-=1
+	      userState.user.order.itemCount-=1
+	      orderPreview()
+	    }
+	    
+	  }else{
+	    const bundle =  userState.user.order.orderItem.find(el=>el.bundle?.split('/')[3] == item.id)
+	    if(bundle.quantity){
+	      bundle.quantity-=1
+	       userState.user.order.itemCount-=1
+	       orderPreview()
+	    }
+	 }
+	}
+
+async function orderPreview(){
+  const response = await useFetch('/orders/preview', 'POST',userState.user.order, false,false,true);
+  userState.user.orderPreview = response
+  orderPreviewResult = response
+  console.log('userState.user.orderPreview', userState.user.orderPreview)
+
+  localStorage.setItem('order',JSON.stringify(userState.user.order))
+  localStorage.setItem('orderPreview',JSON.stringify(userState.user.orderPreview))
+
+}
 
 async function saveOneOrder(){
-//	console.log(record)
-	//return 0
+	console.log(record)
+	return 0
 	let saveItem=''
 	if(modalOperation=='Create Order'){
-		//console.log('POST')
+		console.log('POST')
 
 		try{
 			isLoading=true
@@ -808,9 +1021,9 @@ async function saveOneOrder(){
 
 
 async function createOrder(){
-	
+	modalOperation=='Create Order'
 	statusList = statusList.filter(el=>el.name != 'confirmed'?el:'')
-	orderChannels = orderChannels.filter(el=>el.name != 'web'?el:'')
+	orderChannels = orderChannels.filter(el=>el.name != 'web'?el:'')	
 
   modalHeader='Create Order'
 	modalOperation='Create Order'
@@ -846,6 +1059,42 @@ async function createOrder(){
    // console.log(record)
 }
 
+
+async function confirmOrder(){
+   userState.user.order.paymentMethod=''
+  //console.log('userState.user.order', userState.user.order)
+  //return 0; 
+  processingOrder= true
+  const response = await useFetch('/orders', 'POST',userState.user.order, true,false);
+  if(response.id){
+    if(response.orderStatus == 2){
+      toast.success("Order is posted successfully, please check your email for details",10000); 
+    }else if(response.orderChannel == 7){
+      toast.warning("Order is posted successfully, but we faced problem sending you mail. will contact you ASAP to confirm the status.",20000); 
+    }
+
+    userState.user.order.orderItem=[]
+    userState.user.order.dishes=[]
+    userState.user.order.itemCount=0
+    localStorage.setItem('order',[])
+    localStorage.setItem('orderPreview',[])
+    clearCart()
+  }else{
+    toast.error("Error posting order please call us to check the issue",2000); 
+  }
+  showModal = false
+  processingOrder= false
+}
+
+function clearCart(){
+
+    localStorage.setItem('order',[])
+    userState.user.order.dishes=[]
+    userState.user.order.orderItem=[]
+    userState.user.order.itemCount=0
+    userState.user.order.orderStatus='1'
+ 
+}
 
 </script>
 

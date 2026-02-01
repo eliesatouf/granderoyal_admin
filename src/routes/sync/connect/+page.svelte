@@ -27,7 +27,7 @@
       try {
         // Call your Symfony backend - this MUST be publicly accessible!
         //const response = await fetch('http://localhost:7071/api/loyverse/token', {
-          const response = await fetch('https://dayon.kaliboweb.com/api/loyverse/token', {
+          const response = await fetch('https://sandys.kaliboweb.com/api/loyverse/token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ code })
@@ -44,7 +44,7 @@
           connectionStatus = '❌ Failed';
           error = data.error || 'Unknown error';
         }
-      } catch (err) {https://dayon.kaliboweb.com/admin/loyverse
+      } catch (err) {https://sandys.kaliboweb.com/admin/loyverse
         connectionStatus = '❌ Network error';
         error = err.message;
         console.error('Error:', err);

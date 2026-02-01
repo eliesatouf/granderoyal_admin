@@ -11,7 +11,7 @@ export class MercureService {
         if (this.eventSource || !browser) return;
         
         this.eventSource = new EventSource(
-            'http://localhost:3000/.well-known/mercure?topic=/orders'
+            'http://localhost:3000/.well-known/mercure?topic=/sandys_orders'
         );
         
         this.eventSource.onmessage = (event) => {

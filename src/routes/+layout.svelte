@@ -16,6 +16,10 @@ import { registerSW } from '$lib/pwa/register';
 import PWAInstallPrompt from '$lib/components/pwa/PWAInstallPrompt.svelte';
 import PWAReloadPrompt from '$lib/components/pwa/PWAReloadPrompt.svelte';
 
+export const ssr = false;
+export const prerender = false;
+export const csr = true; 
+
 let { children } = $props();
 let admin = $state(false);
 

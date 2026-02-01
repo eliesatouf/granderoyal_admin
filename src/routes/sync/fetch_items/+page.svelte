@@ -67,6 +67,22 @@
 	  </div>
 	</div>
 
+	<div class="card w-96 bg-base-100 card-sm shadow-sm">
+	  <div class="card-body">
+	    <h2 class="card-title">Fetch Modifiers</h2>
+	    <p>Will pull Modifiers from loyverse to the websit</p>
+	    {#if modifiersResponse}
+	    	<p>{modifiersResponse} </p>
+	    {/if}
+	    <div class="justify-end card-actions">
+	      <button class="btn btn-primary btn-sm" onclick="{()=>{syncModifiers()}}">
+	      	{#if modifiersSyncLoading}
+	      	<span class="loading loading-xs loading-spinner"></span>
+	      {/if}Sync Now</button>
+	    </div>
+	  </div>
+	</div>
+
 
 </div>
 </div>
@@ -93,6 +109,9 @@ let customerResponse = $state()
 
 let paymentTypesSyncLoading = $state(false)
 let paymentTypesResponse = $state()
+
+let modifiersSyncLoading = $state(false)
+let modifiersResponse = $state()
 
 let token =localStorage.getItem('token')
 
@@ -187,7 +206,7 @@ async function syncPaymentTypes(){
   	headers['Content-Type'] = 'application/json';
   	if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  	const response = await fetch(`${API_URL}/syncCustomer`, {
+  	const response = await fetch(`${API_URL}/paymentTypes`, {
       method: 'GET',
       headers: headers
       
@@ -199,6 +218,34 @@ async function syncPaymentTypes(){
 		paymentTypesResponse= data.message + " Customers synced."
 		}
 		paymentTypesSyncLoading= false
+     
+    }else{
+    	 throw new Error(data.message || 'Sync failed!!');
+    }
+
+}
+
+async function syncModifiers(){
+	modifiersSyncLoading= true
+	//const response = await useFetch(`/syncPaymentTypes`, 'GET', null, false);
+	
+	const headers = {};
+  	headers['Content-Type'] = 'application/json';
+  	if (token) headers['Authorization'] = `Bearer ${token}`;
+
+  	const response = await fetch(`${API_URL}/syncModifiers`, {
+      method: 'GET',
+      headers: headers
+      
+    });
+
+    if (response.ok) {
+    const data = await response.json();
+    console.log('data', data)
+    if(typeof data.message === 'number'){
+			modifiersResponse= data.message + " Modifiers synced."
+		}
+		modifiersSyncLoading= false
      
     }else{
     	 throw new Error(data.message || 'Sync failed!!');

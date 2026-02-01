@@ -199,7 +199,15 @@
     					<li>originalPrice: {record.discountStatus[key].originalPrice}</li>
     					<li>finalPrice: {record.discountStatus[key].finalPrice}</li>
     					<li>
+    						{#each record.orderItem as item}
+    							{#each item.lineModifiers as element}
+    								{element.name} {element.price}
+    							{/each}
+    						{/each}
+    					</li>
+    					<li>
     					status: <span class="{record.discountStatus[key].status ==='free_item' ? 'text-secondary': 'text-primary'}">{record.discountStatus[key].status}</span></li>
+
     					{#if detailedView}
     					<li>discountValue: {record.discountStatus[key].discountValue}</li>
     					<li>discountType: {record.discountStatus[key].discountType}</li>
@@ -683,7 +691,7 @@ async function getOrder(){
   // 	detailedView = true
   // }
   modalHeader =record.orderNumber
- // console.log(response)
+  console.log('response', response)
   isLoading= false
 }
 

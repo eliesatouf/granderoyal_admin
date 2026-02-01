@@ -68,7 +68,7 @@ export async function load({ fetch }) {
       headers: headers
       
     });
-    if (!response1.ok) {
+    if (!response7.ok) {
       message: 'error loading data'
     }
     const  offerList = await response7.json();
@@ -78,11 +78,30 @@ export async function load({ fetch }) {
       headers: headers
       
     });
-    if (!response1.ok) {
+    if (!response8.ok) {
       message: 'error loading data'
     }
     const  paymentTypes = await response8.json();
 
+    const response9 = await fetch(`${API_URL}/modifiers`, {
+      method: 'GET',
+      headers: headers
+      
+    });
+    if (!response9.ok) {
+      message: 'error loading data'
+    }
+    const  modifiers = await response9.json();
+
+    const response10 = await fetch(`${API_URL}/bundles`, {
+      method: 'GET',
+      headers: headers
+      
+    });
+    if (!response10.ok) {
+      message: 'error loading data'
+    }
+    const  bundleList = await response10.json();
     
     
 
@@ -94,6 +113,9 @@ export async function load({ fetch }) {
     preLoad.offerList =offerList
     preLoad.paymentTypes =paymentTypes
     preLoad.orderList = orderList
+    preLoad.modifiers = modifiers
+    preLoad.bundleList = bundleList
+
     //console.log('preLoad', preLoad)
     localStorage.setItem('preLoad', JSON.stringify(preLoad))
    }
@@ -105,7 +127,8 @@ export async function load({ fetch }) {
       orderList,
       dishList,
       offerList,
-      paymentTypes
+      paymentTypes,
+      modifiers
     }
 
 }

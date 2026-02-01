@@ -444,7 +444,7 @@
             return;
         }
         
-        es = new EventSource(`${VITE_MERCURE}/.well-known/mercure?topic=/orders`);
+        es = new EventSource(`${VITE_MERCURE}/.well-known/mercure?topic=/dayon_orders`);
         
         es.onopen = () => {
             console.log('✅ Mercure order connected');
@@ -627,6 +627,7 @@
     async function confirmReservation(record) {
         record.status = 'confirmed';
         await useFetch(`/table_reservations/${record.id}`, 'PATCH', record, true);
+        showModal=false
 
     }
 
@@ -634,6 +635,7 @@
         record.status = 'canceled';
         await useFetch(`/table_reservations/${record.id}`, 'PATCH', record, true);
         getTableReservation();
+        showModal=false
     }
 
     async function updateOrder(order,statusId){
@@ -643,6 +645,7 @@
         const res = await useFetch(`/orders/${orderClone.id}`, 'PATCH', orderClone, true);
         console.log('res', res)
         getTodayOrders()
+        showModal=false
     }
 
     async function callCustomer(record){

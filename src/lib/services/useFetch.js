@@ -1,8 +1,9 @@
 const API_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 //console.log(API_URL)
-export default async function useFetch(endpoint,method,data = null, useToken= false,form = false) {
+export default async function useFetch(endpoint,method,data = null, useToken= false,form = false, notApi = false) {
     //console.log(JSON.stringify(data))
-    const api = API_URL + endpoint
+    let api = notApi ? BASE_URL + endpoint : API_URL + endpoint;
     try {
 
         let contentType = 'application/json';

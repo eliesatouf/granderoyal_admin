@@ -18,7 +18,7 @@ export const actions = {
     // 3. Securely send the code to your Symfony backend
     try {
       //const response = await fetch('http://localhost:7071/api/loyverse/token', {
-      const response = await fetch('https://dayon.kaliboweb.com/api/loyverse/token', {
+      const response = await fetch('https://sandys.kaliboweb.com/api/loyverse/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code })

@@ -89,17 +89,29 @@
         </details>
         </li>
 
+        <li>
+        <details>
+          <summary class="text-lg">Loyalty Program</summary>
+            <ul class="p-2">
+              <li><a href="{base}/loyalty/milestones" class="text-lg">Milestones</a></li>
+              <li><a href="{base}/loyalty/rewards" class="text-lg">Customer Rewards</a></li>
+              <li><a href="{base}/loyalty/customers" class="text-lg">Customers</a></li>
+            </ul>
+          </details>
+        </li>
+
+
       </ul>
     </div>
 
     <a href="/" class="flex items-center gap-3 no-underline group">
           <div class="h-16  flex items-center justify-center  ">
           <img 
-            src="{base}/logo_1.png" 
-            alt="Dayon Cafe" 
+            src="{base}/logo_100.webp" 
+            alt="Sandys Kitchen" 
             class="h-full w-full object-contain" 
           />
-          Dayon Cafe
+          Sandys Kitchen
         </div>
         </a>
   </div>
@@ -168,6 +180,17 @@
           <li><a href="{base}/menu/orderChannel" onclick="{()=>{document.activeElement.blur()}}">Order Channel</a></li>
       </ul>
     </div>
+
+   <div class="dropdown">
+    <div tabindex="0" role="button" class="btn btn-ghost rounded-field">Loyalty</div>
+            <ul tabindex="0"
+          class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
+              <li><a href="{base}/loyalty/milestones" class="text-lg">Milestones</a></li>
+              <li><a href="{base}/loyalty/rewards" class="text-lg">Customer Rewards</a></li>
+              <li><a href="{base}/loyalty/customers" class="text-lg">Customers</a></li>
+            </ul>
+  </div>
+
 
     <div class="dropdown">
     <div tabindex="0" role="button" class="btn btn-ghost rounded-field">Sync Service</div>

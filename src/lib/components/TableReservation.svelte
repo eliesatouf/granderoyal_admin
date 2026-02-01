@@ -271,6 +271,7 @@ async function searchCustomer(type){
 function assignCustomer(person){
   username = person.name
   phone = person.telephone
+  email = person.email
 }
 
 </script>

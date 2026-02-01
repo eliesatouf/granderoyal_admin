@@ -1,5 +1,5 @@
 // Simple PWA service worker
-const CACHE_NAME = 'dayon-admin-v1';
+const CACHE_NAME = 'sandys-admin-v1';
 const urlsToCache = [
   '/admin/',
   '/admin/index.html',

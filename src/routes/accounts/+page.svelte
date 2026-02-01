@@ -17,7 +17,6 @@
         </div>
       </article>
     </div>    
-
   {/each}
 {:else}
     <p>Loading...</p>
