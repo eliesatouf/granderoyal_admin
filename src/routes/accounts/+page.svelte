@@ -93,6 +93,14 @@
                   </label>
             </la>
           {/each}
+
+          <label class="label text-md">
+                    <input type="checkbox" class="checkbox "
+                        bind:checked={item.localAccount}  />
+                    Local Account
+                  </label>
+
+
         </div>
 
       <div class=" card-actions justify-end p-1">
@@ -154,6 +162,7 @@ let isOpen = $state(false);
 let response = $state();
 let refreshUser = null;
 let modalOperation =$state();
+let localAccount = $state(false)
 
 const rolesLov= [
     {"id":1, "role":"ROLE_USER"},
@@ -222,10 +231,8 @@ async function addUser(){
         "roles": [
             "ROLE_USER"
         ],
-        "active":false
-        // "telephone": null,
-        // "jobTitle": null,
-        // "department": null
+        "active":false,
+        "localAccount":false
     }
     modalHeader="New User"
     modalContents = [newUser]
@@ -236,8 +243,7 @@ async function addUser(){
 }
 
 async function saveNewUser(){
-   
-
+   console.log('modalContents',  modalContents[0])
     let user = modalContents[0]
     if(user.roles[0]) {user.roles[0] = "ROLE_USER"}
     if(user.roles[1]) {user.roles[1] = "ROLE_ADMIN"}

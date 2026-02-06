@@ -623,7 +623,7 @@ orgOrderChannels= data.preLoad.rderChannels
 modifiers = data.preLoad.modifiers
 bundleList = data.preLoad.bundleList
 
-console.log('dishList', dishList)
+console.log('paymentTypes', paymentTypes)
 
 
 

@@ -206,7 +206,7 @@ async function syncPaymentTypes(){
   	headers['Content-Type'] = 'application/json';
   	if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  	const response = await fetch(`${API_URL}/paymentTypes`, {
+  	const response = await fetch(`${API_URL}/syncPaymentTypes`, {
       method: 'GET',
       headers: headers
       
@@ -215,7 +215,7 @@ async function syncPaymentTypes(){
     if (response.ok) {
     	const data = await response.json();
       if(typeof data.message === 'number'){
-		paymentTypesResponse= data.message + " Customers synced."
+		paymentTypesResponse= data.message + " Payment types synced."
 		}
 		paymentTypesSyncLoading= false
      

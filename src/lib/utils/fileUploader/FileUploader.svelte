@@ -84,6 +84,19 @@
 			 		Upload
 			 	</button>
 			</div>
+
+			{#if isLoading}
+	          <div class="p-3  z-2000">
+	            <div class="flex justify-center w-[300px]">
+	              <div> 
+	              <h3 class="text-lg">Uploading.</h3>
+	              </div>
+	              <div>
+	                <span class="loading loading-bars lg:w-[100px] text-info"></span>
+	              </div>
+	            </div>
+	          </div>
+	        {/if}
 			
 
 			<div class="grid grid-col">
@@ -99,6 +112,8 @@
 					</ul>
 				{/each}
 			</div>
+
+
 			</div>
 
 			<input 

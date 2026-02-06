@@ -27,7 +27,7 @@
       try {
         // Call your Symfony backend - this MUST be publicly accessible!
         //const response = await fetch('http://localhost:7071/api/loyverse/token', {
-          const response = await fetch('https://sandys.kaliboweb.com/api/loyverse/token', {
+          const response = await fetch('https://www.sandyscup.com/api/loyverse/token', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ code })
@@ -44,7 +44,7 @@
           connectionStatus = '❌ Failed';
           error = data.error || 'Unknown error';
         }
-      } catch (err) {https://sandys.kaliboweb.com/admin/loyverse
+      } catch (err) {https://www.sandyscups.com/admin/loyverse
         connectionStatus = '❌ Network error';
         error = err.message;
         console.error('Error:', err);
@@ -62,7 +62,7 @@
     authUrl.searchParams.append('client_id', clientId);
     authUrl.searchParams.append('redirect_uri', redirectUri); // Same as current page
     authUrl.searchParams.append('response_type', 'code');
-    authUrl.searchParams.append('scope', 'CUSTOMERS_READ CUSTOMERS_WRITE EMPLOYEES_READ ITEMS_READ INVENTORY_READ INVENTORY_WRITE ITEMS_WRITE MERCHANT_READ PAYMENT_TYPES_READ POS_DEVICES_READ POS_DEVICES_WRITE RECEIPTS_READ RECEIPTS_WRITE SHIFTS_READ STORES_READ SUPPLIERS_READ SUPPLIERS_WRITE TAXES_READ TAXES_WRITE'); // Start with minimal scope
+    authUrl.searchParams.append('scope', 'CUSTOMERS_READ ITEMS_READ INVENTORY_READ PAYMENT_TYPES_READ RECEIPTS_WRITE STORES_READ '); // Start with minimal scope
     authUrl.searchParams.append('state', state);
     
     window.location.href = authUrl.toString();

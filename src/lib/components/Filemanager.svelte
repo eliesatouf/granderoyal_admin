@@ -43,6 +43,9 @@
 
 <ModalRecord bind:showModalUpload 
 	class="rounded backdrop-blur-sm backdrop-brightness-150 z-1500 grid grid-col justify-center items-center  max-h-[500px] lg:max-h-[800px] overflow-auto">
+
+
+
 	<div class="card  ">
 
 		<div class="card-body h-140 ">
@@ -53,9 +56,7 @@
 
 		</div>
 		<div class="card-actions">
-<!-- 			<button class="btn btn-info btn-sm m-1 rounded" >
-				OK
-			</button> -->
+				
 		</div>
 	</div>
 
@@ -68,7 +69,7 @@
 
 
 <Modal bind:showModal class=" backdrop-blur-sm backdrop-brightness-150 ">
-  <div class="modal-box  max-w-5xl max-h-[600px] lg:max-h-[800px] overflow-auto">
+  <div class="modal-box  max-w-5xl max-h-[600px] lg:max-h-[800px] overflow-auto w-xs lg:w-3xl">
 
     <h3 class="text-md font-bold">Click on a folder to see contents</h3>
     
@@ -261,6 +262,7 @@ const targetBaseFolder = SHARED_FOLDER
 let requestedFolder = '';
 let currentFiles = [];
 let folderToDelete=$state();
+let isUploading = $state(false)
 
 const requestdata = {'targetFolder':targetBaseFolder};
 
@@ -479,7 +481,7 @@ async function handleUpload(files_data) {
     }
 
     const res = await useFetch('/uploadFiles', 'POST', formData, true, true);
-
+    console.log('res', res)
     getFileList(requestedFolder)
      clear()	
     showModalUpload= false

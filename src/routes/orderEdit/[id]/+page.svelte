@@ -189,10 +189,12 @@
     						<li>type: {record.discountStatus[key].type}</li>
     						<li>finalPrice: {record.discountStatus[key].finalPrice}</li>
 
-    					{:else}
+    					{:else}	
 
     					<li class=" font-bold"><div class="badge badge-rounded badge-info badge-outline">{index+1}</div> 
-    					{record.discountStatus[key].dish} x {record.discountStatus[key].quantity}</li>
+    					{record.discountStatus[key].dish} - {record.orderItem[key].variantName}
+    					 x {record.discountStatus[key].quantity}</li>
+    					
     					
    						<li>type: {record.discountStatus[key].type}</li>
 
