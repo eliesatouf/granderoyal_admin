@@ -88,6 +88,16 @@
           </ul>
         </details>
         </li>
+        
+        <li>
+         <details>
+          <summary class="text-lg">Settings</summary>
+          <ul class="p-2">
+            <li><a href="{base}/app-settings"  class="text-lg" onclick="{()=>{document.activeElement.blur()}}">App Settings</a></li>
+          </ul>
+        </details>
+        </li>
+    
 
         <li>
         <details>
@@ -198,6 +208,14 @@
           class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
           <li><a href="{base}/sync/connect" onclick="{()=>{document.activeElement.blur()}}">Connect</a></li>
           <li><a href="{base}/sync/fetch_items" onclick="{()=>{document.activeElement.blur()}}">fetch Items</a></li>
+      </ul>
+    </div>
+
+    <div class="dropdown">
+    <div tabindex="0" role="button" class="btn btn-ghost rounded-field">Settings</div>
+      <ul tabindex="0"
+          class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
+          <li><a href="{base}/app-settings" onclick="{()=>{document.activeElement.blur()}}">App Settings</a></li>
       </ul>
     </div>
 
