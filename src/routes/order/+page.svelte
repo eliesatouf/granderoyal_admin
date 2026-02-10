@@ -214,8 +214,12 @@ class="grid grid-col justify-center items-center
 				  </div>
 			</label>
 
-			<label class="swap swap-flip flex-1">
+<!-- 			<label class="swap swap-flip flex-1">
 			  <input type="checkbox" />
+			  	<div class="swap-off btn btn-info btn-sm" 
+				  	onclick="{()=>{ userState.user.order.paymentMethod=paymentTypes[2]?.id.toString() }}">
+			  		 {paymentTypes[2]?.name}
+			  	</div>
 				  <div class="swap-on btn btn-info btn-sm" 
 				  	onclick="{()=>{ userState.user.order.paymentMethod=	paymentTypes[1]?.id.toString() }}">
 				  	<Icon name="paid"/>{paymentTypes[1]?.name}
@@ -224,7 +228,25 @@ class="grid grid-col justify-center items-center
 				  	onclick="{()=>{ userState.user.order.paymentMethod=paymentTypes[0]?.id.toString() }}">
 			  		<Icon name="credit_card"/> {paymentTypes[0]?.name}
 			  	</div>
-			</label>
+			</label> -->
+
+
+			<div class="dropdown dropdown-center">
+			  <div tabindex="0" role="button" class="btn btn-primary btn-smm-1">{selectedPayment || 'Payment'} </div>
+			  <ul tabindex="0" class="dropdown-content  menu z-1 w-36 rounded-box bg-base-100 p-2 shadow-sm">
+			  	{#each paymentTypes as method}
+			    <li>
+			    		<button class="btn btn-accent btn-sm m-1" 
+						  	onclick="{()=>{ userState.user.order.paymentMethod=method?.id.toString(), 
+						  	selectedPayment=method.name,document.activeElement.blur()}}">
+						  	{method.name}
+					  	</button>
+			    </li>
+			    {/each}
+			  </ul>
+			</div>
+
+
 		</div>
 
     
@@ -236,7 +258,7 @@ class="grid grid-col justify-center items-center
     			{#if orderPreviewResult}
     					<ul class="text-[14px]">
     							<li  class="list-row ">Base subtotal: {orderPreviewResult.calculationDetails.summary.baseSubtotal}</li>
-    							<li  class="list-row ">Final subtotal: {orderPreviewResult.calculationDetails.summary.finalSubtotal}</li>
+    							<li  class="list-row ">Final grandTotal: {orderPreviewResult.calculationDetails.summary.grandTotal}</li>
     							<li  class="list-row ">Total discount: {orderPreviewResult.calculationDetails.summary.totalDiscount}</li>
     					</ul>
     			{/if}
@@ -600,6 +622,7 @@ let modifiers =$state()
 let selectedItem = $state()
 let processingOrder=$state(false)
 let orderPreviewResult = $state()
+let selectedPayment= $state()
 
 console.log('data', data)
 

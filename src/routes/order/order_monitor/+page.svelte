@@ -377,6 +377,7 @@
     let mercureStatus = $state({ text: '', value: 0 });
     let statusList = $state()
     let preLoad = $state()
+    console.log('preLoad', preLoad)
 
 
     onMount(() => {

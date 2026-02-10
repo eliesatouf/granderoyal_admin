@@ -89,7 +89,7 @@
     </div>
 
     <div class="grid">
-      <label type="label" class="label" >paymentTypes</label>
+      <label type="label" class="label" >Payment Type</label>
       <select class="select select" bind:value={record.paymentMethod}>
        	{#each paymentTypes as type}
           <option value="{JSON.stringify(type.id)}">{type.name}</option>
@@ -113,9 +113,9 @@
     				{#each Object.keys(record.discountStatus) as key}
     					{#if key =="summary"}
     					<ul class="text-[14px]">
-    							<li  class="list-row ">Base subtotal: {JSON.stringify(record.discountStatus[key]["baseSubtotal"])}</li>
-    							<li  class="list-row ">Final subtotal: {JSON.stringify(record.discountStatus[key]["finalSubtotal"])}</li>
-    							<li  class="list-row ">Total discount: {JSON.stringify(record.discountStatus[key]["totalDiscount"])}</li>
+    							<li  class="list-row ">Base Subtotal: {JSON.stringify(record.discountStatus[key]["baseSubtotal"])}</li>
+    							<li  class="list-row font-bold">Final Grand Total: {JSON.stringify(record.discountStatus[key]["grandTotal"])}</li>
+    							<li  class="list-row ">Total Discount: {JSON.stringify(record.discountStatus[key]["totalDiscount"])}</li>
     					</ul>
     					{/if}
     				{/each}

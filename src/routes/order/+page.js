@@ -2,7 +2,7 @@
 import { browser } from '$app/environment';
 
 export async function load({ depends }) {
-  depends('order:preload'); // Add dependency key
+  //depends('order:preload'); // Add dependency key
   
   let preLoad = null;
   
