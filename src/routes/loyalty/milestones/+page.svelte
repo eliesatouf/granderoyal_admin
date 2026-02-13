@@ -39,22 +39,25 @@
     }
   }
 
-  function filterDishesBySlugs(dishes, targetSlugs) {
-    if (!Array.isArray(dishes)) return [];
-    
-    return dishes.filter(dish => {
-      // Check if dish has a category and the category has a slug
-      const dishSlug = dish?.category?.slug;
-      return dishSlug && targetSlugs.includes(dishSlug);
-    });
-  }
+  // function filterDishesBySlugs(dishes, targetSlugs) {
+  //   if (!Array.isArray(dishes)) return [];
+  //   return dishes;
+
+  //   return dishes.filter(dish => {
+  //     // Check if dish has a category and the category has a slug
+  //     const dishSlug = dish?.category?.slug;
+  //     return dishSlug && targetSlugs.includes(dishSlug);
+
+  //   });
+  // }
 
   async function loadDishes() {
     const response = await useFetch('/dishes', 'GET');
     dishes = response
-    const targetSlugs = ['frappes-blended', 'iced-coffee-drinks', 'fruit-teas-sodas', 'hot-coffee-tea', 'non-coffee-specialty-drinks'];
-    const drinks = filterDishesBySlugs(dishes, targetSlugs); 
-    dishes = drinks
+    // const targetSlugs = ['frappes-blended', 'iced-coffee-drinks', 'fruit-teas-sodas', 'hot-coffee-tea', 'non-coffee-specialty-drinks'];
+    // const drinks = filterDishesBySlugs(dishes, targetSlugs); 
+    // dishes = drinks
+    return dishes;
   }
 
   async function createMilestone() {
@@ -226,7 +229,7 @@
               <th>Visits</th>
               <th class="hidden lg:table-cell">Reward Type</th>
               <th class="hidden lg:table-cell">Reward Value</th>
-              <th class="hidden lg:table-cell">Eligible Services</th>
+              <th class="hidden lg:table-cell">Eligible Items</th>
               <th class="hidden lg:table-cell">Description</th>
               <th class="hidden lg:table-cell">Status</th>
               <th class="hidden lg:table-cell">Actions</th>
@@ -255,7 +258,7 @@
                         {/each}
                       </div>
                     {:else}
-                      <span class="text-gray-400 text-xs">All Drinks</span>
+                      <span class="text-gray-400 text-xs">All Items</span>
                     {/if}
                   {:else}
                     <span class="text-gray-400 text-xs">-</span>

@@ -158,44 +158,56 @@
                 {#if showRecords == 'orders'}
                     <ul class="list">
                         {#each selectedRecords as record}
-                            <li class="list-row">
-                                <div class="text-4xl font-thin opacity-90 tabular-nums">
-                                    {Math.trunc(record.subtotal)} - {record.orderItem.length}
-                                <div class="text-xs uppercase font-semibold opacity-60">{record.orderNumber}</div>
-                                </div>
-                                <div class="grid">
-                                <div class="flex gap-2">
+                            <li class="list-row p-1">
+                                <div class="">
+                                    <div class="uppercase font-semibold opacity-80">{record.orderNumber}</div>
+                                    <div class="">
+                                        
+                                        ₱{Math.trunc(record.subtotal)} - {record.orderItem.length} 
+                                        <span><Icon name="schedule"/>{getTimeFromDate(record.orderDate)}</span>
 
-                                    <button class="btn btn-primary btn-xs" 
-                                        onclick="{()=>{callCustomer(record)}}">
+                                        {#if record.orderType == 'pickup'}
+                                            <Icon name="takeout_dining_2" class="text-primary"/>
+                                        {:else if record.orderType == 'delivery'}
+                                            <Icon name="moped" class="text-secondary" />
+                                        {/if}
+
+                                    </div>
+                                <div class="text-sm uppercase font-semibold opacity-80">{customerList.find(el => el.id == record.customer.split('/')[3]).name}
+                                </div>
+                                <div class="text-sm  font-semibold opacity-80">{customerList.find(el => el.id == record.customer.split('/')[3]).email}</div>
+                                
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button class="lg:hidden btn btn-primary" onclick="{()=>{callCustomer(record)}}">
                                         <Icon name="call"/>
                                     </button>
+                                    <div class="hidden lg:block badge badge-info badge-outline h-full p-2">
+                                        <Icon name="call"/>{customerList.find(el => el.id == record.customer.split('/')[3]).telephone}
+                                    </div>
 
-                                    <div class="dropdown  dropdown-bottom dropdown-center">
-                                         <div tabindex="0" role="button" class="btn btn-xs btn-secondary"><Icon name="ios-menu"/></div>
-                                    <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
-                                     >
-                                        {#each statusList as status}
-                                            {#if record.orderStatus != status.id}
-                                                <li><button class="btn btn-primary btn-soft" popovertarget='popover-1'
-                                                    onclick="{()=>{updateOrder(record,status.id),showModal=false  }}">{status.name}</button></li>
-                                            {/if}
-                                        {/each}
-                                    </ul>
+                                    <div class="dropdown dropdown-end">
+                                        <div tabindex="0" role="button" class="btn btn-secondary"><Icon name="view_object_track"/></div>
+                                        <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                                            {#each statusList as status}
+                                                {#if record.orderStatus != status.id}
+                                                    <li><button class="btn btn-primary btn-soft {record.orderStatus > status.id ? 'btn-success':''}" popovertarget='popover-1'
+                                                        onclick="{()=>{updateOrder(record,status.id),showModal=false  }}">{status.name}</button></li>
+                                                {/if}
+                                            {/each}
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <a class="btn btn-primary btn-soft" href="{base}/orderEdit/{record.id}">edit</a>
+                                    </div>
+
+                                    <div class="col-span-1">
+                                        <EditProfile customerId = {record.customer.split('/')[3]} />
+                                    </div>
                                 </div>
 
-                                </div>
-                                <div  class="text-xs ">{getTimeFromDate(record.orderDate)}</div>
-                            </div>
-                                <div class="grid">
-                                <a class="btn btn-primary btn-soft btn-sm" href="{base}/orderEdit/{record.id}">edit</a>
-
-                                {#if record.orderType == 'pickup'}
-                                    <Icon name="takeout_dining_2" class="text-primary"/>
-                                {:else if record.orderType == 'delivery'}
-                                    <Icon name="moped" class="text-secondary" />
-                                {/if}
-                                </div>
+                                
                             </li>
                         {/each}
                     </ul>
@@ -348,6 +360,7 @@
     import { Toaster, toast } from 'svelte-sonner';
     import { base } from '$app/paths';
     import { onMount } from 'svelte';
+    import EditProfile from '$lib/components/EditProfile.svelte';
 
     // State
     let soundsEnabled = $state(false);
@@ -377,12 +390,16 @@
     let mercureStatus = $state({ text: '', value: 0 });
     let statusList = $state()
     let preLoad = $state()
-    console.log('preLoad', preLoad)
-
+    
+    let customerList = $state()
 
     onMount(() => {
         let list = localStorage.getItem('preLoad')
         preLoad = JSON.parse(list)
+        //console.log('preLoad', preLoad)
+
+        customerList = preLoad.customerList
+        console.log('customerList', customerList)
         statusList = preLoad.statusList
     })
     // Sound functions
