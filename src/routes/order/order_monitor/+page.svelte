@@ -138,10 +138,24 @@
 <Modal bind:showModal>
     <div class="card rounded-xs h-dvh  lg:w-120 bg-base-300 shadow-sm ">
         <div class="card-body overflow-auto">
+
+            <input type="checkbox" id="order_processing_modal" class="modal-toggle" />
+            <div class="modal" role="dialog">
+            <div class="modal-box bg-orange-100">
+              <div class="">
+                <div class="flex justify-center 8/10">
+                  <div>
+                    <span class="loading loading-dots w-[100px] text-amber-500 z-1000 "></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
             <div class="flex flex-row justify-between">
 
                 {#if showRecords == 'orders'}
-                    <h2 class="card-title">Orders {selectedStatus?.toUpperCase()}</h2>
+                    <h2 class="card-title">Orders <span class="text-info">{selectedStatus?.toUpperCase()}</span></h2>
                 {/if}
 
                 {#if showRecords == 'reservations'}
@@ -155,21 +169,24 @@
                 </button>
             </div>
             <div>
+
                 {#if showRecords == 'orders'}
                     <ul class="list">
                         {#each selectedRecords as record}
                             <li class="list-row p-1">
                                 <div class="">
-                                    <div class="uppercase font-semibold opacity-80">{record.orderNumber}</div>
+                                    <div class="uppercase font-semibold ">{record.orderNumber}</div>
                                     <div class="">
                                         
                                         ₱{Math.trunc(record.subtotal)} - {record.orderItem.length} 
                                         <span><Icon name="schedule"/>{getTimeFromDate(record.orderDate)}</span>
 
                                         {#if record.orderType == 'pickup'}
-                                            <Icon name="takeout_dining_2" class="text-primary"/>
+                                            <Icon name="takeout_dining_2" class="text-error"/>
                                         {:else if record.orderType == 'delivery'}
-                                            <Icon name="moped" class="text-secondary" />
+                                            <Icon name="moped" class="text-error" />
+                                        {:else if record.orderType == 'advanced'}
+                                        <Icon name="event_upcoming" class="text-error" />
                                         {/if}
 
                                     </div>
@@ -192,7 +209,7 @@
                                             {#each statusList as status}
                                                 {#if record.orderStatus != status.id}
                                                     <li><button class="btn btn-primary btn-soft {record.orderStatus > status.id ? 'btn-success':''}" popovertarget='popover-1'
-                                                        onclick="{()=>{updateOrder(record,status.id),showModal=false  }}">{status.name}</button></li>
+                                                        onclick="{()=>{updateOrder(record,status.id)  }}">{status.name}</button></li>
                                                 {/if}
                                             {/each}
                                         </ul>
@@ -383,17 +400,22 @@
     let pendingReservations = $state([]);
     let confirmedReservations = $state([]);
     let canceledReservations = $state([]);
-    let showRecords = $state('');
+    let showRecords = $state();
     let selectedReservation = $state(null);
     let selectedPeriod = $state('A');
     let selectedTime = $state('');
     let mercureStatus = $state({ text: '', value: 0 });
     let statusList = $state()
     let preLoad = $state()
+    let orderProcessing= $state()
+
     
     let customerList = $state()
 
     onMount(() => {
+        orderProcessing = document.querySelector('#order_processing_modal');
+        console.log('orderProcessing', orderProcessing)
+
         let list = localStorage.getItem('preLoad')
         preLoad = JSON.parse(list)
         //console.log('preLoad', preLoad)
@@ -638,8 +660,9 @@
             pendingReservations = reservations.filter(el => el.status == 'pending');
             confirmedReservations = reservations.filter(el => el.status == 'confirmed');
             canceledReservations = reservations.filter(el => el.status == 'canceled');
+            //showReservations()
         }
-        showReservations()
+        
     }
 
     async function confirmReservation(record) {
@@ -657,6 +680,7 @@
     }
 
     async function updateOrder(order,statusId){
+        orderProcessing.checked= true
         let orderClone = {...order}
         delete orderClone.orderItem
         orderClone.orderStatus = String(statusId)
@@ -664,6 +688,7 @@
         console.log('res', res)
         getTodayOrders()
         showModal=false
+        orderProcessing.checked= false
     }
 
     async function callCustomer(record){

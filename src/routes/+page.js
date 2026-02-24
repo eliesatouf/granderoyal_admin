@@ -102,6 +102,16 @@ export async function load({ fetch }) {
       message: 'error loading data'
     }
     const  bundleList = await response10.json();
+
+    const response11 = await fetch(`${API_URL}/categories`, {
+      method: 'GET',
+      headers: headers
+      
+    });
+    if (!response11.ok) {
+      message: 'error loading data'
+    }
+    const  categories = await response11.json();
     
     
 
@@ -115,6 +125,7 @@ export async function load({ fetch }) {
     preLoad.orderList = orderList
     preLoad.modifiers = modifiers
     preLoad.bundleList = bundleList
+    preLoad.categories = categories
 
     //console.log('preLoad', preLoad)
     localStorage.setItem('preLoad', JSON.stringify(preLoad))
@@ -128,7 +139,8 @@ export async function load({ fetch }) {
       dishList,
       offerList,
       paymentTypes,
-      modifiers
+      modifiers,
+      categories
     }
 
 }

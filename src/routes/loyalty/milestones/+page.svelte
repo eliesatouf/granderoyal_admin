@@ -2,6 +2,8 @@
   import { onMount } from 'svelte';
   import  useFetch  from '$lib/services/useFetch.js';
   import { Toaster, toast } from 'svelte-sonner';
+  import { browser } from "$app/environment";
+  import Icon from '$lib/components/Icon.svelte'
 
   let milestones = $state([]);
   let dishes = $state([]);
@@ -9,6 +11,27 @@
   let showCreateModal = $state(false);
   let showEditModal = $state(false);
   let editingMilestone = $state(null);
+  let preLoad = $state()
+  let categories =$state()
+  let activeCategory = $state();
+
+ 
+  if(browser){
+    preLoad = JSON.parse(localStorage.getItem('preLoad'))
+    categories = preLoad.categories
+    activeCategory = categories[0]
+  }
+
+
+   let selectedCategory = $derived.by(()=>{
+      const cat = categories?.find(cat => cat.id == activeCategory.id)
+        return cat?.name 
+    })
+
+  let dishesOfCategory = $derived.by(()=>{ 
+      const items = dishes.filter(el => el.category.id == activeCategory.id)
+      return items
+    })
 
   const newMilestone = $state({
     name: '',
@@ -23,9 +46,17 @@
   let editingMilestoneEligibleServices = $state({});
 
   onMount(async () => {
+    
+
+   
+    
+    
+
+    
     await loadMilestones();
     await loadDishes();
   });
+
 
   async function loadMilestones() {
     try {
@@ -241,8 +272,8 @@
                 <td>{milestone.name}</td>
                 <td class="font-bold">{milestone.visitCount}</td>
                 <td class="hidden lg:table-cell">
-                  <span class="badge badge-{milestone.rewardType === 'percentage_discount' ? 'info' : 'success'}">
-                    {milestone.rewardType === 'percentage_discount' ? 'Discount' : 'Free Service'}
+                  <span class="h-full badge badge-{milestone.rewardType === 'percentage_discount' ? 'info' : 'success'}">
+                    {milestone.rewardType === 'percentage_discount' ? 'Discount' : 'Free Item'}
                   </span>
                 </td>
                 <td class="hidden lg:table-cell">
@@ -254,11 +285,9 @@
 
                       <div class="text-xs">
                         {#each getServiceNamesFromMilestone(milestone) as serviceName}
-                          <div class="badge badge-secondary badge-sm mr-1 mb-1">{serviceName}</div>
+                          <div class="badge badge-secondary badge-sm mr-1 mb-1 h-full">{serviceName}</div>
                         {/each}
                       </div>
-                    {:else}
-                      <span class="text-gray-400 text-xs">All Items</span>
                     {/if}
                   {:else}
                     <span class="text-gray-400 text-xs">-</span>
@@ -297,8 +326,8 @@
 
   <!-- Create Milestone Modal -->
   {#if showCreateModal}
-    <div class="modal modal-open">
-      <div class="modal-box max-w-2xl">
+    <div class="modal modal-open ">
+      <div class="modal-box max-w-2xl h-150 lg:h-3/4 overflow-auto">
         <h3 class="font-bold text-lg mb-4">Create New Milestone</h3>
         
         <div class="space-y-4">
@@ -348,30 +377,53 @@
               />
             {/if}
           </div>
-          <!-- Eligible Services - Only show for free service -->
-          {#if newMilestone.rewardType === 'free_service'}
-            <div>
-              <label class="label">Eligible Services</label>
-              <div class="max-h-40 overflow-y-auto border rounded p-2 bg-gray-50">
-                {#each dishes as service}
-                  {#if service.id} <!-- Only render if service has an ID -->
-                    <label class="flex items-center space-x-2 py-1">
-                      <input 
-                        type="checkbox" 
-                        class="checkbox checkbox-sm" 
-                        checked={newMilestoneEligibleServices[service.id] || false}
-                        onchange={(e) => handleNewServiceCheckboxChange(service.id, e)}
-                      />
-                      <span class>{service.name}</span>
-                    </label>
-                  {/if}
-                {/each}
+          {#if browser && categories?.length && dishesOfCategory}
+          <div>
+  
+            <div class="dropdown dropdown-top dropdown-end w-56">
+              <div tabindex="0" role="button" class="btn btn-outline">
+                <Icon name="menu_book_2" /> {selectedCategory || 'Select a category'}
               </div>
-              <p class="text-xs text-gray-500 mt-1">
-                Leave all unchecked to apply to all dishes
-              </p>
+              <ul tabindex="0" class="dropdown-content dropdown-top menu bg-base-100 rounded-box z-[1]  p-2 shadow-lg h-64 overflow-auto grid">
+                {#each categories as category}
+                  <li>
+                    <button
+                      type="button"
+                      class="{activeCategory?.id === category.id ? 'btn-active' : ''}"
+                      onclick={() => {
+                        activeCategory = category;
+                        // Close dropdown - blur the button
+                        document.activeElement?.blur();
+                      }}
+                    >
+                      {category.name}
+                    </button>
+                  </li>
+                {/each}
+              </ul>
             </div>
-          {/if}
+          </div>
+       
+
+        <div>
+          <label class="label">Eligible Items</label>
+          <div class="max-h-40 overflow-y-auto border rounded p-2 bg-gray-50">
+            {#each dishesOfCategory as item}
+            {#if item.id} 
+            <label class="flex items-center space-x-2 py-1">
+              <input 
+              type="checkbox" 
+              class="checkbox checkbox-sm" 
+              checked={newMilestoneEligibleServices[item.id] || false}
+              onchange={(e) => handleNewServiceCheckboxChange(item.id, e)}
+              />
+              <span class>{item.name}</span>
+            </label>
+            {/if}
+            {/each}
+          </div>
+        </div>
+         {/if}
 
           <div>
             <label class="label">Description</label>
@@ -405,8 +457,8 @@
 
   <!-- Edit Milestone Modal -->
   {#if showEditModal && editingMilestone}
-    <div class="modal modal-open">
-      <div class="modal-box max-w-2xl">
+    <div class="modal modal-open ">
+      <div class="modal-box max-w-2xl h-150 lg:h-3/4 overflow-auto">
         <h3 class="font-bold text-lg mb-4">Edit Milestone</h3>
         
         <div class="space-y-4">
@@ -454,13 +506,41 @@
             {/if}
           </div>
 
-          <!-- Eligible Dishes - Only show for free dish -->
-          {#if editingMilestone.rewardType === 'free_service'}
-            <div>
-              <label class="label">Eligible Dishes</label>
-              <div class="max-h-40 overflow-y-auto border rounded p-2 bg-gray-50">
-                {#each dishes as dish}
-                  {#if dish.id} <!-- Only render if dish has an ID -->
+
+          {#if browser && categories?.length && dishesOfCategory}
+          <div>
+  
+            <div class="dropdown dropdown-top dropdown-end w-56">
+              <div tabindex="0" role="button" class="btn btn-outline">
+                <Icon name="menu_book_2" /> {selectedCategory || 'Select a category'}
+              </div>
+              <ul tabindex="0" class="dropdown-content dropdown-top menu bg-base-100 rounded-box z-[1]  p-2 shadow-lg h-64 overflow-auto grid">
+                {#each categories as category}
+                  <li>
+                    <button
+                      type="button"
+                      class="{activeCategory?.id === category.id ? 'btn-active' : ''}"
+                      onclick={() => {
+                        activeCategory = category;
+                        // Close dropdown - blur the button
+                        document.activeElement?.blur();
+                      }}
+                    >
+                      {category.name}
+                    </button>
+                  </li>
+                {/each}
+              </ul>
+            </div>
+          </div>
+       
+
+        <div>
+          <label class="label">Eligible Items</label>
+          <div class="max-h-40 overflow-y-auto border rounded p-2 bg-gray-50">
+  
+            {#each dishesOfCategory as dish}
+                  {#if dish.id} 
                     <label class="flex items-center space-x-2 py-1">
                       <input 
                         type="checkbox" 
@@ -472,12 +552,9 @@
                     </label>
                   {/if}
                 {/each}
-              </div>
-              <p class="text-xs text-gray-500 mt-1">
-                Leave all unchecked to apply to all dishes
-              </p>
-            </div>
-          {/if}
+          </div>
+        </div>
+         {/if}
 
           <div>
             <label class="label">Description</label>

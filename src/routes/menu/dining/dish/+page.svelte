@@ -211,27 +211,27 @@
 
     				<div class="grid">
 		    			<label class="label ">Size</label>
-				      <input type="text" class="input input-sm" placeholder="price variante" 
+				      <input type="text" disabled class="input input-sm" placeholder="price variante" 
 				       bind:value="{variant.size}"/>
 				    </div>
 
 				    <div class="grid">
 		    			<label class="label ">Price</label>
-				      <input type="number" class="input input-sm" placeholder="price variante" 
+				      <input type="text" disabled readonly class="input input-sm" placeholder="price variante" 
 				       bind:value="{variant.price}"/>
 				    </div>
-
+<!-- 
 				    <button class="btn btn-error btn-soft btn-square p-2 btn-xs mt-5"
 				    				onclick="{()=>{removePrice(variant)}}">
 				    	<Icon name="delete" class="text-red-500"/>
-				  	</button>
+				  	</button> -->
 			    </div>
     		{/each}
 
-    		<button class="btn btn-info btn-soft btn-square btn-sm mt-2" 
+<!--     		<button class="btn btn-info btn-soft btn-square btn-sm mt-2" 
     						onclick="{()=>{addVariant()}}">
     			<Icon name="add"/>
-    		</button>
+    		</button> -->
     	</fieldset>
     </div>
   </div>
@@ -409,19 +409,20 @@ async function saveDish(){
 	// return 0
 	let saveItem=''
 	if(modalOperation=='Create Dish'){
+		console.log('Create New Dish')
 		try{
 			saveItem =  await useFetch('/dishes', 'POST',record, true);
 
 			if(saveItem.status == 'available'){
 				toast.success("Saved successfully",2000);	
-				getDishList()
+				//getDishList()
 	  		showModal= false
 			}
 			else if(saveItem.status && saveItem.status != 200){
 				toast.error("Failed to create menu",2000);
 			}else{
 				toast.success("Saved successfully",2000);	
-	  		getDishList()
+	  		//getDishList()
 	  		showModal= false
 			}
 	  }
@@ -430,13 +431,14 @@ async function saveDish(){
 	  }
 	}
 	else{
+		console.log('Edit Dish')
 		try{
   		let saveItem =  await useFetch('/dishes/' + record.id, 'PATCH',record, true);
   		//console.log(saveItem)
 	  	toast.success("Saved successfully",2000);	
-	  	//getDishList()
+	  	getDishList()
 	  	getDish(record.id)
-	  	//showModal= false
+	  	showModal= false
 	  }
 		catch(e) {
 	  	toast.error("Failed to save menu",2000);	

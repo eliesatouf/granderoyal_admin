@@ -248,10 +248,6 @@ class="grid grid-col justify-center items-center
 
 
 		</div>
-
-    
-
-
     	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-1 w-[250px] ">
     		<legend class="fieldset-legend">Summary</legend>
     		<div class="grid m-2 p-2 lg:flex lg:gap-3">
@@ -584,7 +580,6 @@ import { base } from '$app/paths';
 import { invalidate } from '$app/navigation';
 
 let {data} = $props();
-console.log('data', data)
 
 let admin =$state(false)
 
@@ -624,16 +619,11 @@ let processingOrder=$state(false)
 let orderPreviewResult = $state()
 let selectedPayment= $state()
 
-console.log('data', data)
-
-
-
-
 const API_URL = import.meta.env.VITE_API_URL;
 
 onMount(() => {
-	invalidate('/order');
-	dishList = data.preLoad.dishList
+invalidate('/order');
+dishList = data.preLoad.dishList
 dishListSearch = data.preLoad.dishList
 statusList = data.preLoad.statusList
 orgStatusList = statusList
@@ -645,10 +635,6 @@ orderChannels = data.preLoad.orderChannels
 orgOrderChannels= data.preLoad.rderChannels
 modifiers = data.preLoad.modifiers
 bundleList = data.preLoad.bundleList
-
-console.log('paymentTypes', paymentTypes)
-
-
 
 })
 

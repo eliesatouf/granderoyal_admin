@@ -6,14 +6,15 @@
 
 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-3 m-2 ">
   <legend class="fieldset-legend">Hero section</legend>
-
+{#if data &&  data.id}
+  {data.length}
   <label class="label">hero header</label>
   <input type="text" class="input" placeholder="Header" 
-  	bind:value="{data.hearoHeader}"/>
+  	bind:value={data.heroHeader}/>
 
   <label class="label">hero text</label>
-  <input type="text" class="input" placeholder="hearoText" 
-   bind:value="{data.hearoText}"/>
+  <input type="text" class="input" placeholder="heroText" 
+   bind:value={data.heroText}/>
 
   <label class="label">hero video</label>
   <div class="join mt-0" onmouseenter={()=>{defineSelectedImage(data.heroVideo)}}>
@@ -22,7 +23,7 @@
         <video src="{data.heroVideo}" class="p-0 m-0">
       </div>
     <input type="text" class="input" placeholder="heroVideo" 
-    bind:value="{data.heroVideo}"/>
+    bind:value={data.heroVideo}/>
   </div>
     <Filemanager selectedImage={handleSelectHeroVid} />
   </div>
@@ -35,40 +36,41 @@
         <img src="{data.heroImageFallback}">
       </div>
         <input type="text " class="input" placeholder="heroImageFallback"
-          bind:value="{data.heroImageFallback}"  />
+          bind:value={data.heroImageFallback}  />
     </div>
     <Filemanager  selectedImage={handleSelectImage} />
   </div>
 
   <label class="label">hero Button text</label>
   <input type="text" class="input" placeholder="heroButtontext" 
-   bind:value="{data.heroButtontext}"/>
+   bind:value={data.heroButtontext}/>
 
   <div class="divider">Featured Items </div>
 
   <label class="label">featured Blocks header</label>
   <input type="text" class="input" placeholder="featuredBlocksheader" 
-   bind:value="{data.featuredBlocksheader}"/>
+   bind:value={data.featuredBlocksheader}/>
 
   <label class="label">featured Blocks text</label>
   <input type="text" class="input" placeholder="featuredBlockstext" 
-   bind:value="{data.featuredBlockstext}"/>
+   bind:value={data.featuredBlockstext}/>
 
    <div class="divider">Offers</div>
 
    <label class="label">Offer header</label>
   <input type="text" class="input" placeholder="offerheader" 
-   bind:value="{data.offerheader}"/>
+   bind:value={data.offerheader}/>
 
   <label class="label">Offer text</label>
   <input type="text" class="input" placeholder="offertext" 
-   bind:value="{data.offertext}"/>
+   bind:value={data.offertext}/>
   
   <button class="btn btn-soft btn-primary w-1/4" onclick={()=>(saveHeroSection(data))}>
     Save
   </button>
-
+{/if}
  </fieldset>
+
 </div>
 </details>
 </div>
@@ -90,7 +92,7 @@
         <legend class="fieldset-legend">{item.name}</legend>
         <label class="label">{item.name}</label>
         <input type="text" class="input" placeholder="name of item" 
-         bind:value="{item.name}"/>
+         bind:value={item.name}/>
 
         <label class="label">Image Source</label>
         <div class="join mt-0" onmouseenter={()=>{defineSelectedImage(item.imageSource)}}>
@@ -99,7 +101,7 @@
             <img src="{item.imageSource}" class="h-[250px] w-[250px]">
           </div>
           <input type="text " class="input" placeholder="offer image" 
-          bind:value="{item.imageSource}"  />
+          bind:value={item.imageSource}  />
         </div>
           <Filemanager  selectedImage={handleSelectFeaturedItem} />
           <button class="btn btn-soft" onclick={()=>{selectedItem= item, showModalPreview=true}}>preview</button>
@@ -107,11 +109,11 @@
 
          <label class="label">Image Name</label>
         <input type="text" class="input" placeholder="image name" 
-         bind:value="{item.imageName}"/>
+         bind:value={item.imageName}/>
 
         <label class="label">Description</label>
         <input type="text" class="input" placeholder="item description" 
-         bind:value="{item.description}"/>
+         bind:value={item.description}/>
        </div>
     {/each}
 
@@ -141,15 +143,15 @@
 
       <label class="label">Name</label>
       <input type="text" class="input" placeholder="name of item" 
-       bind:value="{item.name}"/>
+       bind:value={item.name}/>
 
       <label class="label">Description</label>
       <input type="text" class="input" placeholder="description of item" 
-       bind:value="{item.description}"/>
+       bind:value={item.description}/>
 
       <label class="label">Tag</label>
-      <input type="text" class="input" placeholder="item description" 
-       bind:value="{item.tag}"/>
+      <input type="text" clas="input" placeholder="item description" 
+       bind:value={item.tag}/>
 
       <label class="label">Image Source</label>
       <div class="join mt-0" onmouseenter={()=>{defineSelectedImage(item.imageSource)}}>
@@ -158,7 +160,7 @@
             <img src="{item.imageSource}" class="h-[250px] w-[250px]">
           </div>
           <input type="text " class="input" placeholder="heroImageFallback" 
-            bind:value="{item.imageSource}"  />
+            bind:value={item.imageSource}  />
           </div>
         <Filemanager  selectedImage={handleSelectOffer} />
       </div>
@@ -169,13 +171,13 @@
           <label class="input ">
             <span class="">Was</span>
             <input type="text" class=" " placeholder="price was" 
-             bind:value="{item.priceWas}"/>
+             bind:value={item.priceWas}/>
           </label>
           
           <label class="input">
             <span class="">Now</span>
             <input type="text" class="" placeholder="price now" 
-             bind:value="{item.priceNow}"/>
+             bind:value={item.priceNow}/>
           </label>
         </div>
       </fieldset>
@@ -209,13 +211,13 @@
           <label class="input ">
             <span class="">From</span>
             <input type="text" class=" " placeholder="price was" 
-             bind:value="{item.hoursFrom}"/>
+             bind:value={item.hoursFrom}/>
           </label>
           
           <label class="input">
             <span class="">To</span>
             <input type="text" class="" placeholder="price now" 
-             bind:value="{item.hoursTo}"/>
+             bind:value={item.hoursTo}/>
           </label>
         </div>
       </fieldset>
@@ -329,7 +331,7 @@ let admin =$state(false)
 
 console.log('filemanage', fileManagerState.store.tmpImagePath)
 const API_URL = import.meta.env.VITE_API_URL;
-let data = $state([]);
+let data = $state();
 let assignImageTo = $state();
 
 let selectedImage1= $state();
@@ -435,7 +437,7 @@ function handleSelectFeaturedItem(item){
 
 async function getLandingPage(){
 	const response = await useFetch('/landingpages', 'GET',null, true);
-  data = response[0]
+  data = response;
   console.log('data', response)
 
 }
@@ -444,20 +446,18 @@ async function getLandingPage(){
 async function getFeaturedItems(){
   const response = await useFetch('/featured_items', 'GET',null, true);
   featuredItems = response
-  console.log(response)
-  
+
 }
 
 async function getOffers(){
   const response = await useFetch('/offers?assignedToHomePage=true', 'GET',null, true);
   offerItems = response
-  console.log(response)
 }
 
 
 async function saveHeroSection(page){
-
   const id = data.id
+  console.log('id', id)
   try{
         let response =  await useFetch("/landingpages/"+id, 'PATCH',data, true);
         //console.log(response)
