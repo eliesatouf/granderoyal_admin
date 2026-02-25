@@ -501,7 +501,7 @@
                 const order = JSON.parse(e.data);
                 console.log('New order:', order);
 
-                localStorage.setItem('DayonNotifications', JSON.stringify(order));
+                localStorage.setItem('SandysNotifications', JSON.stringify(order));
             
                 notifications = [
                     {
