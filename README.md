@@ -56,5 +56,4 @@ To publish your library to [npm](https://www.npmjs.com):
 ```bash
 npm publish
 ```
-# granderoyal_admin
-# sandys_admin
+# dayon_admin

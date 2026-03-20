@@ -117,11 +117,11 @@
     <a href="/" class="flex items-center gap-3 no-underline group">
           <div class="h-16  flex items-center justify-center  ">
           <img 
-            src="{base}/logo_100.webp" 
-            alt="Sandys Kitchen" 
+            src="{base}/logo_100.avif" 
+            alt="Dayon Cafe" 
             class="h-full w-full object-contain" 
           />
-          Sandys Kitchen
+          Dayon Cafe
         </div>
         </a>
   </div>

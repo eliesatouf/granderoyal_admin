@@ -19,9 +19,9 @@ export default defineConfig({
       base: basePath,
       manifest: {
         display: 'standalone',
-        name: 'Sandys Admin',
-        short_name: 'Sandys Admin',
-        description: 'Sandys Cafe Admin Dashboard',
+        name: 'Dayon Admin',
+        short_name: 'Dayon Admin',
+        description: 'Dayon Cafe Admin Dashboard',
         theme_color: '#3b82f6',
         background_color: '#0f172a',
         start_url: basePath,

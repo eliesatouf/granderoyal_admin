@@ -2,10 +2,38 @@
 
 <div class="" in:fade >
 	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box  border p-3 m-2 ">
-	  <button class="btn btn-primary btn-soft btn-sm w-[100px]"	onclick="{()=>{createMenu(), showModal=true}}">	<Icon name="add" />new</button>
+		<div class="flex">
+			<button class="btn btn-primary btn-soft btn-sm w-[100px]"	onclick="{()=>{createMenu(), showModal=true}}">	<Icon name="add" />new</button>
+
+			{#if browser }
+				<div class="dropdown dropdown-bottom dropdown-end  w-56">
+					<div tabindex="0" role="button" class="btn btn-primary  btn-sm btn-outline mx-2">
+						<Icon name="menu_book_2" /> {selectedCategory || 'Select a category'} 
+						<div class="badge badge-accent badge-sm badge-outline rounded-full">{dishesOfCategory.length}</div>
+					</div>
+					<ul tabindex="0" class="dropdown-content dropdown-bottom menu bg-base-100 rounded-box z-[1]  p-2 shadow-lg h-64 overflow-auto grid">
+						{#each categories as category}
+						<li>
+							<button
+							type="button"
+							class="btn btn-secondary btn-sm w-52 {activeCategory?.id === category.id ? 'btn-active' : ''}"
+							onclick={() => {
+								activeCategory = category;
+								document.activeElement?.blur();
+							}}
+							>
+							{category.name}
+						</button>
+					</li>
+					{/each}
+				</ul>
+			</div>
+		{/if}
+
+	</div>
 		 <div class="overflow-x-auto lg:hidden">
 
-		  <table class="table table-xs  ">
+		  <table class="table table-xs">
 		    <thead>
 		      <tr>
 		      	<th>Action</th>
@@ -13,9 +41,25 @@
 		        <th>Name</th>
 		      </tr>
 		    </thead>
-		    <tbody>
-		      {#each menu as item, i}
-		      	<tr><td><button class="btn btn-primary btn-soft btn-sm"	onclick="{()=>{getDish(item.id), showModal=true}}">edit	</button></td>
+		    <tbody
+		    	 use:dndzone={{
+		    	items: dishesOfCategory,
+		    	flipDurationMs,
+		    	type: 'dish'
+		    }}
+		    onconsider={handleDndConsider}
+		    onfinalize={handleDndFinalize}
+		    >
+		      {#each dishesOfCategory as item, i (item.id)}
+		      	<tr animate:flip={{ duration: flipDurationMs }}
+				      class="cursor-move hover:bg-base-300 transition-colors"
+				      data-id={item.id}
+				      >
+				    <td>
+				    	<div class="btn btn-disabled btn-square btn-info btn-xs btn-soft cursor-grab active:cursor-grabbing">
+								<Icon name="ios-menu" />
+							</div>
+							<button class="btn btn-primary btn-soft btn-sm"	onclick="{()=>{getDish(item.id), showModal=true}}">edit	</button></td>
 		      	<td>{i+1}
 		      	</td>
 		      	<td>{item.name} {item.active} <span class="{item.active? 'status status-success':'status'}"></span>
@@ -27,12 +71,12 @@
 		  </table>
 		</div>
 
-		<div class="overflow-x-auto hidden lg:block" in:fade >
-		  <table class="table table-xs" in:fade >
+		<div class="overflow-x-auto hidden lg:block lg:" in:fade >
+		  <table class="table table-xs w-full" in:fade >
 		    <thead >
 		      <tr in:fade >
 		      	<th>Action</th>
-		        <th>ID</th>
+		        <th>SordId</th>
 		        <th>Type</th>
 		        <th>Menu</th>
 		        <th>Name</th>
@@ -43,21 +87,34 @@
 		        <th>Brightness</th>
 		        <th>Opacity</th>
 		        <th>contrast</th>
-		        <!-- <th>In Catering</th> -->
 		        <th>status</th>
 		        <th>active</th>
 		        <th>Add To Cart</th>
 						<th>Updated On</th>
 		      </tr>
 		    </thead>
-		    <tbody>
+		    <tbody 
+		    use:dndzone={{
+		    	items: dishesOfCategory,
+		    	flipDurationMs,
+		    	type: 'dish'
+		    }}
+		    onconsider={handleDndConsider}
+		    onfinalize={handleDndFinalize}>
 
-		      {#each menu as item, i}
-		      	<tr in:fade >
-		      	<td><button class="btn btn-primary btn-soft btn-sm"	
-		      		onclick="{()=>{getDish(item.id,i), showModal=true}}">edit	</button>
+		      {#each dishesOfCategory as item, i (item.id)}
+		      <tr in:fade 
+				      animate:flip={{ duration: flipDurationMs }}
+				      class="cursor-move hover:bg-base-300 transition-colors"
+				      data-id={item.id}>
+		      	<td>
+		      		<div class="btn btn-disabled btn-square btn-info btn-xs btn-soft cursor-grab active:cursor-grabbing">
+								<Icon name="ios-menu" />
+							</div>
+		      		<button class="btn btn-primary btn-soft btn-sm "	
+		      		onclick="{()=>{getDish(item.id,i), showModal=true}}">Edit	</button>
 		      		</td>
-		      	<td>{i+1}</td>
+		      	<td>{item.sortId}</td>
 		      	<td>{item.type}</td>
 		      	<td>{item.menu}</td>
 		      	<td>{item.name}</td>     	
@@ -68,7 +125,6 @@
 		      	<td>{item.brightness}</td>
 		      	<td>{item.opacity}</td>
 		      	<td>{item.contrast}</td>
-		      	<!-- <td>{item.availableInCatering}</td> -->
 		      	<td>{item.status}</td>
 		      	<td><span class="{item.active? 'status status-success':'status'}"></span></td>
 		      	<td><span class="{item.enableAddToCart? 'status status-success':'status'}"></span></td>
@@ -316,9 +372,15 @@ import userState from '$lib/stores/user.svelte.js';
 import getDishMenu from '$lib/services/getDishMenu.js';
 import { afterNavigate} from '$app/navigation';
 import { jwtDecode } from 'jwt-decode';
+import { browser } from "$app/environment";
+import { dndzone } from 'svelte-dnd-action';
+import { flip } from 'svelte/animate';
+
 let admin =$state(false)
 
 let {data} = $props();
+console.log('data', data)
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 let requestedSubMenu = $state()
@@ -332,8 +394,36 @@ let newMainMenu=$state([]);
 let modalHeader=$state('');
 let dishMenu = $state([]);
 let showModalPreview = $state(false)
+let preLoad= $state()
+let dishes = $state([]);
+
 const categories = data.categories
+dishes = data.menu
+console.log('dishes', dishes)
+
+let activeCategory = $state();
+activeCategory = categories[0]
+
+console.log('activeCategory', activeCategory)
 menu = data.menu
+
+let selectedCategory = $derived.by(()=>{
+	const cat = categories.find(cat => cat.id == activeCategory.id)
+	return cat?.name 
+})
+
+let dishesOfCategory = $derived.by(()=>{ 
+	const items = dishes.filter(el => el.category.id == activeCategory.id)
+	return items
+})
+
+
+// async function loadDishes() {
+// 	const response = await useFetch('/dishes', 'GET');
+// 	dishes = response
+// 	return dishes;
+// }
+
 //let imgBrightness= $derived(`brightness-${Math.round(record.brightness/10)*10}`);
 
 afterNavigate(({ to, from }) => {
@@ -362,7 +452,6 @@ let tag = [
 
 onMount(() => {
   getDishMenulist()
-
 })
 
 function removePrice(variant){
@@ -505,6 +594,55 @@ async function createMenu(){
 	
 }
 
+
+const flipDurationMs = 300;
+	// Handle drag-and-drop events
+	function handleDndConsider(e) {
+		// Update the local dishes array when items are being dragged
+		dishes = e.detail.items;
+	}
+	function handleDndFinalize(e) {
+		// Final update and save to backend
+		dishes = e.detail.items;
+		
+		// Update sortId based on new order and save to backend
+		updateDishOrder(e.detail.items);
+	}
+	
+
+async function updateDishOrder(orderedItems) {
+	// Prepare batch update
+	const items = orderedItems.map((item, index) => ({
+		id: item.id,
+		sortId: index + 1
+	}));
+	try {
+		// Single API call to the new endpoint
+		const response = await useFetch('/dishes/reorder', 'POST', { items }, true);
+		
+		if (response && response.success) {
+			getDishList()
+			toast.success("Order updated successfully", 2000);
+			
+			// Update local dishes with new sortIds
+			dishes = dishes.map(dish => {
+				const update = items.find(u => u.id === dish.id);
+				if (update) {
+					return { ...dish, sortId: update.sortId };
+				}
+				return dish;
+			});
+		} else {
+			toast.error(response?.error || "Failed to update order", 2000);
+		}
+		
+	} catch (error) {
+		toast.error("Failed to update order", 2000);
+		console.error(error);
+	}
+}
+
+
 </script>
 
 <style>
@@ -524,4 +662,36 @@ select{
 legend{
 	max-width:220px;
 }
+
+/* DND Styles */
+.dnd-zone {
+	min-height: 20px;
+}
+.dnd-drag-over {
+	background-color: rgba(59, 130, 246, 0.1);
+	border: 2px dashed #3b82f6;
+}
+.dnd-item {
+	transition: all 0.3s ease;
+	user-select: none;
+}
+.dnd-item.dragging {
+	opacity: 0.5;
+	transform: scale(1.02);
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+/* Make rows more draggable */
+tr {
+	position: relative;
+}
+tr::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	pointer-events: none;
+}
+
 </style>

@@ -46,13 +46,6 @@
   let editingMilestoneEligibleServices = $state({});
 
   onMount(async () => {
-    
-
-   
-    
-    
-
-    
     await loadMilestones();
     await loadDishes();
   });
@@ -377,33 +370,33 @@
               />
             {/if}
           </div>
-          {#if browser && categories?.length && dishesOfCategory}
-          <div>
-  
+          {#if browser && categories.length && dishesOfCategory}
+          <div class="h-32">
+            
             <div class="dropdown dropdown-top dropdown-end w-56">
               <div tabindex="0" role="button" class="btn btn-outline">
                 <Icon name="menu_book_2" /> {selectedCategory || 'Select a category'}
               </div>
               <ul tabindex="0" class="dropdown-content dropdown-top menu bg-base-100 rounded-box z-[1]  p-2 shadow-lg h-64 overflow-auto grid">
                 {#each categories as category}
-                  <li>
-                    <button
-                      type="button"
-                      class="{activeCategory?.id === category.id ? 'btn-active' : ''}"
-                      onclick={() => {
-                        activeCategory = category;
+                <li>
+                  <button
+                  type="button"
+                  class="{activeCategory?.id === category.id ? 'btn-active' : ''}"
+                  onclick={() => {
+                    activeCategory = category;
                         // Close dropdown - blur the button
-                        document.activeElement?.blur();
-                      }}
-                    >
-                      {category.name}
-                    </button>
-                  </li>
-                {/each}
-              </ul>
-            </div>
+                    document.activeElement?.blur();
+                  }}
+                  >
+                  {category.name}
+                </button>
+              </li>
+              {/each}
+            </ul>
           </div>
-       
+        </div>
+        
 
         <div>
           <label class="label">Eligible Items</label>
@@ -423,7 +416,7 @@
             {/each}
           </div>
         </div>
-         {/if}
+        {/if}
 
           <div>
             <label class="label">Description</label>

@@ -9,7 +9,6 @@
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''"
 	},
-
 	"peerDependencies": {
 		"svelte": "^5.0.0"
 	},
@@ -43,6 +42,7 @@
 		"material-symbols": "^0.31.9",
 		"svelte-apexcharts": "^1.0.2",
 		"svelte-chart-apex": "^0.1.0",
+		"svelte-dnd-action": "^0.9.69",
 		"svelte-file-dropzone": "^2.0.9",
 		"svelte-sonner": "^1.0.7",
 		"vite-plugin-pwa": "^1.2.0"
