@@ -400,7 +400,7 @@
 							{/each}
 					{/if}
 
-					{#if dish.loyverseModifiersIds.length > 0}
+					{#if dish?.modifiersIds?.length > 0}
 					<div class="tooltip" data-tip="Add On">
 						<button 
 							class="btn btn-sm btn-soft btn-square btn-warning {userState.user.order.orderItem.find(el =>el.dish.split('/')[3] === dish.id) ? '': 'btn-disabled	'}"
@@ -592,14 +592,6 @@ onMount(() => {
 	IdParameter =  $page.url.pathname.split('/').slice(-1).pop();
 
 	getOrder()
-
-
-
-	// getCustomerList()
-	// getStatusList()
-	// getMenu()
-	// getOfferList()
-
 })
 
 function getDishName(item){
@@ -740,7 +732,7 @@ function addDish(dish, variant){
 			"unitPrice":dish.discountedPrice,
 			"variantId":variantId,
 			"category":dish.category,
-			"loyverseModifiersIds":dish.loyverseModifiersIds
+			"modifiersIds":dish.modifiersIds 
 		})
 
 		console.log('addDish record.orderItem', record.orderItem)
@@ -1002,7 +994,7 @@ async function addToCart(item, variant){
             "unitPrice":item.discountedPrice,
             "variantId":variantId,
             "category":item.category,
-            "loyverseModifiersIds":item.loyverseModifiersIds
+            "modifiersIds":item.modifiersIds
           }
         )
       }else{
@@ -1014,7 +1006,7 @@ async function addToCart(item, variant){
             "unitPrice":item.price,
             "variantId":variantId,
             "category":item.category,
-            "loyverseModifiersIds":item.loyverseModifiersIds
+            "modifiersIds":item.modifiersIds
           }
         )
       }

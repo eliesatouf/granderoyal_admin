@@ -2,9 +2,9 @@
 
 set -e  # Exit on any error
 
-BASE_DIR="/srv/projects/dayon_new"
-ADMIN_DIR="$BASE_DIR/dayon_admin"
-BUILD_DIR="$BASE_DIR/dayon_admin_build"
+BASE_DIR="/srv/projects/grande_royal/new_app"
+ADMIN_DIR="$BASE_DIR/admin"
+BUILD_DIR="$BASE_DIR/admin_build"
 
 echo "🚀 Starting deployment..."
 

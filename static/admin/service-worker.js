@@ -1,5 +1,5 @@
 // Simple service worker for /admin/
-const CACHE_NAME = 'dayon-admin-v1';
+const CACHE_NAME = 'granderoyale-admin-v1';
 const ADMIN_PATH = '/admin/';
 
 self.addEventListener('install', (event) => {

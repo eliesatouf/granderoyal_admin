@@ -113,7 +113,7 @@
       <div class="flex items-start gap-3">
         <div class="text-2xl text-primary">📱</div>
         <div class="flex-1">
-          <h3 class="font-bold text-sm">Install Sandys Admin</h3>
+          <h3 class="font-bold text-sm">Install GRANDE ROYALE Admin</h3>
           <p class="text-xs opacity-70 mt-1">Get the full admin app experience</p>
         </div>
       </div>

@@ -41,7 +41,7 @@
           <ul class="p-2">
             <li><a href="{base}/page_contents/landing_page" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Landing Page</a></li>
             <li><a href="{base}/page_contents/offers" class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Offers</a></li>
-            <!-- <li><a href="{base}/page_contents/events" onclick="{()=>{document.activeElement.blur()}}">Events</a></li> -->
+            <li><a href="{base}/page_contents/gallery" onclick="{()=>{document.activeElement.blur()}}">Gallery</a></li>
             <!-- <li class="menu-disabled"><a onclick="{()=>{document.activeElement.blur()}}">Submenu 2</a></li> -->
           </ul>
         </details>
@@ -94,6 +94,8 @@
           <summary class="text-lg">Settings</summary>
           <ul class="p-2">
             <li><a href="{base}/app-settings"  class="text-lg" onclick="{()=>{document.activeElement.blur()}}">App Settings</a></li>
+            <li><a href="{base}/event_package"  class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Event Packages</a></li>
+            <li><a href="{base}/app-settings/modifier"  class="text-lg" onclick="{()=>{document.activeElement.blur()}}">Modifier</a></li>
           </ul>
         </details>
         </li>
@@ -118,10 +120,10 @@
           <div class="h-16  flex items-center justify-center  ">
           <img 
             src="{base}/logo_100.avif" 
-            alt="Dayon Cafe" 
+            alt="GrandeRoyale Restaurante" 
             class="h-full w-full object-contain" 
           />
-          Dayon Cafe
+          GrandeRoyale Restaurante
         </div>
         </a>
   </div>
@@ -156,7 +158,7 @@
           class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
         <li><a href="{base}/page_contents/landing_page" onclick="{()=>{document.activeElement.blur()}}">landing Page</a></li>
         <li><a href="{base}/page_contents/offers" onclick="{()=>{document.activeElement.blur()}}">Offers</a></li>
-        <!-- <li><a href="{base}/page_contents/events" onclick="{()=>{document.activeElement.blur()}}">Events</a></li> -->
+        <li><a href="{base}/page_contents/gallery" onclick="{()=>{document.activeElement.blur()}}">Gallery</a></li>
       </ul>
     </div>
 
@@ -215,7 +217,9 @@
     <div tabindex="0" role="button" class="btn btn-ghost rounded-field">Settings</div>
       <ul tabindex="0"
           class="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
-          <li><a href="{base}/app-settings" onclick="{()=>{document.activeElement.blur()}}">App Settings</a></li>
+          <li><a href="{base}/app-settings"  onclick="{()=>{document.activeElement.blur()}}">App Settings</a></li>
+          <li><a href="{base}/event_package" onclick="{()=>{document.activeElement.blur()}}">Event Packages</a></li>
+          <li><a href="{base}/app-settings/modifier"  onclick="{()=>{document.activeElement.blur()}}">Modifier</a></li>
       </ul>
     </div>
 

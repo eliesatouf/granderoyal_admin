@@ -38,9 +38,9 @@
 		      	<th>Action</th>
 		        <th>ID</th>
 		        <th>Name</th>
-		        <th>Label</th>
+		        <th>Description</th>
 		        <th>Active</th>
-		        <th>Updated On</th>
+		        <th>Updated at</th>
 		      </tr>
 		    </thead>
 		    <tbody>
@@ -52,9 +52,9 @@
 		      		</td>
 		      	<td>{i+1}</td>
 		      	<td>{item.name}</td>
-		      	<td>{item.label}</td>
+		      	<td>{item.description}</td>
 		      	<td> <span class="{item.isActive? 'status status-success':'status'}"></span></td>
-		      	<td readonly>{item.updatedOn}</td>
+		      	<td readonly>{item.updatedAt}</td>
 		      	</tr>
 					{/each}
 					</tbody>
@@ -89,13 +89,13 @@
       <input type="text" class="input" placeholder="code of category" 
        bind:value="{record.name}"/>
 
-       <label class="label">Label</label>
+       <label class="label">Description</label>
       <input type="text" class="input" placeholder="label of category" 
-       bind:value="{record.label}"/>
+       bind:value="{record.description}"/>
 
-      <label class="label">Updated On</label>
-      <input type="text" readonly class="input" placeholder="Last update" 
-       bind:value="{record.updatedOn}"/>
+      <label class="label mt-5">Updated At</label>
+      <input type="text" readonly class="input " disabled placeholder="Last update" 
+       bind:value="{record.updatedAt}"/>
 
      <div class="row p-2">
        <input type="checkbox" bind:checked="{record.isActive}"
@@ -212,7 +212,7 @@ async function saveOnecategoryType(index){
   		//console.log(saveItem)
 	  	toast.success("Saved successfully",2000);	
 	  	getCategories()
-	  	//showModal= false
+	  	showModal= false
 	  }
 		catch(e) {
 	  	toast.error("Failed to save category",2000);	
@@ -250,8 +250,8 @@ async function createcategoryType(){
 	modalOperation='Create category'
 
 	let allschema =  await useFetch('/docs.jsonld#/categories', 'GET',null, false);
-	const schema = allschema.supportedClass.find(schema=>schema.title==="categoryType").supportedProperty
-	const properties = schema.map(item => [item.title,item.property.range.split(':')[1]]);
+	const schema = allschema.supportedClass.find(schema=>schema.title==="Category")?.supportedProperty
+	const properties = schema?.map(item => [item.title,item.property.range.split(':')[1]]);
 
 	let newObject = {};
 	let type = null;

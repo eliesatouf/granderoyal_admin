@@ -73,16 +73,6 @@ export async function load({ fetch }) {
     }
     const  offerList = await response7.json();
 
-    const response8 = await fetch(`${API_URL}/loyverse_payment_types`, {
-      method: 'GET',
-      headers: headers
-      
-    });
-    if (!response8.ok) {
-      message: 'error loading data'
-    }
-    const  paymentTypes = await response8.json();
-
     const response9 = await fetch(`${API_URL}/modifiers`, {
       method: 'GET',
       headers: headers
@@ -121,7 +111,6 @@ export async function load({ fetch }) {
     preLoad.customerList =customerList
     preLoad.dishList =dishList
     preLoad.offerList =offerList
-    preLoad.paymentTypes =paymentTypes
     preLoad.orderList = orderList
     preLoad.modifiers = modifiers
     preLoad.bundleList = bundleList
@@ -138,7 +127,6 @@ export async function load({ fetch }) {
       orderList,
       dishList,
       offerList,
-      paymentTypes,
       modifiers,
       categories
     }

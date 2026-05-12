@@ -3,7 +3,7 @@
    
     <div class="card-body">
     
-    <div class="card-title">You have logged out of Sandys successfully </div>
+    <div class="card-title">You have logged out of GRANDE ROYALE successfully </div>
   
   </div>
 </div>

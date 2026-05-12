@@ -151,15 +151,23 @@
 </div>
 
 <Modal bind:showModal>
+{#if loading}
+	<div class="absolute flex justify-center items-center h-[580px] w-[280px] lg:w-[800px] backdrop-blur-sm z-10 m-0">
+			<span class="loading text-primary loading-spinner loading-xl w-20"></span>
+	</div>
+{/if}
+
 <div class="m-2 p-2 rounded md:rounded-lg bg-base-100 max-h-[800px] lg:max-h-[800px] overflow-auto ">
   <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-1 w-[280px] lg:w-3xl">
     <legend class="fieldset-legend">{modalOperation}: {modalHeader}</legend>
-    <div class="grid m-2 lg:p-2 lg:flex lg:max-w-3xl lg:gap-3  overflow-auto">
+    <div class=" m-2 lg:p-2 lg:flex lg:max-w-3xl lg:gap-0  overflow-auto ">
 
-    <div class="grid p-3 lg:w-1/3 ">
-      <label class="label">Type</label>
-      <input readonly type="text" class="input input-sm" 
+    <div class="flex flex-col gap-2 lg:w-1/3">
+    	<div class="flex items-center gap-3">
+      <label class="">Type</label>
+      <input readonly type="text" class="input input-sm p-0" 
        bind:value="{record.type}"/>
+     </div>
 
 <!--       <label type="label" class="label">Menu </label>
           <select class="select select-sm" bind:value={record.menu}>
@@ -168,128 +176,155 @@
           {/each}
         </select> -->
         {#if record.category}
-      	<label type="label" class="label">Category </label>
-        <select class="select select-sm" bind:value={record.category.id}>
+        <div class="flex flex-row items-center">
+      	<label type="" class="w-1/4">Category </label>
+        <select class="select select-sm w-3/4" bind:value={record.category.id}>
           
           {#each categories as category}
               <option value={category.id}>{category.name}</option>
           {/each}
         </select>
+      </div>
         {/if}
-
-      <label class="label">Name</label>
-      <input type="text" class="input input-sm" placeholder="name of dish " 
-       bind:value="{record.name}"/>
-
-      <label class="label">Description</label>
-      <input type="text" class="input input-sm" placeholder="description of dish" 
-       bind:value="{record.description}"/>
-
-      <label type="label" class="label">Tag </label>
-          <select class="select select-sm" bind:value={record.tag}>
+      <div class="flex items-center gap-3">
+	      <label class=" w-1/4">Name</label>
+	      <input type="text" class="input input-sm w-3/4" placeholder="name of dish " 
+	       bind:value="{record.name}"/>
+	     </div>
+	    <div class="flex items-center gap-3">
+	      <label class="label w-1/4">Description</label>
+	      <input type="text" class="input input-sm w-3/4" placeholder="description of dish" 
+	       bind:value="{record.description}"/>
+	     </div>
+	    <div class="flex items-center justify-between gap-3">
+        <label type="label w-1/4" class="label">Tag </label>
+          <select class="select select-sm w-3/4" bind:value={record.tag}>
           {#each tag as tag}
               <option value={tag}>{tag}</option>
           {/each}
         </select>
+      </div>
+      <div class="flex items-center gap-3">
+	      <label class="label w-1/4">Price</label>
+	      <input type="number" class="input input-sm validator w-3/4" required placeholder="price > 0 " min="1"
+	       bind:value="{record.price}"/>
+	    </div>
+	    <div class="flex items-center gap-3">
+	      <label class="label w-1/2">Brightness</label>
+	      <input type="text w-1/2" class="input input-sm" placeholder="image brightness 50 to 150" 
+	       bind:value="{record.brightness}"/>
+	     </div>
+	    <div class="flex items-center gap-3">
+	      <label class="label w-1/2">Opacity</label>
+	      <input type="text w-1/2" class="input input-sm" placeholder="image opacity 0 to 100" 
+	       bind:value="{record.opacity}"/>
+	    </div>
 
-      <label class="label">Price</label>
-      <input type="number" class="input input-sm validator" required placeholder="price > 0 " min="1"
-       bind:value="{record.price}"/>
-    </div>
-    <div class="grid p-3  lg:w-1/3">
-
-      <label class="label">Brightness</label>
-      <input type="text" class="input input-sm" placeholder="image brightness 50 to 150" 
-       bind:value="{record.brightness}"/>
-
-      <label class="label">Opacity</label>
-      <input type="text" class="input input-sm" placeholder="image opacity 0 to 100" 
-       bind:value="{record.opacity}"/>
-
-      <label class="label">Contrast</label>
-      <input type="text" class="input input-sm" placeholder="image contrast 0 to 100" 
-       bind:value="{record.contrast}"/>
-
-       <label class="label">Image Source</label>
-      <div class="grid mt-0" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
+	    <div class="flex items-center gap-3">
+	      <label class="label w-1/2">Contrast</label>
+	      <input type="text w-1/2" class="input input-sm" placeholder="image contrast 0 to 100" 
+	       bind:value="{record.contrast}"/>
+	     </div>
+	     <label class="label">Image Source</label>
+      <div class="" onmouseenter={()=>{defineSelectedImage(record.imageSource)}}>
       	{#if record.imageSource}
-        <div class="tooltip">
+        <div class="tooltip tooltip-bottom m-0">
           <div class="tooltip-content m-0 p-0">
             <img src="{record.imageSource}" class="h-[250px] w-[250px]">
           </div>
           <input type="text " class="" placeholder="menu image" 
             bind:value="{record.imageSource}"  />
-          </div>
-          {/if}
-        <Filemanager selectedImage={handleSelectMenu} />
-        <button class="btn btn-sm btn-soft w-[220px]" onclick={()=>{showModalPreview=true}}>preview</button>
+        </div>
+        {/if}
+        <div class="flex flex-row justify-center" >
+	        <Filemanager selectedImage={handleSelectMenu} />
+	        <button class="btn btn-sm btn-secondary btn-soft" onclick={()=>{showModalPreview=true}}>preview</button>
+	      </div>
       </div>
 
-<!--       	<div class="row p-2">
-       <input type="checkbox" bind:checked="{record.availableInCatering}"
-        class="toggle toggle-amber-500  toggle-sm checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800 " />
-       In catering
-     </div> -->
+    </div>
+    <div class="flex flex-col mx-2 gap-2">
 
-
+     <div class="flex items-center gap-3">
       <label type="label" class="label">Status</label>
       <select class="select select-sm validator" required placeholder="select a status" bind:value={record.status}>
       	{#each status as status}
           <option value={status}>{status}</option>
         {/each}
       </select>
+    </div>
 
 
-     <div class="row p-2">
+     <div class="flex flex-row justify-center gap-4">
+     	<div class="flex items-center">
        <input type="checkbox" bind:checked="{record.active}"
         class="toggle toggle-amber-500  toggle-sm checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800 " />
        Active
      </div>
+     <div class="flex items-center">
 
-      <div class="row p-2">
        <input type="checkbox" bind:checked="{record.enableAddToCart}"
         class="toggle toggle-amber-500  toggle-sm checked:border-orange-500 checked:bg-orange-400 checked:text-orange-800 " />
        Add to cart
      </div>
+     </div>
 
-    </div>   
-
-    <div class="grid p-4 lg:w-1/3">
-
-    	<label class="label ">Preperation Time
+    <label class="label ">Preperation Time
 				      <input type="number" class="input input-sm" placeholder="Minutes" 
-				       bind:value="{record.prepTime}"/></label>
+				       bind:value="{record.prepTime}"/>
+		</label>
 
-    	<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-3">
-    	<legend class="fieldset-legend">Variants</legend> 
+		<fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-3 w-64">
+    		<legend class="fieldset-legend">Variants</legend> 
     		{#each record.variants as variant}
     			<div class="flex lg:h-10 my-2 gap-2">
 
     				<div class="grid">
 		    			<label class="label ">Size</label>
-				      <input type="text" disabled class="input input-sm" placeholder="price variante" 
+				      <input type="text" class="input input-sm" placeholder="size / weight" 
 				       bind:value="{variant.size}"/>
 				    </div>
 
 				    <div class="grid">
 		    			<label class="label ">Price</label>
-				      <input type="text" disabled readonly class="input input-sm" placeholder="price variante" 
+				      <input type="number"  class="input input-sm" placeholder="price variante" 
 				       bind:value="{variant.price}"/>
 				    </div>
-<!-- 
+
 				    <button class="btn btn-error btn-soft btn-square p-2 btn-xs mt-5"
 				    				onclick="{()=>{removePrice(variant)}}">
 				    	<Icon name="delete" class="text-red-500"/>
-				  	</button> -->
+				  	</button>
 			    </div>
     		{/each}
 
-<!--     		<button class="btn btn-info btn-soft btn-square btn-sm mt-2" 
+    		<button class="btn btn-info btn-soft btn-square btn-sm mt-2" 
     						onclick="{()=>{addVariant()}}">
     			<Icon name="add"/>
-    		</button> -->
+    		</button>
     	</fieldset>
-    </div>
+    </div>   
+
+    <fieldset class="fieldset bg-base-200 border-base-300 rounded-box border p-3 w-64">
+    		<legend class="fieldset-legend">Add On</legend> 
+    		{#each modifiers as modifier}
+    			<div class="flex lg:h-10 my-2 gap-2">
+    				<div class="flex items-center">
+			       <input type="checkbox"
+			        class="checkbox checkbox-primary checkbox-sm mx-2" 
+			        	bind:group={record.modifiersIds} value="{modifier.id}"/>
+			       	{modifier.name}
+			     </div>
+			    </div>
+    		{/each}
+
+    		<button class="btn btn-info btn-soft btn-square btn-sm mt-2" 
+    						onclick="{()=>{addVariant()}}">
+    			<Icon name="add"/>
+    		</button>
+    	</fieldset>
+
+
   </div>
 
 
@@ -396,9 +431,12 @@ let dishMenu = $state([]);
 let showModalPreview = $state(false)
 let preLoad= $state()
 let dishes = $state([]);
+let modifiers = $state([]);
+let loading = $state(false)
 
 const categories = data.categories
 dishes = data.menu
+modifiers = data.modifiers
 console.log('dishes', dishes)
 
 let activeCategory = $state();
@@ -442,7 +480,7 @@ let type=[
 ]
 
 let status=[
-	'available','coming soon', 'unavailable'
+	'Dine in','Catering','coming soon', 'unavailable'
 ]
 
 let tag = [
@@ -483,19 +521,20 @@ async function getDishList(){
 }
 
 async function getDish(id){
+	loading = true
 	modalOperation= 'Edit'
     const menuData =  await useFetch( '/dishes/'+id,'GET',null,true);
     record={...menuData}
     modalHeader = record.name
     modalOperation="Edit Dish"
-
+    loading = false
 }
 
 async function saveDish(){
-
+	loading = true
 	record.category = `/api/categories/${record.category.id}`
-	// console.log('save record', record)
-	// return 0
+	console.log('save record', record)
+	//return 0
 	let saveItem=''
 	if(modalOperation=='Create Dish'){
 		console.log('Create New Dish')
@@ -514,9 +553,11 @@ async function saveDish(){
 	  		//getDishList()
 	  		showModal= false
 			}
+			loading = false
 	  }
 	  catch(e){
 	  	toast.error("Failed to create menu 0 ",2000);	
+	  	loading = false
 	  }
 	}
 	else{
@@ -528,12 +569,15 @@ async function saveDish(){
 	  	getDishList()
 	  	getDish(record.id)
 	  	showModal= false
+	  	loading = false
 	  }
 		catch(e) {
 	  	toast.error("Failed to save menu",2000);	
 	  	console.log(e);
+	  	loading = false
 	  }
 	}
+
   
 }
 

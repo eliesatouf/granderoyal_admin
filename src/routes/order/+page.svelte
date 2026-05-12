@@ -446,7 +446,7 @@ class="grid grid-col justify-center items-center
 							{/each}
 					{/if}
 
-					{#if dish.loyverseModifiersIds.length > 0}
+					{#if dish?.modifiersIds?.length > 0}
 					<div class="tooltip" data-tip="Add On">
 						<button 
 							class="btn btn-sm btn-soft btn-square btn-warning {userState.user.order.orderItem.find(el =>el.dish.split('/')[3] === dish.id) ? '': 'btn-disabled	'}"
@@ -635,8 +635,9 @@ orderChannels = data.preLoad.orderChannels
 orgOrderChannels= data.preLoad.rderChannels
 modifiers = data.preLoad.modifiers
 bundleList = data.preLoad.bundleList
-
+console.log('dishList', dishList)
 })
+
 
 
 function getDishName(item){
@@ -766,6 +767,8 @@ function findDish(){
 
 	let res =  dishListSearch.filter(el=>el.name.toLowerCase().includes( dishTerm)? el : null)
 	dishListSearch = res
+
+
 }
 
 function findBundle(){

@@ -7,6 +7,7 @@ export const userState = $state({
    avatar:'',
    customerId:'',
    visitCount:0,
+   isLoading: false,
    
    user: {
       name:null,

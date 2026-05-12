@@ -1,4 +1,4 @@
-<button class="btn btn-primary btn-soft max-w-[220px] " onclick="{()=>{ (showModal = true),setTimeout(openCurrentFile(),2000)}}">change</button>
+<button class="btn btn-primary btn-sm btn-soft max-w-[220px] " onclick="{()=>{ (showModal = true),setTimeout(openCurrentFile(),2000)}}">change</button>
 
 <ModalRecord bind:showModalRecord class="bg-red-500 backdrop-blur-sm backdrop-brightness-150 z-1000 max-h-[500px] lg:max-h-[800px] overflow-auto">
 	<div class="card ">

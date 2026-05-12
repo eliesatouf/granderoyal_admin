@@ -1,4 +1,5 @@
 // /routes/layout/+page.js-->
+import userState from '$lib/stores/user.svelte.js';
 export async function load({ fetch }) {
   try {
     const API_URL = import.meta.env.VITE_API_URL || '';
@@ -13,13 +14,21 @@ export async function load({ fetch }) {
       message: 'error loading data'
     }
 
+    const response3 = await fetch(`${API_URL}/modifiers`);
+    if (!response1.ok) {
+      message: 'error loading data'
+    }
+
 
     const categories = await response1.json();
     const menu =  await response2.json();
+    const modifiers =  await response3.json();
+    userState.isLoading = false
 
     return { 
       categories,
-      menu
+      menu,
+      modifiers
 
     }
      } catch (e) {

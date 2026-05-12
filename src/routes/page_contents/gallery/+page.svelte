@@ -260,17 +260,18 @@ onMount(() => {
 })
 
 async function getEvents(){
-  const response = await useFetch('/events', 'GET',null, true);
+  const response = await useFetch('/galleries', 'GET',null, true);
   offerItems = response
+  console.log('offerItems', offerItems)
 }
 
 
 async function getOneEvents(id){
 	modalOperation= 'Edit'
-  const offerData =  await useFetch( '/events/'+id,'GET',null,true);
+  const offerData =  await useFetch( '/galleries/'+id,'GET',null,true);
   record=offerData
   modalHeader = record.name
-  modalOperation="Edit event"
+  modalOperation="Edit Album"
 }
 
 async function handleSelectEvents(item){
@@ -282,9 +283,9 @@ async function handleSelectEvents(item){
 async function saveOneEventsItem(index){
 	
 	let saveItem=''
-	if(modalOperation=='Create Events'){
+	if(modalOperation=='Create Album'){
 		try{
-			saveItem =  await useFetch('/events', 'POST',record, true);
+			saveItem =  await useFetch('/galleries', 'POST',record, true);
 			if(saveItem.status && saveItem.status != 200){
 				toast.error("Failed to create offer",2000);
 			}else{
@@ -300,7 +301,7 @@ async function saveOneEventsItem(index){
 	}
 	else{
 		try{
-  		let saveItem =  await useFetch('/events/' + record.id, 'PATCH',record, true);
+  		let saveItem =  await useFetch('/galleries/' + record.id, 'PATCH',record, true);
 	  	toast.success("Saved successfully",2000);	
 	  	getEvents()
 	  	showModal= false
@@ -315,7 +316,7 @@ async function saveOneEventsItem(index){
 
 async function deleteEventsItem(id){
   try{
-  	let saveItem =  await useFetch('/events/' + id, 'DELETE',null, true);
+  	let saveItem =  await useFetch('/galleries/' + id, 'DELETE',null, true);
   	toast.success("Deleted successfully",2000);	
   	getEvents()
   }
@@ -332,8 +333,8 @@ function defineSelectedImage(item){
 
 async function createEvents(){
 	//record.name =''
-	modalOperation='Create Events'
-	let allschema =  await useFetch('/docs.jsonld#/Events', 'GET',null, false);
+	modalOperation='Create Album'
+	let allschema =  await useFetch('/docs.jsonld#/Galleries', 'GET',null, false);
 
 	const schema = allschema.supportedClass.find(schema=>schema.title==="Event").supportedProperty
 

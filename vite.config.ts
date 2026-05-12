@@ -19,9 +19,9 @@ export default defineConfig({
       base: basePath,
       manifest: {
         display: 'standalone',
-        name: 'Dayon Admin',
-        short_name: 'Dayon Admin',
-        description: 'Dayon Cafe Admin Dashboard',
+        name: 'GrandeRoyale Admin',
+        short_name: 'GrandeRoyale Admin',
+        description: 'GrandeRoyale Restaurante Admin Dashboard',
         theme_color: '#3b82f6',
         background_color: '#0f172a',
         start_url: basePath,

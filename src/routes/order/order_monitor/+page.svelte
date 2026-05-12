@@ -484,7 +484,8 @@
             return;
         }
         
-        es = new EventSource(`${VITE_MERCURE}/.well-known/mercure?topic=/sandys_orders`);
+        es = new EventSource(`${VITE_MERCURE}/.well-known/mercure?topic=/granderoyale_orders`);
+
         
         es.onopen = () => {
             console.log('✅ Mercure order connected');
@@ -501,7 +502,7 @@
                 const order = JSON.parse(e.data);
                 console.log('New order:', order);
 
-                localStorage.setItem('SandysNotifications', JSON.stringify(order));
+                localStorage.setItem('GrandeRoyaleNotifications', JSON.stringify(order));
             
                 notifications = [
                     {
