@@ -190,7 +190,9 @@
                                         {/if}
 
                                     </div>
+
                                 <div class="text-sm uppercase font-semibold opacity-80">{customerList.find(el => el.id == record.customer.split('/')[3]).name}
+                                    <div class="badge badge-sm badge-info">{record.orderType}</div>
                                 </div>
                                 <div class="text-sm  font-semibold opacity-80">{customerList.find(el => el.id == record.customer.split('/')[3]).email}</div>
                                 
